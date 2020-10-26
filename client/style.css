@@ -1,8 +1,12 @@
+body, html {
+  height: 100%;
+}
+
 .headerColor{
     background-color: black;
 }
 .marginColor {
-    background-color: lightslategrey;
+    background-color: lightslategray;
 }
 .buttonIcon{
     margin-right: 1px;
@@ -25,4 +29,30 @@
     height: 50%;
     margin-top: auto;
     margin-bottom: auto;
+}
+
+.form-container{
+    position: absolute;
+    top: 15vh;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #000;
+}
+
+.bg {
+  /* The image used */
+  background-image: url(../public/hiking2.jpg);
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.header{
+    color: white;
 }
