@@ -40,7 +40,7 @@ body, html {
     box-shadow: 0px 0px 10px 0px #000;
 }
 
-.bg {
+.bg-login {
   /* The image used */
   background-image: url(../public/hiking2.jpg);
 
@@ -55,4 +55,11 @@ body, html {
 
 .header{
     color: white;
+}
+
+.post-card{
+    margin: 20px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
 }
