@@ -17,8 +17,12 @@
     height: 60%;
 }
 .profilePicSize{
-    height: 50px;
+    height: 64px;
+    width: 64px;
 }
-.cardSize{
-    width: auto;
+.imageSideButtons{
+    background-color: grey;
+    height: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
 }
