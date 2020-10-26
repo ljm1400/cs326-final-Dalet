@@ -15,33 +15,33 @@ User Interactions:
 
 Our wireframes:
 
-![homePage](..\wireframe\homePage.jpg)
+![homePage](wireframe\homePage.jpg)
 
-![loginPage](..\wireframe\loginPage.jpg)
+![loginPage](wireframe\loginPage.jpg)
 
-![myPost](..\wireframe\myPost.jpg)
+![myPost](wireframe\myPost.jpg)
 
-![newPost](..\wireframe\newPost.jpg)
+![newPost](wireframe\newPost.jpg)
 
-![signup](..\wireframe\signupPage.jpg)
+![signup](wireframe\signupPage.jpg)
 
 
 Our HTML pages:
 
-![homePage](..\HTMLscreens\HomePage.PNG)
+![homePage](HTMLscreens\HomePage.PNG)
 
-![loginPage](..\HTMLscreens\login.PNG)
+![loginPage](HTMLscreens\login.PNG)
 
-![myPost](..\HTMLscreens\myPosts.PNG)
+![myPost](HTMLscreens\myPosts.PNG)
 
-![newPost](..\HTMLscreens\CreatePostModal.PNG)
+![newPost](HTMLscreens\CreatePostModal.PNG)
 
-![signup](..\HTMLscreens\signup.PNG)
+![signup](HTMLscreens\signup.PNG)
 
-![comment](..\HTMLscreens\PostComment.PNG)
+![comment](HTMLscreens\PostComment.PNG)
 
-![rate](..\HTMLscreens\RatePost.PNG)
+![rate](HTMLscreens\RatePost.PNG)
 
-![viewComments](..\HTMLscreens\ViewComments.PNG)
+![viewComments](HTMLscreens\ViewComments.PNG)
 
 
