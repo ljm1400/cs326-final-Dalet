@@ -15,33 +15,33 @@ User Interactions:
 
 Our wireframes:
 
-![homePage](wireframe\homePage.jpg)
+![homePage](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/wireframe/homePage.jpg)
 
-![loginPage](wireframe\loginPage.jpg)
+![loginPage](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/wireframe/loginPage.jpg)
 
-![myPost](wireframe\myPost.jpg)
+![myPost](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/wireframe/myPost.jpg)
 
-![newPost](wireframe\newPost.jpg)
+![newPost](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/wireframe/newPost.jpg)
 
-![signup](wireframe\signupPage.jpg)
+![signup](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/wireframe/signupPage.jpg)
 
 
 Our HTML pages:
 
-![homePage](HTMLscreens\HomePage.PNG)
+![homePage](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/HomePage.PNG)
 
-![loginPage](HTMLscreens\login.PNG)
+![loginPage](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/login.PNG)
 
-![myPost](HTMLscreens\myPosts.PNG)
+![myPost](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/myPosts.PNG)
 
-![newPost](HTMLscreens\CreatePostModal.PNG)
+![newPost](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/CreatePostModal.PNG)
 
-![signup](HTMLscreens\signup.PNG)
+![signup](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/signup.PNG)
 
-![comment](HTMLscreens\PostComment.PNG)
+![comment](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/PostComment.PNG)
 
-![rate](HTMLscreens\RatePost.PNG)
+![rate](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/RatePost.PNG)
 
-![viewComments](HTMLscreens\ViewComments.PNG)
+![viewComments](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/ViewComments.PNG)
 
 
