@@ -1,0 +1,28 @@
+.headerColor{
+    background-color: black;
+}
+.marginColor {
+    background-color: lightslategrey;
+}
+.buttonIcon{
+    margin-right: 1px;
+}
+.postBackGroundColor{
+    backGround-color:  rgb(212, 250, 212);
+}
+.postBodyColor{
+    backGround-color: whiteSmoke;
+}
+.imageSize{
+    height: 60%;
+}
+.profilePicSize{
+    height: 64px;
+    width: 64px;
+}
+.imageSideButtons{
+    background-color: grey;
+    height: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
+}

@@ -1,0 +1,26 @@
+{
+  "name": "cs326-final-dalet",
+  "version": "1.0.0",
+  "description": "An application for users to share outdoor activity picutres and experiences.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ljm1400/cs326-final-Dalet.git"
+  },
+  "author": "Team-Dalet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ljm1400/cs326-final-Dalet/issues"
+  },
+  "homepage": "https://github.com/ljm1400/cs326-final-Dalet#readme"
+}

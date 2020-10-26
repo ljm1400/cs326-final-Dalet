@@ -1,0 +1,12 @@
+User Interactions:
+- Sign up
+- Sign in
+- Sign out
+- Create Post {Includes: Images, rating, tags, text, userID}
+- View Feed
+- Comment on Posts
+- Rate Posts
+- Share Posts?
+- Filter Feed to Post with certain tags
+- Follow Users
+- View page with their own posts
