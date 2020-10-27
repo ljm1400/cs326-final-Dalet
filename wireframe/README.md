@@ -1,1 +1,0 @@
-The homePage wireframe is very similar to the climbing and hiking page, but with filters for each type of activity. It looks the exact same as the homePage layout, but the only trails that come up will be the relevant ones. 
