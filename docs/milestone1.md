@@ -1,8 +1,7 @@
 User Interactions:
 - Sign up
 - Sign in
-- Sign out
-- Create Post {Includes: Images, rating, tags, text}
+- Create Post {Includes: Title, Images, rating, tags, text}
 - Comment on Posts
 - View comments on posts
 - Rate Posts
@@ -30,22 +29,38 @@ If someone is on the home page, or the climbing or hiking pages, and wants to cr
 ![signup](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/wireframe/signupPage.jpg)
 The signup page looks similar to many sign up pages on many websites. There will be a place to input an email address and password, as well as a place to confirm your password. If the password box and the confirm password box match, you will successfully be able to create an account. In the background of the signup box will be a picture related to hiking/outdoors
 
+
 Our HTML pages:
 
 ![homePage](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/HomePage.PNG)
+Homepage shows both hiking and climbing posts. Image takes up the center of the screen with a text box showing the user and the text contents of the post. Can scroll left or right to view the next or previous post. The climbing and hiking pages on the site are the same as this homepage but filtered to only show either hiking or climbing posts.
 
 ![loginPage](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/login.PNG)
+Simple login page which has users input their email and password to log into the site. 
 
 ![myPost](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/myPosts.PNG)
+MyPost page shows a grid of a users personal posts. Can click on the button to take the user to the post where they will be able to see comments.
 
 ![newPost](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/CreatePostModal.PNG)
+New Post modal pops up when a user clickes the create post button and has them input a title, any images, the type of post, a description, and any tags they want to add. Post will then be added to either the hiking or climbing pages.
 
 ![signup](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/signup.PNG)
+Similar to the login page except this page has users confirm the password and it will create a new account.
 
 ![comment](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/PostComment.PNG)
+Clicking the comment button opens up the comment input box where a user can type out their comment on a post.
 
 ![rate](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/RatePost.PNG)
+Rate feature allows users to rate posts. We use a slider to have users choose 0-100 based on how much they liked the post.
 
 ![viewComments](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/HTMLscreens/ViewComments.PNG)
+Niew comments screen shot shows how users will be able to see comments made on a post. Each comment will have the users name, picure and their comment.
 
+
+Division of Labor:
+Louis Martin - Completed on the HTML and CSS for the Homepage, Hiking, and Climbing section of the site.
+
+William Alvarez - Completed on the HTML and CSS for the Login, Signup, and My Posts section of the site.
+
+Benjamin Hamilton - Completed the wire frames for each page and wrote the descriptions for the wire frame.
 
