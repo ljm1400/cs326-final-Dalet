@@ -42,7 +42,7 @@ body, html {
 
 .bg-login {
   /* The image used */
-  background-image: url(../public/hiking2.jpg);
+  background-image: url(./public/hiking2.jpg);
 
   /* Full height */
   height: 100%;
