@@ -6,12 +6,15 @@
   "directories": {
     "doc": "docs"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "http-server": "^0.12.3"
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": "13.x"
   },
   "scripts": {
-    "start": "cd ./client && http-server",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
