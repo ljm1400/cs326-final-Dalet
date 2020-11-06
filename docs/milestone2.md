@@ -6,7 +6,7 @@ Comment Objects included in posts: Title, comment body, user ID, post ID
 
 API Ideas:
 
-/login allows the user to log in
+/login/:id allows the user to log in
 /signup creates a new user from signup information
 /user/update if we allow the user to update their profile information, this will be needed to update that specific user's information
 /post/new creates a new post when given the required information of PostType, Title, Description, >= 1 image. All other fields are optional.
