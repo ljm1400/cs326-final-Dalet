@@ -8,7 +8,7 @@ document.getElementById("signupButton").addEventListener("click", async function
     let password = form.elements.password.value;
     let confirmPassword = form.elements.confirmPassword.value;
     if(password === confirmPassword){
-        let res = await fetch(`/signup?email=${email}&password=${password}`);
+        let res = await fetch(`/user/create?email=${email}&password=${password}`);
         if (!res.ok) {
             console.log(res.error);
             return;

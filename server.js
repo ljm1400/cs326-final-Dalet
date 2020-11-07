@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
-
+app.use(express.json());
 app.use('/', express.static('./client'))
+let postId = 2;
+let userId = 2;
 let datastore = {
   users:[
     {
@@ -37,7 +39,7 @@ let datastore = {
   ]
 };
 
-app.get('/signup', (req, res) =>{
+app.get('/user/create', (req, res) =>{
   const email = req.query.email;
   const password = req.query.password;
   let exists = false;
@@ -51,7 +53,7 @@ app.get('/signup', (req, res) =>{
   }
   else{
     let user = {
-      ID: 1,
+      ID: userId++,
       name:"",
       email:email,
       password: password,
@@ -63,11 +65,28 @@ app.get('/signup', (req, res) =>{
   }
 })
 
-app.get('*', (req, res) => {
-  res.send('No Route Found');
+app.post('/post/create', (req, res) => {
+  const title = req.body["title"];
+  const files = req.body["files"];
+  const type = req.body["type"];
+  const description = req.body["description"];
+  const tags = req.body["tags"];
+  let post = {
+      ID: postId++,
+      title: title,
+      type: type,
+      description: description,
+      images: files,
+      tags: tags,
+      ratings: [],
+      comments:[]
+  }
+  console.log("Pushing post: " + JSON.stringify(post));
+  datastore.posts.push(post);
+  res.send(JSON.stringify(post));
 });
 
-app.post('*', (req, res) => {
+app.get('*', (req, res) => {
   res.send('No Route Found');
 });
 
