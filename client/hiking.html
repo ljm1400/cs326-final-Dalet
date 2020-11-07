@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link rel="stylesheet" href="style.css">
+        <script src = "scripts/createPost.js" defer></script>
         <title>Klimbz</title>
     </head>
     <body>
@@ -147,20 +148,20 @@
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Create a new post!</h5>
+            <h5 class="modal-title" id="title">Create a new post!</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form>
+            <form id = "createPostForm" action = "myPosts.html">
               <div class="form-group">
                 <label for="title">Title</label>
-                <input type="email" class="form-control" id="title" placeholder="Title of Post">
+                <input type="text" class="form-control" id="title" placeholder="Title of Post" required>
               </div>
               <div class="form-group">
                 <label for="exampleFormControlFile1">Photo Upload</label>
-                <input type="file" multiple class="form-control-file" id="exampleFormControlFile1">
+                <input type="file" multiple class="form-control-file" accept= ".jpg, .png" id="files">
               </div>
               <div class="form-group">
                 <label for="typeOfPost">What type of post is this?</label>
@@ -177,12 +178,13 @@
                 <label for="tags">Tags</label>
                 <input type="text" class="form-control" id="tags" placeholder="tags, comma separated">
               </div>
-            </form>
+            
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary" id = "submitButton">Submit</button>
           </div>
+        </form>
         </div>
       </div>
     </div>
