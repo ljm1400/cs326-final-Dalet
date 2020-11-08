@@ -18,7 +18,8 @@ body, html {
     backGround-color: whiteSmoke;
 }
 .imageSize{
-    height: 60%;
+    height:  600px;
+    width: 1000px;
 }
 .profilePicSize{
     height: 64px;
@@ -62,4 +63,13 @@ body, html {
     border-style: solid;
     border-width: 3px;
     border-color: black;
+}
+
+.progressBar{
+    width: 80%;
+}
+.ratingSelect{
+    width: auto;
+    justify-content:center;
+    align-items: center;
 }
