@@ -12,11 +12,9 @@ API Ideas:
 4. /user/:userID/delete allows a user to delete their account given the correct userID, email and password
 5. /posts/create creates a new post when given the required information of PostType, Title, Description, >= 1 image. All other fields are optional. (done - Louis)
 6. /posts/delete/:postId deletes a post with a given id (only shows option to delete if the currently logged in user is the user that created the post)
-7. /posts a get request to get all of the posts from the database  (in-progress - Louis)
+7. /posts a get request to get all of the posts from the database  (done - Louis)
 8. /posts/climbing will get all of the posts that have a postType = climbing
 9. /posts/hiking will get all of the posts that have postType = hiking
 10. /comment/create takes a postID and creates a new comment on that post
 11. /comment/:commentID/delete allows a comment to be deleted
 12. /rating/:postId/create adds a new rating to a given post
-
-We should not need a separate API endpoint for getting a list of comments from a post, as the comment objects are stored in each post (If we are using a mongoDB)
