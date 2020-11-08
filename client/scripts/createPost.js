@@ -23,9 +23,6 @@ fileInput.addEventListener('change', function(){
     }
 })
 
-function urlFile() {
-    
-  }
 
 document.getElementById("submitButton").addEventListener("click", async function(event){
     let title = form.elements.title.value;

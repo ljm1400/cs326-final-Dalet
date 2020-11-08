@@ -3,15 +3,17 @@
 window.addEventListener('load', async () => {
     let res = await fetch('/posts');
     let posts = await res.json();
+    let user = window.user ? window.user : '';
     for(let post of posts){
-        createPost(post.title, post.ID, post.description, post.images, post.comments, post.ratings);
+        createPost(post.title, post.ID, post.description, post.images, post.comments, post.ratings, user);
     }
 
     console.log("Posts rendered Successfully");
 
 })
 
-function createPost(title, postId, description, files, comments, ratings){
+function createPost(title, postId, description, files, comments, ratings, currUser){
+    //get page Body (center section)
     let pageBody = document.getElementById('postSection');
 
     //the main body of the post
@@ -33,25 +35,19 @@ function createPost(title, postId, description, files, comments, ratings){
 
     //creates a new indicator and image element for each image of the post
     for(let file = 0; file< files.length; ++file){
+
         //indicator section
         let indicator = document.createElement('li');
         indicator.dataset.target = `#post${postId}Indicators`;
         indicator.setAttribute('data-slide-to', file);
-        
-        if(file === 0){
-            indicator.className = 'active';
-        }
+        //if its the first file, set it to active
+        indicator.className = file === 0 ? 'active' : '';
         indicators.appendChild(indicator);
         
-        //image section
+        //image holder section
         let item = document.createElement('div');
-        if(file === 0){
-            item.className = 'carousel-item active'
-        }
-        else{
-            item.className = 'carousel-item';
-        }
-
+        item.className = file === 0 ? 'carousel-item active' : 'carousel-item'
+        //img inside of the holder div
         let img = document.createElement('img');
         img.src = files[file].url;
         img.className = 'img-thumbnail imageSize';
@@ -111,12 +107,12 @@ function createPost(title, postId, description, files, comments, ratings){
     profileArea.className = 'text-left col-4 ml-1 row ';
     
     let pfp = document.createElement('img');
-    pfp.src = './public/profile.png';
+    pfp.src = currUser ? currUser.pfp : './public/profile.png';
     pfp.className = 'img-thumbnail mr-lg-2 profilePicSize';
     pfp.alt = 'Temporary Profile picture';
     let user = document.createElement('h5');
     user.className = 'mt-auto mb-auto'
-    user.innerHTML = 'User';
+    user.innerHTML = currUser ? currUser.userName : 'User';
     
     profileArea.appendChild(pfp);
     profileArea.appendChild(user);
