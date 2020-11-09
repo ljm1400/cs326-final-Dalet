@@ -15,6 +15,8 @@ document.getElementById("loginButton").addEventListener("click", async function(
         let data = await res.json();
         console.log(data.email);
         if (data) {
+            loginObj = {'email': email, 'password': password}
+            localStorage.setItem('User' : loginObj);
             alert("Successfully logged in");
             //Should send user to home page
         } else {
