@@ -104,6 +104,27 @@ app.get('/posts', (req, res)=>{
   res.send(JSON.stringify(datastore.posts));
 });
 
+app.get('/posts/climbing', (req, res)=>{
+  const arr = [];
+  for(let i = 0; i < datastore.posts.length; i++){
+    if(datastore.posts[i].type.toLowerCase() === "climbing"){
+      arr.push(datastore.posts[i]);
+    }
+  }
+  res.send(JSON.stringify(arr));
+});
+
+
+app.get('/posts/hiking', (req, res)=>{
+  const arr = [];
+  for(let i = 0; i < datastore.posts.length; i++){
+    if(datastore.posts[i].type.toLowerCase() === "hiking"){
+      arr.push(datastore.posts[i]);
+    }
+  }
+  res.send(JSON.stringify(arr));
+});
+
 app.get('*', (req, res) => {
   res.send('No Route Found');
 });
