@@ -9,6 +9,7 @@ window.addEventListener('load', async () => {
     }
 
     console.log("Posts rendered Successfully");
+    console.log(posts);
 
 })
 

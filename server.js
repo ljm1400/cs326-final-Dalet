@@ -125,6 +125,20 @@ app.get('/posts/hiking', (req, res)=>{
   res.send(JSON.stringify(arr));
 });
 
+app.get('/posts/myPosts', (req, res)=>{
+  const arr = [];
+  for(let i = 0; i < datastore.users.length; i++){
+    if(datastore.users[i].ID === 1){
+      const userJson = datastore.users[i]; 
+      for(let j = 0; j < userJson.posts.length; j++){
+        let postNum = userJson.posts[j] - 1;
+        arr.push(datastore.posts[postNum]);
+     }
+    }
+  }
+  res.send(JSON.stringify(arr));
+});
+
 app.get('*', (req, res) => {
   res.send('No Route Found');
 });
