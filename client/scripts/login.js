@@ -16,6 +16,7 @@ document.getElementById("loginButton").addEventListener("click", async function(
         console.log(data.email);
         if (data) {
             alert("Successfully logged in");
+            //Should send user to home page
         } else {
             console.log(data);
         }
