@@ -8,7 +8,6 @@ document.getElementById("loginButton").addEventListener("click", async function(
     event.preventDefault();
     let email = loginForm.elements.loginEmail.value;
     let password = loginForm.elements.loginPassword.value;
-    
     let res = await fetch('/user/login', {
         method: 'POST',
         headers: {
@@ -19,6 +18,7 @@ document.getElementById("loginButton").addEventListener("click", async function(
             password
         }) 
     });
+
     if (!res.ok) {
         console.log(res.error)
         return;
