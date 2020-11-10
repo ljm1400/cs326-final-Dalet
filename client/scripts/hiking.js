@@ -23,7 +23,7 @@ window.addEventListener('load', async () => {
 function createPost(title, postId, description, files, comments, ratings, currUser){
     //get page Body (center section)
     let pageBody = document.getElementById('postSection');
-
+    
     //the main body of the post
     let postBody = document.createElement('div');
     postBody.className = 'border rounded p-4 mb-3 postBackGroundColor';
@@ -241,6 +241,7 @@ function createPost(title, postId, description, files, comments, ratings, currUs
             }
         
     });    
+
     
     rateRow.appendChild(submitRate);
     rate.appendChild(rateRow);
@@ -288,6 +289,7 @@ function createPost(title, postId, description, files, comments, ratings, currUs
                 return;
             }
     });
+
     
     commentArea.appendChild(submitComment);
     
