@@ -12,8 +12,8 @@ API Ideas:
 4. /posts/create creates a new post when given the required information of PostType, Title, Description, >= 1 image. All other fields are optional. (done - Louis)
 5. /posts/delete/:postId deletes a post with a given id (only shows option to delete if the currently logged in user is the user that created the post)
 6. /posts a get request to get all of the posts from the database  (done - Louis)
-7. /posts/climbing will get all of the posts that have a postType = climbing
-8. /posts/hiking will get all of the posts that have postType = hiking
+7. /posts/climbing will get all of the posts that have a postType = climbing (done - Will)
+8. /posts/hiking will get all of the posts that have postType = hiking (done - Will)
 9. /posts/:user gets all of the posts that were created by the given user. Will be used for myPosts page.
 10. /comment/create takes a postID and creates a new comment on that post
 11. /comment/:commentID/delete allows a comment to be deleted
