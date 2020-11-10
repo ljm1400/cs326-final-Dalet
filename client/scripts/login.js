@@ -7,7 +7,7 @@ document.getElementById("loginButton").addEventListener("click", async function(
     let email = loginForm.elements.loginEmail.value;
     let password = loginForm.elements.loginPassword.value;
     
-    let res = await fetch('/user/read?email=${email}&password=${password}');
+    let res = await fetch('/users');
     if (!res.ok) {
         console.log(res.error)
         return;
