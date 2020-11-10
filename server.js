@@ -12,7 +12,8 @@ let datastore = {
       name:"Tester",
       email:"test@gmail.com",
       password:"testPassword",
-      posts: [1]
+      posts: [1],
+      pfpLink: './public/profile.png'
     
     }
   ],
@@ -74,12 +75,44 @@ app.get('/user/create', (req, res) =>{
       name:"",
       email:email,
       password: password,
-      posts: []
+      posts: [],
+      pfpURL: './public/profile.png'
     }
     datastore.users.push(user);
     res.send(JSON.stringify(user));
   }
-})
+});
+
+app.post('/user/:userID/update', (req, res) => {
+  let name = req.body['name'];
+  let email = req.body['ID'];
+  let pfpLink = req.body['pfpLink'];
+  let ID = req.params['userID'];
+  console.log(ID);
+  let userIdx = datastore.users.findIndex(user => JSON.stringify(user.ID) === ID);
+  console.log(userIdx);
+  let user = datastore.users[userIdx];
+  user.name = name ? name : user.name;
+  user.email = email ? email : user.email;
+  user.pfpLink = pfpLink ? pfpLink : user.pfpLink;
+  datastore.users[userIdx] = user;
+  res.send(JSON.stringify(user));
+});
+
+app.get('/users', (req, res) =>{
+  let users = [];
+  for(let user of datastore.users){
+    let newUser = {
+      ID: user.ID,
+      email: user.email,
+      name: user.name,
+      posts:user.posts,
+      pfpLink: user.pfpLink
+    }
+    users.push(newUser);
+  }
+  res.send(JSON.stringify(users));
+});
 
 app.post('/posts/create', (req, res) => {
   const title = req.body["title"];
@@ -155,4 +188,4 @@ app.get('*', (req, res) => {
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)
-})
+});
