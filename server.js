@@ -88,29 +88,61 @@ app.post('/user/:userID/update', (req, res) => {
   let email = req.body['email'];
   let pfpLink = req.body['pfpLink'];
   let ID = req.params['userID'];
-  console.log(ID);
-  let userIdx = datastore.users.findIndex(user => JSON.stringify(user.ID) === ID);
-  console.log(userIdx);
-  let user = datastore.users[userIdx];
-  user.name = name ? name : user.name;
-  user.email = email ? email : user.email;
-  user.pfpLink = pfpLink ? pfpLink : user.pfpLink;
-  datastore.users[userIdx] = user;
-  res.send(JSON.stringify(user));
+  let user = {};
+  let idx = 0;
+  let userIdx = -1;
+  for(let person of datastore.users){
+   
+    if(person.ID === ID){
+      user.name = person.name;
+      user.pfpLink = person.pfpLink;
+      user.email = person.email;
+      user.ID = person.ID;
+      user.posts = person.posts;
+      user.password = person.password;
+      userIdx = idx;
+
+    }
+    ++idx;
+  }
+  if(userIdx !== -1){
+    user.name = name ? name : user.name;
+    user.email = email ? email : user.email;
+    user.pfpLink = pfpLink ? pfpLink : user.pfpLink;
+    datastore.users[userIdx] = user;
+    res.send(JSON.stringify({
+      ID: user.ID,
+      email: user.email,
+      name:user.name,
+      pfpLink: user.pfpLink,
+      posts: user.posts
+    }));
+  }
+  else{
+    res.send(JSON.stringify(
+      {ID: '-1'}
+    ));
+  }
+  
 });
 
 app.post('/user/login', (req, res) => {
   const email = req.body['email'];
   const password = req.body['password'];
   let login = false;
-  let person;
+  let person = {};
   for(let user of datastore.users){
     if(user.email === email && user.password === password){
       login = true;
-      person = user;
+      person.ID = user.ID;
+      person.email = user.email;
+      person.posts = user.posts;
+      person.pfpLink = user.pfpLink;
+      person.posts = user.posts;
+      person.name = user.name;
     }
+
   }
-  delete person.password;
   res.send(JSON.stringify({login, person}));
 });
 

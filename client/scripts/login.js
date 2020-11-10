@@ -5,9 +5,10 @@ let loginForm = document.getElementById("loginForm");
 
 
 document.getElementById("loginButton").addEventListener("click", async function(event) {
-    event.preventDefault();
+    
     let email = loginForm.elements.loginEmail.value;
     let password = loginForm.elements.loginPassword.value;
+    
     let res = await fetch('/user/login', {
         method: 'POST',
         headers: {
@@ -18,7 +19,6 @@ document.getElementById("loginButton").addEventListener("click", async function(
             password
         }) 
     });
-
     if (!res.ok) {
         console.log(res.error)
         return;
@@ -32,13 +32,12 @@ document.getElementById("loginButton").addEventListener("click", async function(
             let person = data.person;
             localStorage.setItem("User",  JSON.stringify(person));
             alert("Successfully logged in");
-            return true;
+            window.location.href = '/myPosts.html'
         }
         else{
             alert("User Not Found");
-            return false;
+            window.location.href = '/login.html'
         }
-
     }
     
 });                                                       

@@ -9,6 +9,7 @@
         <link rel="shortcut icon" href="https://cdn.iconscout.com/icon/free/png-256/mountain-2125950-1789239.png">
         <script src = "scripts/createPost.js" defer></script>
         <script src = "scripts/hiking.js" defer></script>
+        <script src ='scripts/user.js' defer></script>
         <title>Klimbs</title>
 
     </head>
@@ -27,15 +28,16 @@
                 <li class="nav-item active">
                   <a class="nav-link" href="./hiking.html">Hiking</a>
                 </li>
-                <li class="nav-item">
+                <li id = 'myPosts'  class="nav-item">
                   <a class="nav-link" href="./myPosts.html">My Posts</a>
               </li>
               
               </ul>
               <div class = "ml-lg-auto">
                 <ul class="nav navbar-nav navbar-right">
-                  <li id = "signupButton" class="btn btn-dark btn-sm mx-2 ">  <a class="nav-link" href="./signup.html"><i class="fas fa-user-plus buttonIcon"></i>  Sign Up </a> </li>
-                  <li class="btn btn-dark btn-sm mx-2 "> <a class="nav-link"  href="./login.html"> <i class="fas fa-sign-in-alt buttonIcon"></i> Login </a></li>
+                  <li id = "logoutButton" class="btn btn-dark btn-sm mx-2 "> <a class="nav-link" ><i class="fas fa-sign-out-alt buttonIcon"></i> Logout</a></li>
+                  <li  id = "signupButton" class="btn btn-dark btn-sm mx-2 ">  <a class="nav-link" href="./signup.html"><i class="fas fa-user-plus buttonIcon"></i>  Sign Up</a> </li>
+                  <li id = "loginButton" class="btn btn-dark btn-sm mx-2 "> <a class="nav-link"  href="./login.html"><i class="fas fa-sign-in-alt buttonIcon"></i> Login</a></li>
                 </ul>
               </div>
 
