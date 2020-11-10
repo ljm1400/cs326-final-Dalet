@@ -14,7 +14,7 @@ API Ideas:
 6. /posts a get request to get all of the posts from the database  (done - Louis)
 7. /posts/climbing will get all of the posts that have a postType = climbing (done - Will)
 8. /posts/hiking will get all of the posts that have postType = hiking (done - Will)
-9. /posts/:user gets all of the posts that were created by the given user. Will be used for myPosts page.
+9. /posts/:user gets all of the posts that were created by the given user. Will be used for myPosts page. (done - Will)
 10. /comment/create takes a postID and creates a new comment on that post
 11. /comment/:commentID/delete allows a comment to be deleted
 12. /rating/:postId/create adds a new rating to a given post
