@@ -13,16 +13,14 @@ document.getElementById("loginButton").addEventListener("click", async function(
         return;
     } else {
         let data = await res.json();
-        console.log(data.email);
-        if (data) {
-            loginObj = {'email': email, 'password': password}
-            localStorage.setItem('User' : JSON.stringify(loginObj));
-            alert("Successfully logged in");
-            //Should send user to home page
-        } else {
-            console.log(data);
+        //If login info matches user in users, proceed
+        for (let users in data) {
+            if (users.email === email && users.password === password) {
+                    loginObj = {'email': email, 'password': password}
+                    localStorage.setItem('User' : JSON.stringify(loginObj));
+                    alert("Successfully logged in");
+            }
         }
-        
     }
   
     event.preventDefault();
