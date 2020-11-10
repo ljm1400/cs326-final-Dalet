@@ -243,8 +243,8 @@ function createPost(title, postId, description, files, comments, ratings, currUs
                 'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    postId,
-                    commentArea.value
+                    'postId': postId,
+                    'rating': rate.value
                 }) 
             });
             if (!updateRes.ok) {
@@ -304,9 +304,9 @@ function createPost(title, postId, description, files, comments, ratings, currUs
                 'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    postId,
-                    commentArea.value
-                }) 
+                    'postId': postId,
+                    'comment': commentArea.value
+                }); 
             });
             if (!updateRes.ok) {
                 console.log(updateRes.error)
