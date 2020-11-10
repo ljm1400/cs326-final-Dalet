@@ -189,6 +189,37 @@ app.post('/posts/create', (req, res) => {
   res.send(JSON.stringify(post));
 });
 
+app.post('/posts/:postId/comment', (req, res) => {
+  let newPostId = req.body["postId"]
+  let newUserId = req.body["userId"]
+  let newComment = req.body["comment"]
+  
+  for (let post in dataStore.posts) {
+      if (post.ID === newPostId) {
+          let retObj = {'user': newUserId,
+                        'comment': newComment}
+          post.comments.push(retObj);
+      }
+  }
+  
+});
+
+app.post('/posts/:postId/rating', (req, res) => {
+  let newPostId = req.body["postId"]
+  let newUserId = req.body["userId"]
+  let newRating = req.body["rating"]
+  
+  for (let post in dataStore.posts) {
+      if (post.ID === newPostId) {
+          let retObj = {'user': newUserId,
+                        'rating': newRating}
+          post.comments.push(retObj);
+      }
+  }
+  
+  
+});
+
 app.get('/posts', (req, res)=>{
   res.send(JSON.stringify(datastore.posts));
 });
