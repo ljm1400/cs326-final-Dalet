@@ -1,9 +1,11 @@
-
 'use strict'
 
 window.addEventListener('load', async () => {
-    let user = window.user ? window.user : '1';
-    let res = await fetch('/posts/myPosts?user='+ user);
+    let user = JSON.parse(window.localStorage.getItem('User'));
+    console.log(user);
+    let res = await fetch('/posts/myPosts?user='+ user.ID);
+    let name = user.name || 'user';
+    document.getElementById('MyPostsTitle').innerHTML = "Welcome back " + name + '!';
     let posts = await res.json();
     for(let post of posts){
         createPost(post.title, post.ID, post.description, post.images, post.comments, post.ratings, user);
@@ -109,12 +111,12 @@ function createPost(title, postId, description, files, comments, ratings, currUs
     profileArea.className = 'text-left col-4 ml-1 row ';
     
     let pfp = document.createElement('img');
-    pfp.src = currUser && currUser.pfp ? currUser.pfp : './public/profile.png';
+    pfp.src = currUser? currUser.pfpLink : './public/profile.png';
     pfp.className = 'img-thumbnail mr-lg-2 profilePicSize';
     pfp.alt = 'Temporary Profile picture';
     let user = document.createElement('h5');
     user.className = 'mt-auto mb-auto'
-    user.innerHTML = currUser && currUser.userName ? currUser.userName : 'User';
+    user.innerHTML = currUser ? currUser.name : 'User';
     
     profileArea.appendChild(pfp);
     profileArea.appendChild(user);
@@ -162,7 +164,7 @@ function createPost(title, postId, description, files, comments, ratings, currUs
     viewCommentsButton.className = 'btn btn-sm btn-dark ml-2';
     viewCommentsButton.dataset.toggle = 'collapse';
     viewCommentsButton.dataset.target = `#viewComments${postId}`;
-    viewCommentsButton.textContent = "Comment";
+    viewCommentsButton.textContent = "Comments";
     let viewCommentsIcon = document.createElement('i');
     viewCommentsIcon.className = 'fas fa-comments ml-1';
     viewCommentsButton.appendChild(viewCommentsIcon);
@@ -291,26 +293,28 @@ function averageRating(ratings){
     
 }
 
-let fileInput = document.getElementById('file');
-let fileList = [];
-let fileURLS = [];
 
+
+let pfpInput = document.getElementById('pfpFile');
+let pfpFiles = [];
+let pfpURLS = [];
 document.getElementById('profileSubmitButton').addEventListener('click', async function(event){
     event.preventDefault();
     let form = document.getElementById('updateUserInfoForm');
     let name =  form.elements.name.value;
     let email = form.elements.email.value;
-    let pfpLink = fileURLS.length !== 0 ? fileURLS[0]: null;
-    console.log(name);
+    let pfpLink = pfpURLS.length !== 0 ? pfpURLS[0]: null;
     let person = {
 
     }   
     name ? person.name = name : person.name = null;
     email ? person.email = email : person.email = null;
     pfpLink ? person.pfpLink = pfpLink : person.pfpLink = null;
-    let user = null;
-    
-    let id = user ? user.ID : 1;
+    let user = JSON.parse(window.localStorage.getItem('User'));
+    console.log(person);
+    console.log(user);
+    let id = user ? user.ID : -1;
+    console.log(id);
     let res = await fetch(`/user/${id}/update`, 
         {
             method: 'POST',
@@ -320,20 +324,21 @@ document.getElementById('profileSubmitButton').addEventListener('click', async f
             body: JSON.stringify(person) 
         });
         let data = await res.json();
+        window.localStorage.setItem('User', JSON.stringify(data));
         alert("user updated: " + JSON.stringify(data));
+        window.location.href = 'myPosts.html';
 });
 
 
-fileInput.addEventListener('change', function(){
+pfpInput.addEventListener('change', function(){
     fileList = [];
-    for(let file of fileInput.files){
-        fileList.push(file);
+    for(let file of pfpInput.files){
+        pfpFiles.push(file);
         const reader = new FileReader();
   
         reader.addEventListener("load", function () {
         // convert image file to base64 string
-        fileURLS.push(reader.result.toString());
-        console.log(reader.result.toString());
+        pfpURLS.push(reader.result.toString());
         }, false);
     
         
