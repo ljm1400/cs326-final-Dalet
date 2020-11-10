@@ -16,9 +16,9 @@ API Ideas:
 8. /posts/climbing will get all of the posts that have a postType = climbing (done - Will)
 9. /posts/hiking will get all of the posts that have postType = hiking (done - Will)
 10. /posts/:user gets all of the posts that were created by the given user. Will be used for myPosts page.
-11. /comment/create takes a postID and creates a new comment on that post
-12. /comment/:commentID/delete allows a comment to be deleted
-13. /rating/:postId/create adds a new rating to a given post
+11. /posts/:postId/comment adds the comment to postId's post. also passes the ID of the user who sent it (done - Ben)
+12. /posts/:postId/rating adds the rating to postId's post. also passes the ID of the user who sent it (done - Ben)
+13. /comment/:commentID/delete allows a comment to be deleted
 
 
 Our Heroku Application: https://cs326-final-dalet.herokuapp.com/
