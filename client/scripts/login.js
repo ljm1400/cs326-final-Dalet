@@ -5,10 +5,16 @@ let loginForm = document.getElementById("loginForm");
 
 
 document.getElementById("loginButton").addEventListener("click", async function(event) {
+<<<<<<< Updated upstream
     
     let email = loginForm.elements.loginEmail.value;
     let password = loginForm.elements.loginPassword.value;
     
+=======
+    event.preventDefault();
+    let email = loginForm.elements.loginEmail.value;
+    let password = loginForm.elements.loginPassword.value;
+>>>>>>> Stashed changes
     let res = await fetch('/user/login', {
         method: 'POST',
         headers: {
@@ -19,6 +25,10 @@ document.getElementById("loginButton").addEventListener("click", async function(
             password
         }) 
     });
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     if (!res.ok) {
         console.log(res.error)
         return;
@@ -32,12 +42,22 @@ document.getElementById("loginButton").addEventListener("click", async function(
             let person = data.person;
             localStorage.setItem("User",  JSON.stringify(person));
             alert("Successfully logged in");
+<<<<<<< Updated upstream
             window.location.href = '/myPosts.html'
         }
         else{
             alert("User Not Found");
             window.location.href = '/login.html'
         }
+=======
+            return true;
+        }
+        else{
+            alert("User Not Found");
+            return false;
+        }
+
+>>>>>>> Stashed changes
     }
     
 });                                                       
