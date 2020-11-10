@@ -85,7 +85,7 @@ app.get('/user/create', (req, res) =>{
 
 app.post('/user/:userID/update', (req, res) => {
   let name = req.body['name'];
-  let email = req.body['ID'];
+  let email = req.body['email'];
   let pfpLink = req.body['pfpLink'];
   let ID = req.params['userID'];
   console.log(ID);
@@ -97,6 +97,21 @@ app.post('/user/:userID/update', (req, res) => {
   user.pfpLink = pfpLink ? pfpLink : user.pfpLink;
   datastore.users[userIdx] = user;
   res.send(JSON.stringify(user));
+});
+
+app.post('/user/login', (req, res) => {
+  const email = req.body['email'];
+  const password = req.body['password'];
+  let login = false;
+  let person;
+  for(let user of datastore.users){
+    if(user.email === email && user.password === password){
+      login = true;
+      person = user;
+    }
+  }
+  delete person.password;
+  res.send(JSON.stringify({login, person}));
 });
 
 app.get('/users', (req, res) =>{
