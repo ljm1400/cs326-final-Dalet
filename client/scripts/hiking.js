@@ -282,7 +282,7 @@ function createPost(title, postId, description, files, comments, ratings, currUs
                     'postId': postId,
                     'userId': currUser,
                     'comment': commentArea.value
-                }); 
+                }) 
             });
             if (!updateRes.ok) {
                 console.log(updateRes.error)

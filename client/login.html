@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="https://cdn.iconscout.com/icon/free/png-256/mountain-2125950-1789239.png">
     <script src = "scripts/login.js" defer></script>
+    <script src = "scripts/user.js" defer></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg sticky-top navbar-dark headerColor">
@@ -29,8 +30,8 @@
               </ul>
               <div class = "ml-lg-auto">
                 <ul class="nav navbar-nav navbar-right">
-                  <li class="btn btn-dark btn-sm mx-2 ">  <a class="nav-link" href="./signup.html"><i class="fas fa-user-plus buttonIcon"></i>  Sign Up</a> </li>
-                  <li class="btn btn-dark btn-sm mx-2 "> <a class="nav-link"  href="./login.html"><span> <i class="fas fa-sign-in-alt buttonIcon"></i> Login</a> </span></li>
+                  <li id = "signupButton" class="btn btn-dark btn-sm mx-2 ">  <a class="nav-link" href="./signup.html"><i class="fas fa-user-plus buttonIcon"></i>  Sign Up</a> </li>
+                  <li id = "loginButton" class="btn btn-dark btn-sm mx-2 "> <a class="nav-link"  href="./login.html"><span> <i class="fas fa-sign-in-alt buttonIcon"></i> Login</a> </span></li>
                 </ul>
               </div>
 
@@ -50,7 +51,7 @@
                     <input type="password" class="form-control" id="loginPassword" autocomplete = "current-password">
                   </div>
                   <br>
-                  <button type="submit" id="loginButton" class="btn btn-primary btn-block">Submit</button>
+                  <button type="submit" id="loginSubmitButton" class="btn btn-primary btn-block">Submit</button>
                 </form>
             </div>
         </div>

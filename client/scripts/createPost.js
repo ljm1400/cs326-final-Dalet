@@ -28,7 +28,7 @@ document.getElementById("submitButton").addEventListener("click", async function
     let title = form.elements.title.value;
     let files = fileList;
     let newFiles = [];
-    let userID = '1';
+    let userID = JSON.parse(window.localStorage.getItem('User')).ID;
     let i = 0;
     for(let file of files){
       let tempFile = {
