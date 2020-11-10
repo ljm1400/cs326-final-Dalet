@@ -157,6 +157,12 @@ app.post('/posts/create', (req, res) => {
   res.send(JSON.stringify(post));
 });
 
+app.post('/posts/:postId/update', (req, res) => {
+  
+  
+  
+});
+
 app.get('/posts', (req, res)=>{
   res.send(JSON.stringify(datastore.posts));
 });
