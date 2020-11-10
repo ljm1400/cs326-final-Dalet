@@ -28,6 +28,7 @@ document.getElementById("submitButton").addEventListener("click", async function
     let title = form.elements.title.value;
     let files = fileList;
     let newFiles = [];
+    let userID = '1';
     let i = 0;
     for(let file of files){
       let tempFile = {
@@ -61,7 +62,8 @@ document.getElementById("submitButton").addEventListener("click", async function
                 files: newFiles,
                 type, 
                 description,
-                tags
+                tags,
+                userID
             }) 
         });
         let data = await res.json();
