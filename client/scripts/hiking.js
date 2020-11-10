@@ -221,6 +221,28 @@ function createPost(title, postId, description, files, comments, ratings, currUs
     submitRate.dataset.toggle = 'collapse';
     submitRate.dataset.target = `#rate${postId}`;
     submitRate.textContent = "Submit";
+    
+    //when submit is pressed, update post in dataStore
+    submitRate.addEventListener("click", async function(event) {
+            let updateRes = await fetch('/posts/:postId/rating', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'postId': postId,
+                    'userId': currUser,
+                    'rating': rate.value
+                }) 
+            });
+            if (!updateRes.ok) {
+                console.log(updateRes.error)
+                return;
+            }
+        
+    });    
+
+    
     rateRow.appendChild(submitRate);
     rate.appendChild(rateRow);
     postInfoArea.appendChild(rate);
@@ -248,6 +270,27 @@ function createPost(title, postId, description, files, comments, ratings, currUs
     submitComment.dataset.toggle = 'collapse';
     submitComment.dataset.target = `comment${postId}`;
     submitComment.textContent = 'Send';
+    
+    //When submit is pressed, get postID and make POST req to update dataStore
+    submitComment.addEventListener("click", async function(event) {
+            let updateRes = await fetch('/posts/:postId/comment', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'postId': postId,
+                    'userId': currUser,
+                    'comment': commentArea.value
+                }); 
+            });
+            if (!updateRes.ok) {
+                console.log(updateRes.error)
+                return;
+            }
+    });
+
+    
     commentArea.appendChild(submitComment);
     
     comment.appendChild(commentArea);
