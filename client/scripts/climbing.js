@@ -224,19 +224,6 @@ function createPost(title, postId, description, files, comments, ratings, currUs
     
     //when submit is pressed, update post in dataStore
     submitRate.addEventListener("click", async function(event) {
-            let res = await fetch('/posts/climbing');
-            let posts = await res.json();
-            let thisPost;
-            for (let post in posts) {
-                if (post['userID'] === postId) {
-                    thisPost = post;
-                }
-            }
-            let returnObj = {'user': curUser,
-                             'rating': document.getElementById(`rate${postId}`).value};
-        
-            thisPost.ratings.push(returnObj);
-        
             let updateRes = await fetch('/posts/:postId/rating', {
                 method: 'POST',
                 headers: {
@@ -244,6 +231,7 @@ function createPost(title, postId, description, files, comments, ratings, currUs
                 },
                 body: JSON.stringify({
                     'postId': postId,
+                    'userId': currUser,
                     'rating': rate.value
                 }) 
             });
@@ -284,20 +272,6 @@ function createPost(title, postId, description, files, comments, ratings, currUs
     
     //When submit is pressed, get postID and make POST req to update dataStore
     submitComment.addEventListener("click", async function(event) {
-            let res = await fetch('/posts/climbing');
-            let posts = await res.json();
-            let thisPost;
-            for (let post in posts) {
-                if (post['userID'] === postId) {
-                    thisPost = post;
-                }
-            }
-            let returnObj = {'user': curUser,
-                             'post': postID,
-                             'comment': commentArea.value};
-        
-            thisPost.comments.push(returnObj);
-        
             let updateRes = await fetch('/posts/:postId/comment', {
                 method: 'POST',
                 headers: {
@@ -305,6 +279,7 @@ function createPost(title, postId, description, files, comments, ratings, currUs
                 },
                 body: JSON.stringify({
                     'postId': postId,
+                    'userId': currUser,
                     'comment': commentArea.value
                 }); 
             });
