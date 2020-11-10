@@ -3,13 +3,21 @@
 window.addEventListener('load', async () => {
     let res = await fetch('/posts/hiking');
     let posts = await res.json();
-    let user = window.user ? window.user : '';
+    let usersRes = await fetch('/users');
+    let users = await usersRes.json();
     for(let post of posts){
-        createPost(post.title, post.ID, post.description, post.images, post.comments, post.ratings, user);
+        for(let user of users){
+            
+            if(user.posts.includes(post.ID)){
+                let creator = user;
+                createPost(post.title, post.ID, post.description, post.images, post.comments, post.ratings, creator);
+            }
+            
+        }
+        
     }
 
     console.log("Posts rendered Successfully");
-
 })
 
 function createPost(title, postId, description, files, comments, ratings, currUser){
@@ -107,12 +115,12 @@ function createPost(title, postId, description, files, comments, ratings, currUs
     profileArea.className = 'text-left col-4 ml-1 row ';
     
     let pfp = document.createElement('img');
-    pfp.src = currUser ? currUser.pfp : './public/profile.png';
+    pfp.src = currUser ? currUser.pfpLink : './public/profile.png';
     pfp.className = 'img-thumbnail mr-lg-2 profilePicSize';
     pfp.alt = 'Temporary Profile picture';
     let user = document.createElement('h5');
     user.className = 'mt-auto mb-auto'
-    user.innerHTML = currUser ? currUser.userName : 'User';
+    user.innerHTML = currUser ? currUser.name : 'User';
     
     profileArea.appendChild(pfp);
     profileArea.appendChild(user);
