@@ -8,7 +8,7 @@ let userId = 2;
 let datastore = {
   users:[
     {
-      ID: 1,
+      ID: "1",
       name:"Tester",
       email:"test@gmail.com",
       password:"testPassword",
@@ -19,6 +19,7 @@ let datastore = {
   posts:[
     {
       ID: 1,
+      userID: "1",
       title: "Test",
       type: "climbing",
       description: "This is the description",
@@ -86,8 +87,11 @@ app.post('/posts/create', (req, res) => {
   const type = req.body["type"];
   const description = req.body["description"];
   const tags = req.body["tags"];
+  const userID = req.body["userID"];
+  console.log(typeof userID + " userID create " + userID);
   let post = {
       ID: postId++,
+      userID: userID,
       title: title,
       type: type,
       description: description,
@@ -95,6 +99,11 @@ app.post('/posts/create', (req, res) => {
       tags: tags,
       ratings: [],
       comments:[]
+  }
+  for(let i = 0; i < datastore.users.length; i++){
+    if(datastore.users[i].ID === userID){
+      datastore.users[i].posts.push(post.ID);
+    }
   }
   datastore.posts.push(post);
   res.send(JSON.stringify(post));
@@ -128,7 +137,7 @@ app.get('/posts/hiking', (req, res)=>{
 app.get('/posts/myPosts', (req, res)=>{
   const arr = [];
   for(let i = 0; i < datastore.users.length; i++){
-    if(datastore.users[i].ID === 1){
+    if(datastore.users[i].ID === req.query.user){
       const userJson = datastore.users[i]; 
       for(let j = 0; j < userJson.posts.length; j++){
         let postNum = userJson.posts[j] - 1;

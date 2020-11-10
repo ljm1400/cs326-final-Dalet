@@ -1,9 +1,9 @@
 'use strict'
 
 window.addEventListener('load', async () => {
-    let res = await fetch('/posts/myPosts');
+    let user = window.user ? window.user : '1';
+    let res = await fetch('/posts/myPosts?user='+ user);
     let posts = await res.json();
-    let user = window.user ? window.user : '';
     for(let post of posts){
         createPost(post.title, post.ID, post.description, post.images, post.comments, post.ratings, user);
     }
@@ -108,12 +108,12 @@ function createPost(title, postId, description, files, comments, ratings, currUs
     profileArea.className = 'text-left col-4 ml-1 row ';
     
     let pfp = document.createElement('img');
-    pfp.src = currUser ? currUser.pfp : './public/profile.png';
+    pfp.src = currUser && currUser.pfp ? currUser.pfp : './public/profile.png';
     pfp.className = 'img-thumbnail mr-lg-2 profilePicSize';
     pfp.alt = 'Temporary Profile picture';
     let user = document.createElement('h5');
     user.className = 'mt-auto mb-auto'
-    user.innerHTML = currUser ? currUser.userName : 'User';
+    user.innerHTML = currUser && currUser.userName ? currUser.userName : 'User';
     
     profileArea.appendChild(pfp);
     profileArea.appendChild(user);
