@@ -221,6 +221,23 @@ function createPost(title, postId, description, files, comments, ratings, currUs
     submitRate.dataset.toggle = 'collapse';
     submitRate.dataset.target = `#rate${postId}`;
     submitRate.textContent = "Submit";
+    
+    //when submit is pressed, update post in dataStore
+    submitRate.addEventListener("click", async function(event) {
+            let res = await fetch('/posts/climbing');
+            let posts = await res.json();
+            let thisPost;
+            for (let post in posts) {
+                if (post['userID'] === postId) {
+                    thisPost = post;
+                }
+            }
+            let returnObj = {'user': curUser,
+                             'rating': document.getElementById(`rate${postId}`).value};
+        
+            thisPost.ratings.push(returnObj);
+    });
+    
     rateRow.appendChild(submitRate);
     rate.appendChild(rateRow);
     postInfoArea.appendChild(rate);
@@ -248,6 +265,24 @@ function createPost(title, postId, description, files, comments, ratings, currUs
     submitComment.dataset.toggle = 'collapse';
     submitComment.dataset.target = `comment${postId}`;
     submitComment.textContent = 'Send';
+    
+    //When submit is pressed, get postID and make POST req to update dataStore
+    submitComment.addEventListener("click", async function(event) {
+            let res = await fetch('/posts/climbing');
+            let posts = await res.json();
+            let thisPost;
+            for (let post in posts) {
+                if (post['userID'] === postId) {
+                    thisPost = post;
+                }
+            }
+            let returnObj = {'user': curUser,
+                             'post': postID,
+                             'comment': commentArea.value};
+        
+            thisPost.comments.push(returnObj);
+    });
+    
     commentArea.appendChild(submitComment);
     
     comment.appendChild(commentArea);
