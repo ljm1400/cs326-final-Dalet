@@ -4,8 +4,8 @@
 let loginForm = document.getElementById("loginForm");
 
 
-document.getElementById("loginButton").addEventListener("click", async function(event) {
-    
+document.getElementById("loginSubmitButton").addEventListener("click", async function(event) {
+    event.preventDefault();
     let email = loginForm.elements.loginEmail.value;
     let password = loginForm.elements.loginPassword.value;
     
@@ -27,7 +27,7 @@ document.getElementById("loginButton").addEventListener("click", async function(
         console.log(data);
         //If login info matches user in users, proceed
         let login = data.login;
-
+        console.log(login);
         if(login){
             let person = data.person;
             localStorage.setItem("User",  JSON.stringify(person));

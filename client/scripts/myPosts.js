@@ -311,8 +311,7 @@ document.getElementById('profileSubmitButton').addEventListener('click', async f
     email ? person.email = email : person.email = null;
     pfpLink ? person.pfpLink = pfpLink : person.pfpLink = null;
     let user = JSON.parse(window.localStorage.getItem('User'));
-    console.log(person);
-    console.log(user);
+    
     let id = user ? user.ID : -1;
     console.log(id);
     let res = await fetch(`/user/${id}/update`, 
@@ -324,7 +323,11 @@ document.getElementById('profileSubmitButton').addEventListener('click', async f
             body: JSON.stringify(person) 
         });
         let data = await res.json();
-        window.localStorage.setItem('User', JSON.stringify(data));
+        console.log(JSON.stringify(data.ID) !== '-1');
+        if(JSON.stringify(data.ID) !== '-1'){
+            window.localStorage.setItem('User', JSON.stringify(data));
+        }
+        
         alert("user updated: " + JSON.stringify(data));
         window.location.href = 'myPosts.html';
 });

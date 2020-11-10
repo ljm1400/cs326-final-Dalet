@@ -3,10 +3,12 @@
 let form = document.getElementById("signupForm");
 
 
-document.getElementById("signupButton").addEventListener("click", async function(event){
+document.getElementById("signupSubmitButton").addEventListener("click", async function(event){
     let email = form.elements.email.value;
     let password = form.elements.password.value;
     let confirmPassword = form.elements.confirmPassword.value;
+    console.log(email);
+    console.log(password);
     if(password === confirmPassword){
         let res = await fetch(`/user/create?email=${email}&password=${password}`);
         if (!res.ok) {
@@ -18,9 +20,11 @@ document.getElementById("signupButton").addEventListener("click", async function
             console.log(data.email);
             if(data){
                 alert("user created with email: " + data.email + "\npassword: " + data.password);
+                window.location.href = 'login.html';
             }
             else{
                 console.log(data);
+                window.location.href = 'signup.html';
             }
             
         }

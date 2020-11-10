@@ -71,7 +71,7 @@ app.get('/user/create', (req, res) =>{
   }
   else{
     let user = {
-      ID: userId++,
+      ID: JSON.stringify(userId++),
       name:"",
       email:email,
       password: password,
@@ -79,6 +79,7 @@ app.get('/user/create', (req, res) =>{
       pfpURL: './public/profile.png'
     }
     datastore.users.push(user);
+    console.log(user);
     res.send(JSON.stringify(user));
   }
 });
@@ -170,7 +171,7 @@ app.post('/posts/create', (req, res) => {
   const userID = req.body["userID"];
   console.log(typeof userID + " userID create " + userID);
   let post = {
-      ID: postId++,
+      ID: JSON.stringify(postId++),
       userID: userID,
       title: title,
       type: type,
