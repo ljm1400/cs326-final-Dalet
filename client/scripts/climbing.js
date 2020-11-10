@@ -236,6 +236,22 @@ function createPost(title, postId, description, files, comments, ratings, currUs
                              'rating': document.getElementById(`rate${postId}`).value};
         
             thisPost.ratings.push(returnObj);
+        
+            let updateRes = await fetch('/posts/:postId/rating', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    postId,
+                    commentArea.value
+                }) 
+            });
+            if (!updateRes.ok) {
+                console.log(updateRes.error)
+                return;
+            }
+        
     });
     
     rateRow.appendChild(submitRate);
@@ -281,6 +297,21 @@ function createPost(title, postId, description, files, comments, ratings, currUs
                              'comment': commentArea.value};
         
             thisPost.comments.push(returnObj);
+        
+            let updateRes = await fetch('/posts/:postId/comment', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    postId,
+                    commentArea.value
+                }) 
+            });
+            if (!updateRes.ok) {
+                console.log(updateRes.error)
+                return;
+            }
     });
     
     commentArea.appendChild(submitComment);
