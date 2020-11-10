@@ -24,9 +24,4 @@ document.getElementById("loginButton").addEventListener("click", async function(
     }
   
     event.preventDefault();
-}
-                                                        
-loginForm.addEventListener("submit", function(event) {
-    
-  
-} 
+}                                                       
