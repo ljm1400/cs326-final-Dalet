@@ -157,9 +157,13 @@ app.post('/posts/create', (req, res) => {
   res.send(JSON.stringify(post));
 });
 
-app.post('/posts/:postId/update', (req, res) => {
+app.post('/posts/:postId/comment', (req, res) => {
   
   
+});
+
+app.post('/posts/:postId/rating', (req, res) => {
+
   
 });
 
