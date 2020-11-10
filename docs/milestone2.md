@@ -23,3 +23,15 @@ API Ideas:
 
 Our Heroku Application: https://cs326-final-dalet.herokuapp.com/
 
+Our Screenshots:
+
+![signup](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/Milestone2Screens/SignupPage.JPG)
+
+![login](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/Milestone2Screens/LoginPage.JPG)
+
+![EditUserInfo](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/Milestone2Screens/EditUserInfo.JPG)
+![EditUserInfoBack](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/Milestone2Screens/EditUserInfoBack.JPG)
+
+![CreatePost](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/Milestone2Screens/CreatePost.JPG)
+
+![PostCreated](https://github.com/ljm1400/cs326-final-Dalet/blob/master/docs/Milestone2Screens/PostCreated.JPG)
