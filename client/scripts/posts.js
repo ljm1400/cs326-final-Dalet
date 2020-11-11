@@ -1,7 +1,8 @@
 'use strict'
 
-window.addEventListener('load', async () => {
+window.addEventListener('load', fetchAndRenderPosts)
 
+async function fetchAndRenderPosts(){
     let body = document.getElementsByTagName('body')[0];
     console.log(body);
     let url;
@@ -36,9 +37,7 @@ window.addEventListener('load', async () => {
     }
 
     console.log("Posts rendered Successfully");
-})
-
-
+}
 
 function renderPost(title, postId, description, files, comments, ratings, currUser){
     //get page Body (center section)
