@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
+
 app.use(express.json({limit: '50mb'}));
 app.use('/', express.static('./client'))
+
 let postId = 2;
 let userId = 2;
 let datastore = {
@@ -191,33 +193,40 @@ app.post('/posts/create', (req, res) => {
 });
 
 app.post('/posts/:postId/comment', (req, res) => {
-  let newPostId = req.body["postId"]
-  let newUserId = req.body["userId"]
-  let newComment = req.body["comment"]
-  
-  for (let post in dataStore.posts) {
-      if (post.ID === newPostId) {
+  let newPostId = req.params["postId"];
+  let newUserId = req.body["userId"];
+  let newComment = req.body["comment"];
+  for (let post of datastore.posts) {
+    
+      if (JSON.stringify(post.ID) === newPostId) {
           let retObj = {'user': newUserId,
-                        'comment': newComment}
+                        'commentBody': newComment}
           post.comments.push(retObj);
+          console.log(post.comments);
       }
   }
-  
+  res.send("Comment Posted");
 });
 
 app.post('/posts/:postId/rating', (req, res) => {
-  let newPostId = req.body["postId"]
-  let newUserId = req.body["userId"]
-  let newRating = req.body["rating"]
+  console.log('here');
+  let newPostId = req.params["postId"];
+  let newUserId = req.body["userId"];
+  let newRating = req.body["rating"];
+  console.log(newPostId);
   
-  for (let post in dataStore.posts) {
-      if (post.ID === newPostId) {
-          let retObj = {'user': newUserId,
-                        'rating': newRating}
-          post.comments.push(retObj);
+  for (let post of datastore.posts) {
+
+      if (JSON.stringify(post.ID) === newPostId) {
+          let retObj = {
+            'user': JSON.stringify(newUserId),
+            'post': newPostId,
+            'rating': newRating}
+          post.ratings.push(retObj);
+          console.log(post.ratings);
       }
   }
-  
+  res.send("Rating Posted");
   
 });
 

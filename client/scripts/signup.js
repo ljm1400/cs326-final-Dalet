@@ -38,6 +38,6 @@ document.getElementById("signupSubmitButton").addEventListener("click", async fu
 
 
 form.addEventListener("submit", function(event) {
-    console.log("Saving value", form.elements.value.value);
+    console.log("Saving value", form.elements.email.value);
     event.preventDefault();
   });

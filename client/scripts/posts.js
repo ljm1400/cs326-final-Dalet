@@ -1,7 +1,25 @@
 'use strict'
 
 window.addEventListener('load', async () => {
-    let res = await fetch('/posts');
+
+    let body = document.getElementsByTagName('body')[0];
+    console.log(body);
+    let url;
+    if(body.id === 'home'){
+        url = '/posts';
+    }
+    if(body.id === 'climbing'){
+        url = '/posts/climbing';
+    }
+    if(body.id === 'hiking'){
+        url = '/posts/hiking';
+    }
+    if(body.id === 'myposts'){
+        let id = JSON.parse(window.localStorage.getItem('User')).ID;
+        url = `/posts/myPosts?user=${id}`;
+
+    }
+    let res = await fetch(url);
     let posts = await res.json();
     let usersRes = await fetch('/users');
     let users = await usersRes.json();
@@ -10,7 +28,7 @@ window.addEventListener('load', async () => {
             
             if(user.posts.includes(post.ID)){
                 let creator = user;
-                createPost(post.title, post.ID, post.description, post.images, post.comments, post.ratings, creator);
+                renderPost(post.title, post.ID, post.description, post.images, post.comments, post.ratings, creator);
             }
             
         }
@@ -20,7 +38,9 @@ window.addEventListener('load', async () => {
     console.log("Posts rendered Successfully");
 })
 
-function createPost(title, postId, description, files, comments, ratings, currUser){
+
+
+function renderPost(title, postId, description, files, comments, ratings, currUser){
     //get page Body (center section)
     let pageBody = document.getElementById('postSection');
 
@@ -135,7 +155,7 @@ function createPost(title, postId, description, files, comments, ratings, currUs
     let ratingArea = document.createElement('div');
     ratingArea.className = 'col-2 ml-lg-auto';
     let ratingVal = document.createElement('p');
-    let averageRating = ratings.length === 0 ? 0 : averageRating(ratings);
+    let averageRating =  getAverageRating(ratings);
     ratingVal.innerHTML = 'Rating: '+`${averageRating}` + '&#x2605';
     ratingArea.appendChild(ratingVal);
     row1.appendChild(ratingArea);
@@ -221,6 +241,26 @@ function createPost(title, postId, description, files, comments, ratings, currUs
     submitRate.dataset.toggle = 'collapse';
     submitRate.dataset.target = `#rate${postId}`;
     submitRate.textContent = "Submit";
+
+    //when submit is pressed, update post in dataStore
+    submitRate.addEventListener("click", async function(event) {
+        let updateRes = await fetch(`/posts/${postId}/rating`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'userId': JSON.parse(window.localStorage.getItem('User')).ID,
+                'rating': convertRating(selector.value)
+            }) 
+        });
+        if (!updateRes.ok) {
+            console.log(updateRes.error)
+            return;
+        }
+    
+});
+
     rateRow.appendChild(submitRate);
     rate.appendChild(rateRow);
     postInfoArea.appendChild(rate);
@@ -248,6 +288,24 @@ function createPost(title, postId, description, files, comments, ratings, currUs
     submitComment.dataset.toggle = 'collapse';
     submitComment.dataset.target = `comment${postId}`;
     submitComment.textContent = 'Send';
+
+    //When submit is pressed, get postID and make POST req to update dataStore
+    submitComment.addEventListener("click", async function(event) {
+        let updateRes = await fetch(`/posts/${postId}/comment`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'userId': JSON.parse(window.localStorage.getItem('User')).ID,
+                'comment': textArea.value
+            })
+        });
+        if (!updateRes.ok) {
+            console.log(updateRes.error)
+            return;
+        }
+});
     commentArea.appendChild(submitComment);
     
     comment.appendChild(commentArea);
@@ -283,11 +341,11 @@ function createPost(title, postId, description, files, comments, ratings, currUs
 
 }
 
-function averageRating(ratings){
+function getAverageRating(ratings){
     if(ratings.length>0){
         let sum = 0;
         for(let rating of ratings){
-            sum += rating;
+            sum += rating.rating;
         }
         return (sum/ratings.length);
     }
@@ -296,3 +354,111 @@ function averageRating(ratings){
     }
     
 }
+
+function convertRating (stringVal){
+    console.log(stringVal);
+    switch(stringVal){
+        case '5★':
+            return 5;
+            
+        case '4.5★':
+            return 4.5;
+        case '4★':
+            return 4;
+                
+        case '3.5★':
+            return 3.5;
+        case '3★':
+            return 3;
+                    
+        case '2.5★':
+            return 2.5;
+        case '2★':
+            return 2;
+                    
+        case '1.5★':
+            return 1.5;
+        case '1★':
+            return 1;
+                    
+        case '0.5★':
+            return 0.5;
+        case '0★':
+            return 0;
+                   
+    }
+
+}
+
+
+
+let form = document.getElementById("createPostForm");
+let fileInput = document.getElementById('files');
+let fileList = [];
+let fileURLS = [];
+
+fileInput.addEventListener('change', function(){
+    fileList = [];
+    for(let file of fileInput.files){
+        fileList.push(file);
+        const reader = new FileReader();
+  
+        reader.addEventListener("load", function () {
+        // convert image file to base64 string
+        fileURLS.push(reader.result.toString());
+        console.log(reader.result);
+        }, false);
+    
+        
+        reader.readAsDataURL(file);
+        
+    }
+})
+
+
+document.getElementById("submitButton").addEventListener("click", async function(event){
+    let title = form.elements.title.value;
+    let files = fileList;
+    let newFiles = [];
+    let userID = JSON.parse(window.localStorage.getItem('User')).ID;
+    let i = 0;
+    for(let file of files){
+      let tempFile = {
+          'lastModified'    : file.lastModified,
+          'lastModifiedDate': file.lastModifiedDate,
+          'name'       : file.name,
+          'size'       : file.size,
+          'type'       : file.type,
+          'url' : fileURLS[i]
+      } 
+      newFiles.push(tempFile);
+      ++i;
+    }
+    console.log(newFiles);
+    let type = form.elements.typeOfPost.value;
+    let description = form.elements.description.value;
+    let tags = form.elements.tags.value;
+    if(files.length === 0){
+        alert("You must upload an image for your post!");
+        event.preventDefault();
+    }
+    else{
+        let res = await fetch('/posts/create', 
+        {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title,
+                files: newFiles,
+                type, 
+                description,
+                tags,
+                userID
+            }) 
+        });
+        let data = await res.json();
+        alert("post created: " + JSON.stringify(data));
+    }
+});
