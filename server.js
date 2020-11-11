@@ -59,6 +59,7 @@ let datastore = {
   ]
 };
 
+//Endpoint to create a new user
 app.get('/user/create', (req, res) =>{
   const email = req.query.email;
   const password = req.query.password;
@@ -86,6 +87,7 @@ app.get('/user/create', (req, res) =>{
   }
 });
 
+//Endpoint to update a given user's information
 app.post('/user/:userID/update', (req, res) => {
   let name = req.body['name'];
   let email = req.body['email'];
@@ -129,6 +131,7 @@ app.post('/user/:userID/update', (req, res) => {
   
 });
 
+//Endpoint for a user to login
 app.post('/user/login', (req, res) => {
   const email = req.body['email'];
   const password = req.body['password'];
@@ -149,6 +152,7 @@ app.post('/user/login', (req, res) => {
   res.send(JSON.stringify({login, person}));
 });
 
+//Endpoint to get all of the users
 app.get('/users', (req, res) =>{
   let users = [];
   for(let user of datastore.users){
@@ -164,6 +168,7 @@ app.get('/users', (req, res) =>{
   res.send(JSON.stringify(users));
 });
 
+//Ednpoint to create a new post
 app.post('/posts/create', (req, res) => {
   const title = req.body["title"];
   const files = req.body["files"];
@@ -192,6 +197,7 @@ app.post('/posts/create', (req, res) => {
   res.send(JSON.stringify(post));
 });
 
+//Endpoint for a user to submit a comment on a post
 app.post('/posts/:postId/comment', (req, res) => {
   let newPostId = req.params["postId"];
   let newUserId = req.body["userId"];
@@ -208,6 +214,7 @@ app.post('/posts/:postId/comment', (req, res) => {
   res.send("Comment Posted");
 });
 
+//Endpoint for a user to submit a comment on a post
 app.post('/posts/:postId/rating', (req, res) => {
   console.log('here');
   let newPostId = req.params["postId"];
@@ -230,10 +237,12 @@ app.post('/posts/:postId/rating', (req, res) => {
   
 });
 
+//Endpoint to get all posts
 app.get('/posts', (req, res)=>{
   res.send(JSON.stringify(datastore.posts));
 });
 
+//Endpoint to get all posts of type 'climbing'
 app.get('/posts/climbing', (req, res)=>{
   const arr = [];
   for(let i = 0; i < datastore.posts.length; i++){
@@ -244,7 +253,7 @@ app.get('/posts/climbing', (req, res)=>{
   res.send(JSON.stringify(arr));
 });
 
-
+//Endpoint to get all posts of type 'hiking'
 app.get('/posts/hiking', (req, res)=>{
   const arr = [];
   for(let i = 0; i < datastore.posts.length; i++){
@@ -255,6 +264,7 @@ app.get('/posts/hiking', (req, res)=>{
   res.send(JSON.stringify(arr));
 });
 
+//Endpoint to get all the posts created by the provided user
 app.get('/posts/myPosts', (req, res)=>{
   const arr = [];
   for(let i = 0; i < datastore.users.length; i++){
