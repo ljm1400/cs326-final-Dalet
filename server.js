@@ -203,8 +203,11 @@ app.post('/posts/:postId/comment', (req, res) => {
   let newUserId = req.body["userId"];
   let newComment = req.body["comment"];
   for (let post of datastore.posts) {
-    
-      if (JSON.stringify(post.ID) === newPostId) {
+    let postID = post.ID;
+    if(typeof post.ID !== 'string'){
+      postID = JSON.stringify(post.ID);
+    }
+      if (postID === newPostId) {
           let retObj = {'user': newUserId,
                         'commentBody': newComment}
           post.comments.push(retObj);
@@ -216,15 +219,18 @@ app.post('/posts/:postId/comment', (req, res) => {
 
 //Endpoint for a user to submit a comment on a post
 app.post('/posts/:postId/rating', (req, res) => {
-  console.log('here');
+  
   let newPostId = req.params["postId"];
   let newUserId = req.body["userId"];
   let newRating = req.body["rating"];
-  console.log(newPostId);
+  
   
   for (let post of datastore.posts) {
-
-      if (JSON.stringify(post.ID) === newPostId) {
+    let postID = post.ID;
+    if(typeof post.ID !== 'string'){
+      postID = JSON.stringify(post.ID);
+    }
+      if (postID === newPostId) {
           let retObj = {
             'user': JSON.stringify(newUserId),
             'post': newPostId,
