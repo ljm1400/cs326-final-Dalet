@@ -42,32 +42,32 @@ if(document.getElementById('logoutButton')){
 if(document.getElementsByTagName('body')[0].id === 'myposts'){
     console.log("here");
     let pfpInput = document.getElementById('pfpFile');
-let pfpFiles = [];
-let pfpURLS = [];
-document.getElementById('profileSubmitButton').addEventListener('click', async function(event){
-    event.preventDefault();
-    let form = document.getElementById('updateUserInfoForm');
-    let name =  form.elements.name.value;
-    let email = form.elements.email.value;
-    let pfpLink = pfpURLS.length !== 0 ? pfpURLS[0]: null;
-    let person = {
-
-    }   
-    name ? person.name = name : person.name = null;
-    email ? person.email = email : person.email = null;
-    pfpLink ? person.pfpLink = pfpLink : person.pfpLink = null;
-    let user = JSON.parse(window.localStorage.getItem('User'));
+    let pfpFiles = [];
+    let pfpURLS = [];
+    document.getElementById('profileSubmitButton').addEventListener('click', async function(event){
     
-    let id = user ? user.ID : -1;
-    console.log(id);
-    let res = await fetch(`/user/${id}/update`, 
-        {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(person) 
-        });
+        let form = document.getElementById('updateUserInfoForm');
+        let name =  form.elements.name.value;
+        let email = form.elements.email.value;
+        let pfpLink = pfpURLS.length !== 0 ? pfpURLS[0]: null;
+        let person = {
+
+        }   
+        name ? person.name = name : person.name = null;
+        email ? person.email = email : person.email = null;
+        pfpLink ? person.pfpLink = pfpLink : person.pfpLink = null;
+        let user = JSON.parse(window.localStorage.getItem('User'));
+    
+        let id = user ? user.ID : -1;
+        console.log(id);
+        let res = await fetch(`/user/${id}/update`, 
+            {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(person) 
+            });
         let data = await res.json();
         console.log(JSON.stringify(data.ID) !== '-1');
         if(JSON.stringify(data.ID) !== '-1'){
@@ -76,24 +76,24 @@ document.getElementById('profileSubmitButton').addEventListener('click', async f
         
         alert("user updated: " + JSON.stringify(data));
         window.location.href = 'myPosts.html';
-});
+    });
 
 
-pfpInput.addEventListener('change', function(){
-    fileList = [];
-    for(let file of pfpInput.files){
-        pfpFiles.push(file);
-        const reader = new FileReader();
-  
-        reader.addEventListener("load", function () {
-        // convert image file to base64 string
-        pfpURLS.push(reader.result.toString());
-        }, false);
+    pfpInput.addEventListener('change', function(){
+        fileList = [];
+        for(let file of pfpInput.files){
+            pfpFiles.push(file);
+            const reader = new FileReader();
     
+            reader.addEventListener("load", function () {
+            // convert image file to base64 string
+            pfpURLS.push(reader.result.toString());
+            }, false);
         
-        reader.readAsDataURL(file);
-        
-    }
-})
+            
+            reader.readAsDataURL(file);
+            
+        }
+    })
 
 }

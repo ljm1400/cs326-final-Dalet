@@ -59,6 +59,30 @@ let datastore = {
   ]
 };
 
+app.get('/',
+	(req, res) => res.sendFile('client/login.html',
+           { 'root' : __dirname }));
+
+app.get('/climbing',
+	(req, res) => res.sendFile('client/climbing.html',
+           { 'root' : __dirname }));
+           
+app.get('/hiking',
+	(req, res) => res.sendFile('client/hiking.html',
+           { 'root' : __dirname }));
+           
+app.get('/myPosts',
+	(req, res) => res.sendFile('client/myPosts.html',
+           { 'root' : __dirname }));
+
+app.get('/signup',
+	(req, res) => res.sendFile('client/signup.html',
+           { 'root' : __dirname }));
+ 
+app.get('/login',
+	(req, res) => res.sendFile('client/login.html',
+           { 'root' : __dirname }));
+
 //Endpoint to create a new user
 app.get('/user/create', (req, res) =>{
   const email = req.query.email;
