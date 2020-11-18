@@ -2,6 +2,33 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
 
+const MongoClient = require('mongodb').MongoClient;
+
+const uri = "mongodb+srv://walvarez:cs326dalet@cluster0.oig9w.mongodb.net/Cluster0?retryWrites=true&w=majority";
+
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
+
+client.connect();
+
+// var myobj = { name: "will", address: "37 philips" };
+// const db = client.db("db");
+// const coll = db.collection("test");
+
+// coll.insertOne(myobj, function (err, res) { This is an example of an insert to the database
+//   if (err)
+//     throw err;
+//   console.log("1 document inserted");
+// });
+
+
+const cleanup = (event) => { // SIGINT is sent for example when you Ctrl+C a running process from the command line.
+  client.close(); // Close MongodDB Connection when Process ends
+  process.exit(); // Exit with default success-code '0'.
+}
+
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);
+
 app.use(express.json({limit: '50mb'}));
 app.use('/', express.static('./client'))
 
