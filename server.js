@@ -3,61 +3,123 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 app.use(express.json({limit: '50mb'}));
-app.use('/', express.static('./client'))
+app.use('/', express.static('./client'));
+require('dotenv').config();
+const expressSession = require('express-session');  // for managing session state
+const passport = require('passport');               // handles authentication
+const LocalStrategy = require('passport-local').Strategy; // username/password strategy
 
-let postId = 2;
-let userId = 2;
-let datastore = {
-  users:[
-    {
-      ID: "1",
-      name:"Tester",
-      email:"test@gmail.com",
-      password:"testPassword",
-      posts: [1],
-      pfpLink: './public/profile.png'
-    
-    }
-  ],
-  posts:[
-    {
-      ID: 1,
-      userID: "1",
-      title: "Test",
-      type: "climbing",
-      description: "This is the description",
-      images: [
-        {
-          lastModified: 1604255037971,
-          lastModifiedDate: '2020-11-01T18:23:57.971Z',
-          name: 'hiking1.jpg',
-          size: 211018,
-          type: 'image/jpeg',
-          url: 'https://youdidwhatwithyourweiner.com/wp-content/uploads/2017/03/Small-Dog-HIking-Trend-Slider2.jpg'
-        },
-        {
-          lastModified: 1604255037688,
-          lastModifiedDate: '2020-11-01T18:23:57.688Z',
-          name: 'hiking2.jpg',
-          size: 3623647,
-          type: 'image/jpeg',
-          url: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'
-        }
-      ],
-      tags: [],
-      ratings: [],
-      comments:[
-        {
-          user: 1,
-          post: 1,
-          commentBody: "Test Comment Body"
-        }
-      ]
-
-  
-    }
-  ]
+const session = {
+    secret : process.env.SECRET || 'SECRET', // set this encryption key in Heroku config (never in GitHub)!
+    resave : false,
+    saveUninitialized: false
 };
+
+// Passport configuration
+
+const strategy = new LocalStrategy(
+    async (username, password, done) => {
+	if (!findUser(username)) {
+	    // no such user
+	    return done(null, false, { 'message' : 'Wrong username' });
+	}
+	if (!validatePassword(username, password)) {
+	    // invalid password
+	    // should disable logins after N messages
+	    // delay return to rate-limit brute-force attacks
+	    await new Promise((r) => setTimeout(r, 2000)); // two second delay
+	    return done(null, false, { 'message' : 'Wrong password' });
+	}
+	// success!
+    // should create a user object here, associated with a unique identifier
+    let user = {
+        ID: users[username].ID,
+        username: username,
+        name: users[username].name,
+        pfpLink: users[username].pfpLink,
+        email: users[username].email
+    }
+	return done(null, user);
+    });
+
+
+// App configuration
+
+app.use(expressSession(session));
+passport.use(strategy);
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Convert user object to a unique identifier.
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
+// Convert a unique identifier to a user object.
+passport.deserializeUser((uid, done) => {
+    done(null, uid);
+});
+
+app.use(express.urlencoded({'extended' : true})); // allow URLencoded data
+let postId = 0;
+let userId = 0;
+let users = {};
+let posts = [];
+// Returns true iff the user exists.
+function findUser(username) {
+    if (!users[username]) {
+	return false;
+    } else {
+	return true;
+    }
+}
+
+// TODO
+// Returns true iff the password is the one we have stored (in plaintext = bad but easy).
+function validatePassword(name, pwd) {
+    if (!findUser(name)) {
+	return false;
+    }
+	// TODO CHECK PASSWORD
+    //const equal = mc.check(pwd, users[name][0], users[name][1]);
+    console.log(name);
+    console.log(pwd);
+    let equal = users[name].password === pwd;
+    return equal;
+}
+
+// Add a user to the "database".
+// TODO
+function addUser(username, pwd, name, email) {
+    if (findUser(username)) {
+	return false;
+    }
+	// TODO SAVE THE SALT AND HASH
+    //const [salt, hash] = mc.hash(pwd);
+
+    users[username] = {
+        ID: userId++,
+        username,
+        password: pwd, 
+        name: name,
+        pfpLink: '.public/profile.png',
+        posts: [],
+        email
+    };
+    return true;
+}
+
+// Routes
+
+function checkLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+	// If we are authenticated, run the next route.
+	next();
+    } else {
+	// Otherwise, redirect to the login page.
+	res.redirect('/login');
+    }
+}
+
 
 app.get('/',
 	(req, res) => res.sendFile('client/login.html',
@@ -71,7 +133,7 @@ app.get('/hiking',
 	(req, res) => res.sendFile('client/hiking.html',
            { 'root' : __dirname }));
            
-app.get('/myPosts',
+app.get('/myPosts', checkLoggedIn,
 	(req, res) => res.sendFile('client/myPosts.html',
            { 'root' : __dirname }));
 
@@ -79,241 +141,199 @@ app.get('/signup',
 	(req, res) => res.sendFile('client/signup.html',
            { 'root' : __dirname }));
  
+
+
+
+app.post('/login', passport.authenticate('local' , {     // use username/password authentication
+	     'successRedirect' : '/myPosts',   // when we login, go to /private 
+	     'failureRedirect' : '/login'      // otherwise, back to login
+     }));
+
 app.get('/login',
 	(req, res) => res.sendFile('client/login.html',
            { 'root' : __dirname }));
+     
+app.post('/register',
+	 (req, res) => {
+	     const username = req.body['username'];
+         const password = req.body['password'];
+         const confirmPassword = req.body['confirmPassword'];
+         const email = req.body['email'];
+         const name = req.body['name'];
+         if(password !== confirmPassword){
+             res.send(alert("Passwords do not match!"));
+             res.redirect('/register');
+         }
+	     if (addUser(username, password, name, email)) {
+		 res.redirect('/login');
+	     } else {
+             res.send("Passwords do not match");
+		    res.redirect('/register');
+	     }
+     });
 
-//Endpoint to create a new user
-app.get('/user/create', (req, res) =>{
-  const email = req.query.email;
-  const password = req.query.password;
-  let exists = false;
-  for(let person of datastore.users){
-    if(email === person.email){
-      exists = true;
+app.get('/user', checkLoggedIn,function(req, res){
+    res.send(req.user);
+    });
+
+app.get('/users', checkLoggedIn, function(req, res){
+    let sendUsers = {};
+    for(const [key, value] of Object.entries(users)){
+        sendUsers[key] = {
+            username: value.username,
+            ID: value.ID,
+            posts: value.posts,
+            pfpLink: value.pfpLink,
+            name: value.name
+        }
     }
-  }
-  if(exists){
-    res.send("The user already exists!")
-  }
-  else{
+    
+    res.send(sendUsers);
+})
+app.get('/user/:username', checkLoggedIn,function(req, res){
+    const username = req.params['username']
     let user = {
-      ID: JSON.stringify(userId++),
-      name:"",
-      email:email,
-      password: password,
-      posts: [],
-      pfpURL: './public/profile.png'
+        username,
+        name: users[username].name,
+        pfpLink: users[username].pfpLink,
+        posts: users[username].posts,
+        ID: users[username].ID
     }
-    datastore.users.push(user);
-    console.log(user);
-    res.send(JSON.stringify(user));
-  }
+    res.send(user);
+    });
+
+app.get('/logout', (req, res) => {
+    req.logout(); // Logs us out!
+    res.redirect('/login'); // back to login
 });
 
-//Endpoint to update a given user's information
-app.post('/user/:userID/update', (req, res) => {
-  let name = req.body['name'];
-  let email = req.body['email'];
-  let pfpLink = req.body['pfpLink'];
-  let ID = req.params['userID'];
-  let user = {};
-  let idx = 0;
-  let userIdx = -1;
-  for(let person of datastore.users){
-   
-    if(person.ID === ID){
-      user.name = person.name;
-      user.pfpLink = person.pfpLink;
-      user.email = person.email;
-      user.ID = person.ID;
-      user.posts = person.posts;
-      user.password = person.password;
-      userIdx = idx;
 
+app.post('/user/update', checkLoggedIn, (req, res) => {
+    let name = req.body['name'];
+    let email = req.body['email'];
+    let pfpLink = req.body['pfpLink'];
+
+    let user = users[req.user.username];
+    name ? user.name = name : user.name = user.name;
+    email ? user.email = email : user.email = user.email;
+    pfpLink ? user.pfpLink = pfpLink : user.pfpLink = pfpLink;
+    res.send({
+        name,
+        email,
+        pfpLink
+    });
+  });
+
+app.post('/posts/create', checkLoggedIn,(req, res) => {
+    const title = req.body["title"];
+    const files = req.body["files"];
+    const type = req.body["type"];
+    const description = req.body["description"];
+    const tags = req.body["tags"];
+    const author = req.user;
+    let post = {
+        ID: postId++,
+        author: author.username,
+        title: title,
+        type: type,
+        description: description,
+        images: files,
+        tags: tags,
+        ratings: [],
+        comments:[]
     }
-    ++idx;
-  }
-  if(userIdx !== -1){
-    user.name = name ? name : user.name;
-    user.email = email ? email : user.email;
-    user.pfpLink = pfpLink ? pfpLink : user.pfpLink;
-    datastore.users[userIdx] = user;
-    res.send(JSON.stringify({
-      ID: user.ID,
-      email: user.email,
-      name:user.name,
-      pfpLink: user.pfpLink,
-      posts: user.posts
-    }));
-  }
-  else{
-    res.send(JSON.stringify(
-      {ID: '-1'}
-    ));
-  }
-  
+    users[author.username].posts.push(post.ID);
+    posts.push(post);
+    
+    res.send(JSON.stringify(post));
 });
 
-//Endpoint for a user to login
-app.post('/user/login', (req, res) => {
-  const email = req.body['email'];
-  const password = req.body['password'];
-  let login = false;
-  let person = {};
-  for(let user of datastore.users){
-    if(user.email === email && user.password === password){
-      login = true;
-      person.ID = user.ID;
-      person.email = user.email;
-      person.posts = user.posts;
-      person.pfpLink = user.pfpLink;
-      person.posts = user.posts;
-      person.name = user.name;
-    }
-
-  }
-  res.send(JSON.stringify({login, person}));
-});
-
-//Endpoint to get all of the users
-app.get('/users', (req, res) =>{
-  let users = [];
-  for(let user of datastore.users){
-    let newUser = {
-      ID: user.ID,
-      email: user.email,
-      name: user.name,
-      posts:user.posts,
-      pfpLink: user.pfpLink
-    }
-    users.push(newUser);
-  }
-  res.send(JSON.stringify(users));
-});
-
-//Ednpoint to create a new post
-app.post('/posts/create', (req, res) => {
-  const title = req.body["title"];
-  const files = req.body["files"];
-  const type = req.body["type"];
-  const description = req.body["description"];
-  const tags = req.body["tags"];
-  const userID = req.body["userID"];
-  console.log(typeof userID + " userID create " + userID);
-  let post = {
-      ID: JSON.stringify(postId++),
-      userID: userID,
-      title: title,
-      type: type,
-      description: description,
-      images: files,
-      tags: tags,
-      ratings: [],
-      comments:[]
-  }
-  for(let i = 0; i < datastore.users.length; i++){
-    if(datastore.users[i].ID === userID){
-      datastore.users[i].posts.push(post.ID);
-    }
-  }
-  datastore.posts.push(post);
-  res.send(JSON.stringify(post));
-});
-
-//Endpoint for a user to submit a comment on a post
-app.post('/posts/:postId/comment', (req, res) => {
-  let newPostId = req.params["postId"];
-  let newUserId = req.body["userId"];
-  let newComment = req.body["comment"];
-  for (let post of datastore.posts) {
-    let postID = post.ID;
-    if(typeof post.ID !== 'string'){
-      postID = JSON.stringify(post.ID);
-    }
-      if (postID === newPostId) {
-          let retObj = {'user': newUserId,
-                        'commentBody': newComment}
-          post.comments.push(retObj);
-          console.log(post.comments);
-      }
-  }
-  res.send("Comment Posted");
-});
-
-//Endpoint for a user to submit a comment on a post
-app.post('/posts/:postId/rating', (req, res) => {
-  
-  let newPostId = req.params["postId"];
-  let newUserId = req.body["userId"];
-  let newRating = req.body["rating"];
-  
-  
-  for (let post of datastore.posts) {
-    let postID = post.ID;
-    if(typeof post.ID !== 'string'){
-      postID = JSON.stringify(post.ID);
-    }
-      if (postID === newPostId) {
-          let retObj = {
-            'user': JSON.stringify(newUserId),
-            'post': newPostId,
-            'rating': newRating}
-          post.ratings.push(retObj);
-          console.log(post.ratings);
-      }
-  }
-  res.send("Rating Posted");
-  
-});
 
 //Endpoint to get all posts
 app.get('/posts', (req, res)=>{
-  res.send(JSON.stringify(datastore.posts));
-});
-
-//Endpoint to get all posts of type 'climbing'
-app.get('/posts/climbing', (req, res)=>{
-  const arr = [];
-  for(let i = 0; i < datastore.posts.length; i++){
-    if(datastore.posts[i].type.toLowerCase() === "climbing"){
-      arr.push(datastore.posts[i]);
+    res.send(JSON.stringify(posts));
+  });
+  
+  //Endpoint to get all posts of type 'climbing'
+  app.get('/posts/climbing', (req, res)=>{
+    const arr = [];
+    for(let i = 0; i < posts.length; i++){
+      if(posts[i].type.toLowerCase() === "climbing"){
+        arr.push(posts[i]);
+      }
     }
-  }
-  res.send(JSON.stringify(arr));
-});
-
-//Endpoint to get all posts of type 'hiking'
-app.get('/posts/hiking', (req, res)=>{
-  const arr = [];
-  for(let i = 0; i < datastore.posts.length; i++){
-    if(datastore.posts[i].type.toLowerCase() === "hiking"){
-      arr.push(datastore.posts[i]);
+    res.send(JSON.stringify(arr));
+  });
+  
+  //Endpoint to get all posts of type 'hiking'
+  app.get('/posts/hiking', (req, res)=>{
+    const arr = [];
+    for(let i = 0; i < posts.length; i++){
+      if(posts[i].type.toLowerCase() === "hiking"){
+        arr.push(posts[i]);
+      }
     }
-  }
-  res.send(JSON.stringify(arr));
-});
+    res.send(JSON.stringify(arr));
+  });
 
-//Endpoint to get all the posts created by the provided user
-app.get('/posts/myPosts', (req, res)=>{
-  const arr = [];
-  for(let i = 0; i < datastore.users.length; i++){
-    if(datastore.users[i].ID === req.query.user){
-      const userJson = datastore.users[i]; 
-      for(let j = 0; j < userJson.posts.length; j++){
-        let postNum = userJson.posts[j] - 1;
-        arr.push(datastore.posts[postNum]);
-     }
+  //Endpoint to get all the posts created by the provided user
+app.get('/posts/myPosts', checkLoggedIn,(req, res)=>{
+    const arr = [];
+    let user = users[req.user.username];
+    for(let j = 0; j < user.posts.length ; j++){
+        let postNum = user.posts[j];
+        arr.push(posts[postNum]);
     }
-  }
-  res.send(JSON.stringify(arr));
-});
+    res.send(JSON.stringify(arr));
+  });
+
+//Endpoint for a user to submit a comment on a post
+app.post('/posts/:postId/comment', checkLoggedIn, (req, res) => {
+    let newPostId = req.params["postId"];
+    let newComment = req.body["comment"];
+    let author = req.user.username;
+
+    for (let post of posts) {
+      let postID = post.ID;
+
+        if (JSON.stringify(postID) === newPostId) {
+            let retObj = {
+                'author': author,
+                'commentBody': newComment
+            }
+            post.comments.push(retObj);
+        }
+    }
+    res.send("Comment Posted");
+  });
+  
+  //Endpoint for a user to submit a comment on a post
+  app.post('/posts/:postId/rating', checkLoggedIn, (req, res) => {
+    
+    let newPostId = req.params["postId"];
+    let newRating = req.body["rating"];
+    let author = req.user.username;
+    
+    for (let post of posts) {
+      let postID = post.ID;
+
+        if (JSON.stringify(postID) === newPostId) {
+            let retObj = {
+              'author': author,
+              'post': newPostId,
+              'rating': newRating
+            }
+            post.ratings.push(retObj);
+        }
+    }
+    res.send("Rating Posted");
+    
+  });
 
 app.get('*', (req, res) => {
-  res.send('No Route Found');
+  res.send('Error');
 });
 
-
 app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`)
+    console.log(`App now listening at http://localhost:${port}`);
 });

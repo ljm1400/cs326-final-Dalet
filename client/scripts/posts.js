@@ -1,10 +1,9 @@
 'use strict'
 
 window.addEventListener('load', fetchAndRenderPosts)
-
+    
 async function fetchAndRenderPosts(){
     let body = document.getElementsByTagName('body')[0];
-    console.log(body);
     let url;
     if(body.id === 'home'){
         url = '/posts';
@@ -16,30 +15,21 @@ async function fetchAndRenderPosts(){
         url = '/posts/hiking';
     }
     if(body.id === 'myposts'){
-        let id = JSON.parse(window.localStorage.getItem('User')).ID;
-        url = `/posts/myPosts?user=${id}`;
-
+        url = `/posts/myPosts`;
     }
     let res = await fetch(url);
     let posts = await res.json();
-    let usersRes = await fetch('/users');
-    let users = await usersRes.json();
+    let fetchUsers = await fetch('/users');
+    let users = await fetchUsers.json();
+    
     for(let post of posts){
-        for(let user of users){
-            
-            if(user.posts.includes(post.ID)){
-                let creator = user;
-                renderPost(post.title, post.ID, post.description, post.images, post.comments, post.ratings, creator);
-            }
-            
-        }
-        
+        renderPost(post.title, post.ID, post.description, post.images, post.comments, post.ratings, post.author, users);        
     }
-
+    console.log(posts);
     console.log("Posts rendered Successfully");
 }
 
-function renderPost(title, postId, description, files, comments, ratings, currUser){
+function renderPost(title, postId, description, files, comments, ratings, author, users){
     //get page Body (center section)
     let pageBody = document.getElementById('postSection');
 
@@ -134,12 +124,12 @@ function renderPost(title, postId, description, files, comments, ratings, currUs
     profileArea.className = 'text-left col-4 ml-1 row ';
     
     let pfp = document.createElement('img');
-    pfp.src = currUser ? currUser.pfpLink : './public/profile.png';
+    pfp.src = users[author].pfpLink;
     pfp.className = 'img-thumbnail mr-lg-2 profilePicSize';
-    pfp.alt = 'Temporary Profile picture';
+    pfp.alt = 'Profile Picture';
     let user = document.createElement('h5');
     user.className = 'mt-auto mb-auto'
-    user.innerHTML = currUser ? currUser.name : 'User';
+    user.innerHTML = users[author].name;
     
     profileArea.appendChild(pfp);
     profileArea.appendChild(user);
@@ -249,7 +239,7 @@ function renderPost(title, postId, description, files, comments, ratings, currUs
             'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                'userId': JSON.parse(window.localStorage.getItem('User')).ID,
+                
                 'rating': convertRating(selector.value)
             }) 
         });
@@ -296,7 +286,6 @@ function renderPost(title, postId, description, files, comments, ratings, currUs
             'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                'userId': JSON.parse(window.localStorage.getItem('User')).ID,
                 'comment': textArea.value
             })
         });
@@ -304,6 +293,7 @@ function renderPost(title, postId, description, files, comments, ratings, currUs
             console.log(updateRes.error)
             return;
         }
+        console.log(updateRes);
 });
     commentArea.appendChild(submitComment);
     
@@ -319,19 +309,25 @@ function renderPost(title, postId, description, files, comments, ratings, currUs
     commentsDiv.appendChild(heading);
     let commentList = document.createElement('ul');
     commentList.className = 'list-unstyled';
-
+    let i = 0;
     for(let c of comments){
         let commentItem = document.createElement('li');
         commentItem.className = 'media my-4 border p-2';
         let profilePic = document.createElement('img');
-        profilePic.src = './public/profile.png';
+        profilePic.src = users[c.author].pfpLink; 
         profilePic.className = 'mr-3 profilePicSize';
         profilePic.alt = 'profile picture';
+        let profileName = document.createElement('h5');
+        profileName.textContent =  users[c.author].name;
+        profileName.className = 'mt-3';
         commentItem.appendChild(profilePic);
         let commentText = document.createElement('p');
+        commentText.className = 'ml-4';
         commentText.textContent = c.commentBody;
+        commentItem.appendChild(profileName);
         commentItem.appendChild(commentText);
         commentList.appendChild(commentItem);
+        ++i;
     }
     commentsDiv.appendChild(commentList);
     postInfoArea.appendChild(commentsDiv);
@@ -419,7 +415,7 @@ document.getElementById("submitButton").addEventListener("click", async function
     let title = form.elements.title.value;
     let files = fileList;
     let newFiles = [];
-    let userID = JSON.parse(window.localStorage.getItem('User')).ID;
+    
     let i = 0;
     for(let file of files){
       let tempFile = {
@@ -453,8 +449,8 @@ document.getElementById("submitButton").addEventListener("click", async function
                 files: newFiles,
                 type, 
                 description,
-                tags,
-                userID
+                tags
+                
             }) 
         });
         let data = await res.json();
