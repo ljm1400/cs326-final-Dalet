@@ -1,3 +1,4 @@
+'use strict'
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
@@ -8,6 +9,8 @@ require('dotenv').config();
 const expressSession = require('express-session');  // for managing session state
 const passport = require('passport');               // handles authentication
 const LocalStrategy = require('passport-local').Strategy; // username/password strategy
+
+
 
 const session = {
     secret : process.env.SECRET || 'SECRET', // set this encryption key in Heroku config (never in GitHub)!
