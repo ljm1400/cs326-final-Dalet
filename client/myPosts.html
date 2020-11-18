@@ -38,7 +38,7 @@
                   <button id = "userInfoButton" class = "btn btn-dark btn-sm mx-2" data-toggle="modal" data-target="#UserInfo">
                     <a class="nav-link" ><i class="fas fa-users buttonIcon"></i>Edit User Info</a>
                   </button>
-                  <li id = "logoutButton" class="btn btn-dark btn-sm mx-2 "> <a class="nav-link" ><i class="fas fa-sign-out-alt buttonIcon"></i> Logout</a></li>
+                  <li id = "logoutButton" class="btn btn-dark btn-sm mx-2 "> <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt buttonIcon"></i> Logout</a></li>
                   <li  id = "signupButton" class="btn btn-dark btn-sm mx-2 ">  <a class="nav-link" href="/signup"><i class="fas fa-user-plus buttonIcon"></i>  Sign Up</a> </li>
                   <li id = "loginButton" class="btn btn-dark btn-sm mx-2 "> <a class="nav-link"  href="/login"><i class="fas fa-sign-in-alt buttonIcon"></i> Login</a></li>
 
@@ -84,7 +84,7 @@
           </div>
           <div class="modal-body">
 
-            <form id = "createPostForm" action = "myPosts.html">
+            <form id = "createPostForm">
               <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" class="form-control" id="title" placeholder="Title of Post" required>
