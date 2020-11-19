@@ -38,6 +38,7 @@
             <div class="col-12 col-sm-6 col-md-3">
                 <h1 class = "m-5 header">New Account</h1>
                 <form class="form-container" id = "signupForm" action="/register" method="post">
+                  
                   <div class="form-group">
                     <label for="email">Email address</label>
                     <input type="email" class="form-control" id="email" name = 'email' aria-describedby="emailHelp">
@@ -61,7 +62,7 @@
                     <label for="confirmPassword">Confirm Password</label>
                     <input type="password" class="form-control" id="confirmPassword" name = 'confirmPassword'>
                   </div>
-                  <br>
+                  <div  class = 'text-center mb-2'><small >Already have an account? <a href = '/login'> Login</a></small></div>
                   <button type="submit" id="signupSubmitButton" class="btn btn-primary btn-block">Submit</button>
                 </form>
             </div>
