@@ -22,7 +22,7 @@ posts {
   title: string         //Name of Hiking Place
   type: string          //Hiking or Climbing
   description: string    
-  images: IMG Link (string)
+  images: Array []      //Contains All images added to post
   tags: string          //Whatever tags are interesting. Hiking, climbing, easy, difficult, etc.
   ratings: Array []
   comments: Array []
