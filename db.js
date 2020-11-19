@@ -34,8 +34,7 @@ client.connect(err => {
 });
 //Adds a new user to the database
 function addUser(user){
-	let db = client.db("mydb");
-	db.collection("Users").insertOne(user, function(err, res) {
+	await client.db("mydb").collection("Users").insertOne(user, function(err, res) {
 		if (err) throw err;
     		console.log("User " + user.name + " inserted");
   	});
@@ -53,15 +52,13 @@ function updateUser(username, newUserInfo){
 
 //gets all of the users from the database, modified to not include sensitive information
 function getUsers(){
-	let db = client.db("mydb");
-	let allUsers = db.collection("Users").find({});
+	let allUsers = await client.db("mydb").collection("Users").find().toArray();
 	return allUsers;
 }
 
 //adds a newly created post to the database
 function createPost(post){
-	let db = client.db("mydb");
-	db.collection("Posts").insertOne(post, function(err, res) {
+	await client.db("mydb").collection("Posts").insertOne(post, function(err, res) {
 		if (err) throw err;
     		console.log("Post " + post.postID + " inserted");
   	});
@@ -69,8 +66,7 @@ function createPost(post){
 
 //gets all of the posts from the database
 function getPosts(){
-	let db = client.db("mydb");
-	let allPosts = db.collection("Posts").find({});
+	let allPosts = await client.db("mydb").collection("Posts").find().toArray();
 	return allPosts;
 }
 
