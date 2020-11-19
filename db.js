@@ -40,8 +40,9 @@ async function addUser(user){
 }
 
 //gets a user with a given username from the database
-function getUser(username){
-
+async function getUser(username){
+  let user = await client.db('mydb').collection('Users').findOne({username : username})
+  return user;
 }
 
 //updates a given user's information from newUserInfo
@@ -70,17 +71,17 @@ async function getPosts(){
 }
 
 //gets all of the posts from the database of type climbing
-function getClimbingPosts(){
+async function getClimbingPosts(){
 
 }
 
 //gets all of the posts from the database of type hiking
-function getHikingPosts(){
+async function getHikingPosts(){
 
 }
 
 //update a given 
-function updatePost(postId, newPostInfo){
+async function updatePost(postId, newPostInfo){
 
 }
 
