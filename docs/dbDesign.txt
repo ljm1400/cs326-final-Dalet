@@ -1,11 +1,11 @@
 DB 1: User
 
 user {
-  ID: number
-  username: string
-  name: string
-  pfpLink: IMG Link (string)
-  email: string
+  ID: number                 //2
+  username: string           //JSmith2454
+  name: string               //John Smith
+  pfpLink: IMG Link (string) //Public Profile Pic
+  email: string              //JSmith@notreal.com
 }
 
 The database for Users has all of the information needed to identify a unique user. Each user has a unique ID #, username, and email. The pfpLink is the image file for the public profile. Each time a new user is added to the database, their ID increases by 1. We use password to authenticate users, and we keep their password in a separate file.
@@ -13,13 +13,13 @@ The database for Users has all of the information needed to identify a unique us
 DB 2: Posts
 
 posts {
-  postID: number
-  author: string
-  title: string
-  type: string
-  description: string
+  postID: number        //Incremented every time a new post is made
+  author: string        //Who made the post
+  title: string         //Name of Hiking Place
+  type: string          //Hiking or Climbing
+  description: string    
   images: IMG Link (string)
-  tags: string
+  tags: string          //Whatever tags are interesting. Hiking, climbing, easy, difficult, etc.
   ratings: Array []
   comments: Array []
 }
