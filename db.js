@@ -34,7 +34,10 @@ client.connect(err => {
 });
 //Adds a new user to the database
 function addUser(user){
-
+	client.collection("Users").insertOne(user, function(err, res) {
+		if (err) throw err;
+    		console.log("User " + user.name + " inserted");
+  	});
 }
 
 //gets a user with a given username from the database
