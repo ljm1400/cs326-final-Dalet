@@ -9,9 +9,8 @@ require('dotenv').config();
 const expressSession = require('express-session');  // for managing session state
 const passport = require('passport');               // handles authentication
 const LocalStrategy = require('passport-local').Strategy; // username/password strategy
-
-
-
+const minicrypt = require('./miniCrypt');
+const mc = new minicrypt();
 const session = {
     secret : process.env.SECRET || 'SECRET', // set this encryption key in Heroku config (never in GitHub)!
     resave : false,
@@ -82,11 +81,8 @@ function validatePassword(name, pwd) {
     if (!findUser(name)) {
 	return false;
     }
-	// TODO CHECK PASSWORD
-    //const equal = mc.check(pwd, users[name][0], users[name][1]);
-    console.log(name);
-    console.log(pwd);
-    let equal = users[name].password === pwd;
+	
+    const equal = mc.check(pwd, users[name].salt, users[name].hash);
     return equal;
 }
 
@@ -96,15 +92,16 @@ function addUser(username, pwd, name, email) {
     if (findUser(username)) {
 	return false;
     }
-	// TODO SAVE THE SALT AND HASH
-    //const [salt, hash] = mc.hash(pwd);
+	
+    const [salt, hash] = mc.hash(pwd);
 
     users[username] = {
         ID: userId++,
         username,
-        password: pwd, 
+        salt: salt,
+        hash: hash, 
         name: name,
-        pfpLink: '.public/profile.png',
+        pfpLink: './public/profile.png',
         posts: [],
         email
     };
@@ -165,12 +162,10 @@ app.post('/register',
          const name = req.body['name'];
          if(password !== confirmPassword){
              res.send(alert("Passwords do not match!"));
-             res.redirect('/register');
          }
 	     if (addUser(username, password, name, email)) {
 		 res.redirect('/login');
 	     } else {
-             res.send("Passwords do not match");
 		    res.redirect('/register');
 	     }
      });
