@@ -34,12 +34,13 @@ const strategy = new LocalStrategy(
 	}
 	// success!
     // should create a user object here, associated with a unique identifier
+    let getUser = await db.getUser(username);
     let user = {
-        ID: users[username].ID,
+        ID: getUser.ID,
         username: username,
-        name: users[username].name,
-        pfpLink: users[username].pfpLink,
-        email: users[username].email
+        name: getUser.name,
+        pfpLink: getUser.pfpLink,
+        email: getUser.email
     }
 	return done(null, user);
     });
@@ -67,8 +68,8 @@ let userId = 0;
 let users = {};
 let posts = [];
 // Returns true iff the user exists.
-function findUser(username) {
-    if (!users[username]) {
+async function findUser(username) {
+    if (!await db.getUser(username)) {
 	return false;
     } else {
 	return true;
@@ -77,12 +78,13 @@ function findUser(username) {
 
 // TODO
 // Returns true iff the password is the one we have stored (in plaintext = bad but easy).
-function validatePassword(name, pwd) {
+async function validatePassword(name, pwd) {
     if (!findUser(name)) {
 	return false;
     }
-	
-    const equal = mc.check(pwd, users[name].salt, users[name].hash);
+    let user = await db.getUser(name);
+    console.log(user);
+    const equal = mc.check(pwd, user.salt, user.hash);
     return equal;
 }
 
@@ -95,7 +97,7 @@ function addUser(username, pwd, name, email) {
 	
     const [salt, hash] = mc.hash(pwd);
 
-    users[username] = {
+    const user  = {
         ID: userId++,
         username,
         salt: salt,
@@ -105,6 +107,7 @@ function addUser(username, pwd, name, email) {
         posts: [],
         email
     };
+    db.addUser(user);
     return true;
 }
 
