@@ -10,10 +10,9 @@ password = secrets.PASSWORD;
   username = process.env.USERNAME
 	password = process.env.PASSWORD;
 }
-console.log(username);
-console.log(password);
+
 const uri = `mongodb+srv://${username}:${password}@cluster0.oig9w.mongodb.net/Cluster0?retryWrites=true&w=majority`;
-console.log(uri);
+
 const MongoClient = require('mongodb').MongoClient;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -33,7 +32,7 @@ client.connect(err => {
   
 });
 //Adds a new user to the database
-function addUser(user){
+async function addUser(user){
 	await client.db("mydb").collection("Users").insertOne(user, function(err, res) {
 		if (err) throw err;
     		console.log("User " + user.name + " inserted");
@@ -51,13 +50,13 @@ function updateUser(username, newUserInfo){
 }
 
 //gets all of the users from the database, modified to not include sensitive information
-function getUsers(){
+async function getUsers(){
 	let allUsers = await client.db("mydb").collection("Users").find().toArray();
 	return allUsers;
 }
 
 //adds a newly created post to the database
-function createPost(post){
+async function createPost(post){
 	await client.db("mydb").collection("Posts").insertOne(post, function(err, res) {
 		if (err) throw err;
     		console.log("Post " + post.postID + " inserted");
@@ -65,7 +64,7 @@ function createPost(post){
 }
 
 //gets all of the posts from the database
-function getPosts(){
+async function getPosts(){
 	let allPosts = await client.db("mydb").collection("Posts").find().toArray();
 	return allPosts;
 }
@@ -83,4 +82,17 @@ function getHikingPosts(){
 //update a given 
 function updatePost(postId, newPostInfo){
 
+}
+
+module.exports = {
+  addUser,
+  getUser,
+  updateUser,
+  getUser,
+  getUsers,
+  createPost,
+  getPosts,
+  getClimbingPosts,
+  getHikingPosts,
+  updatePost
 }

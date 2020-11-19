@@ -95,7 +95,7 @@ function addUser(username, pwd, name, email) {
 	
     const [salt, hash] = mc.hash(pwd);
 
-    users[username] = {
+    const user  = {
         ID: userId++,
         username,
         salt: salt,
@@ -105,6 +105,7 @@ function addUser(username, pwd, name, email) {
         posts: [],
         email
     };
+    db.addUser(user);
     return true;
 }
 
