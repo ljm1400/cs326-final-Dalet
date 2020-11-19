@@ -34,7 +34,10 @@ client.connect(err => {
 });
 //Adds a new user to the database
 function addUser(user){
-
+	await client.db("mydb").collection("Users").insertOne(user, function(err, res) {
+		if (err) throw err;
+    		console.log("User " + user.name + " inserted");
+  	});
 }
 
 //gets a user with a given username from the database
@@ -49,17 +52,22 @@ function updateUser(username, newUserInfo){
 
 //gets all of the users from the database, modified to not include sensitive information
 function getUsers(){
-
+	let allUsers = await client.db("mydb").collection("Users").find().toArray();
+	return allUsers;
 }
 
 //adds a newly created post to the database
 function createPost(post){
-
+	await client.db("mydb").collection("Posts").insertOne(post, function(err, res) {
+		if (err) throw err;
+    		console.log("Post " + post.postID + " inserted");
+  	});
 }
 
 //gets all of the posts from the database
 function getPosts(){
-
+	let allPosts = await client.db("mydb").collection("Posts").find().toArray();
+	return allPosts;
 }
 
 //gets all of the posts from the database of type climbing
