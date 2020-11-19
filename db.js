@@ -53,7 +53,9 @@ function updateUser(username, newUserInfo){
 
 //gets all of the users from the database, modified to not include sensitive information
 function getUsers(){
-
+	let db = client.db("mydb");
+	let allUsers = db.collection("Users").find({});
+	return allUsers;
 }
 
 //adds a newly created post to the database
@@ -67,7 +69,9 @@ function createPost(post){
 
 //gets all of the posts from the database
 function getPosts(){
-
+	let db = client.db("mydb");
+	let allPosts = db.collection("Posts").find({});
+	return allPosts;
 }
 
 //gets all of the posts from the database of type climbing
