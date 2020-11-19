@@ -58,7 +58,11 @@ function getUsers(){
 
 //adds a newly created post to the database
 function createPost(post){
-
+	let db = client.db("mydb");
+	db.collection("Posts").insertOne(post, function(err, res) {
+		if (err) throw err;
+    		console.log("Post " + post.postID + " inserted");
+  	});
 }
 
 //gets all of the posts from the database
