@@ -1,11 +1,11 @@
 **DB 1: Users**
 
 Users {
-- ID: number                 //2
-- username: string           //JSmith2454
-- name: string               //John Smith
-- pfpLink: IMG Link (string) //Public Profile Pic
-- email: string              //JSmith@notreal.com
+  ID: number                 //2
+  username: string           //JSmith2454
+  name: string               //John Smith
+  pfpLink: IMG Link (string) //Public Profile Pic
+  email: string              //JSmith@notreal.com
 }
 
 The database for Users has all of the information needed to identify a unique user. Each user has a unique ID #, username, and email. The pfpLink is the image file for the public profile. Each time a new user is added to the database, their ID increases by 1. We use password to authenticate users, and we keep their password in a separate file.
