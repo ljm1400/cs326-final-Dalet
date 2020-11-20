@@ -39,6 +39,7 @@ Functions of DB 2:
 DIVISION OF LABOR:
 - **Ben**
   - Wrote back-end functions for our MongoDB
+  - Wrote documentation for our database
 
 - **William**
 
