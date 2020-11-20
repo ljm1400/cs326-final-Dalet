@@ -183,12 +183,7 @@ app.post('/register',
 
 app.get('/user', checkUser,function(req, res){
 
-    if(req.user){
-        res.send(JSON.stringify(req.user));
-    } else{
-        console.log("here");
-        res.send({});
-    }
+    res.send(JSON.stringify(req.user));
     });
 
 app.get('/users', checkLoggedIn, function(req, res){
