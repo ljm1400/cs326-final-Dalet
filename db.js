@@ -96,6 +96,15 @@ async function updatePost(postID, newPostInfo){
   	});	
 }
 
+//Removes post[postID] from database
+async function deletePost(postID) {
+	let postObj = {postID: postID};
+	await client.db('mydb').collection('Posts').deleteOne(postObj, function(err, obj) {
+    		if (err) throw err;
+    		console.log("Post deleted");
+  	});
+}
+	
 module.exports = {
   addUser,
   getUser,
@@ -106,6 +115,6 @@ module.exports = {
   getPosts,
   getClimbingPosts,
   getHikingPosts,
-  updatePost
-
+  updatePost,
+  deletePost
 };
