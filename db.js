@@ -97,7 +97,8 @@ async function updatePost(postID, newPostInfo){
 }
 
 async function deletePost(postID) {
-	await client.db('mydb').collection('Posts').deleteOne(myquery, function(err, obj) {
+	let postObj = {postID: postID};
+	await client.db('mydb').collection('Posts').deleteOne(postObj, function(err, obj) {
     		if (err) throw err;
     		console.log("Post deleted");
   	});
