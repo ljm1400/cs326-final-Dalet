@@ -41,13 +41,14 @@ async function addUser(user){
 
 //gets a user with a given username from the database
 async function getUser(username){
-  let user = await client.db('mydb').collection('Users').findOne({username : username})
-  return user;
+	let user = await client.db('mydb').collection('Users').findOne({username : username})
+	return user;
 }
 
 //updates a given user's information from newUserInfo
 function updateUser(username, newUserInfo){
-
+	let user = await client.db('mydb').collection('Users').findOne({username : username})
+	//TODO... Update it
 }
 
 //gets all of the users from the database, modified to not include sensitive information
@@ -83,8 +84,9 @@ async function getHikingPosts(){
 }
 
 //update a given 
-async function updatePost(postId, newPostInfo){
-
+async function updatePost(postID, newPostInfo){
+	let post = await client.db('mydb').collection('Posts').findOne({postID : postID})
+	//TODO... Update it
 }
 
 module.exports = {
