@@ -1,4 +1,4 @@
-DB 1: Users
+**DB 1: Users**
 
 Users {
   ID: number                 //2
@@ -14,7 +14,7 @@ Functions of DB 1:
 - Used to authenticate login information
 - Going to "My Posts" shows all posts in our DB 2 where posts.author === users.username
 
-DB 2: Posts
+**DB 2: Posts**
 
 posts {
   postID: number        //Incremented every time a new post is made
