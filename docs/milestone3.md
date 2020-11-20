@@ -37,11 +37,11 @@ Functions of DB 2:
 - Author of post will see post listed on myPosts page
 
 DIVISION OF LABOR:
-Ben
-- Added CRUD functions for both collections of our MongoDB
+- **Ben**
+  - Added CRUD functions for both collections of our MongoDB
 
-William
+- **William**
 
 
-Louis
+- **Louis**
 
