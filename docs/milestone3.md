@@ -36,3 +36,12 @@ Functions of DB 2:
 -Searching for specific tags grabs all posts in the DB that match that tag
 -Author of post will see post listed on myPosts page
 
+DIVISION OF LABOR:
+Ben
+- Added CRUD functions for both collections of our MongoDB
+
+William
+
+
+Louis
+
