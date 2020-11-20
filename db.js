@@ -72,12 +72,14 @@ async function getPosts(){
 
 //gets all of the posts from the database of type climbing
 async function getClimbingPosts(){
-
+	let allClimbing = await client.db("mydb").collection("Posts").find({type:"Climbing").toArray();
+	return allClimbing;
 }
 
 //gets all of the posts from the database of type hiking
 async function getHikingPosts(){
-
+	let allHiking = await client.db("mydb").collection("Posts").find({type:"Hiking"}).toArray();
+	return allHiking;
 }
 
 //update a given 
