@@ -9,7 +9,7 @@ require('dotenv').config();
 const expressSession = require('express-session');  // for managing session state
 const passport = require('passport');               // handles authentication
 const LocalStrategy = require('passport-local').Strategy; // username/password strategy
-const minicrypt = require('./miniCrypt');
+const minicrypt = require('./miniCrypt.js');
 const mc = new minicrypt();
 const session = {
     secret : process.env.SECRET || 'SECRET', // set this encryption key in Heroku config (never in GitHub)!
