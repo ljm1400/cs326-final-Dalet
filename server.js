@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
-const db = require('./db');
+const db = require('db.js');
 app.use(express.json({limit: '50mb'}));
 app.use('/', express.static('./client'));
 require('dotenv').config();
@@ -36,7 +36,7 @@ const strategy = new LocalStrategy(
     // should create a user object here, associated with a unique identifier
     let getUser = await db.getUser(username);
     let user = {
-        ID: getUser.ID,
+        _id: getUser._id,
         username: username,
         name: getUser.name,
         pfpLink: getUser.pfpLink,
@@ -64,7 +64,6 @@ passport.deserializeUser((uid, done) => {
 
 app.use(express.urlencoded({'extended' : true})); // allow URLencoded data
 let postId = 0;
-let userId = 0;
 let users = {};
 let posts = [];
 // Returns true iff the user exists.
@@ -98,7 +97,6 @@ function addUser(username, pwd, name, email) {
     const [salt, hash] = mc.hash(pwd);
 
     const user  = {
-        ID: userId++,
         username,
         salt: salt,
         hash: hash, 
@@ -321,7 +319,6 @@ app.post('/posts/:postId/comment', checkLoggedIn, (req, res) => {
         if (JSON.stringify(postID) === newPostId) {
             let retObj = {
               'author': author,
-              'post': newPostId,
               'rating': newRating
             }
             post.ratings.push(retObj);
