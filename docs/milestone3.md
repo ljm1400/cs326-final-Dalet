@@ -44,4 +44,7 @@ DIVISION OF LABOR:
 
 
 - **Louis**
+  - Incorporated passport.js into server for user authentication
+  - Added some info to registration page, switched over to using username/password for login
+  - Incorporated mincrypt for hashing passwords
 
