@@ -43,11 +43,16 @@ async function addUser(user){
 async function getUser(username){
   const user = await client.db('mydb').collection('Users').findOne({username : username});
   return user;
+
 }
 
 //updates a given user's information from newUserInfo
 function updateUser(username, newUserInfo){
-
+	let userObj = {username: username}
+	await client.db('mydb').collection('Users').updateOne(userObj, newUserInfo, function(err, res) {
+		if (err) throw err;
+    		console.log("User " + username + " updated");
+  	});
 }
 
 //gets all of the users from the database, modified to not include sensitive information
@@ -72,17 +77,23 @@ async function getPosts(){
 
 //gets all of the posts from the database of type climbing
 async function getClimbingPosts(){
-
+	let allClimbing = await client.db("mydb").collection("Posts").find({type:"Climbing").toArray();
+	return allClimbing;
 }
 
 //gets all of the posts from the database of type hiking
 async function getHikingPosts(){
-
+	let allHiking = await client.db("mydb").collection("Posts").find({type:"Hiking"}).toArray();
+	return allHiking;
 }
 
 //update a given 
-async function updatePost(postId, newPostInfo){
-
+async function updatePost(postID, newPostInfo){
+	let postObj = {postID: postID}
+	await client.db('mydb').collection('Posts').updateOne(postObj, newPostInfo, function(err, res) {
+		if (err) throw err;
+    		console.log("Post " + postID + " updated");
+  	});	
 }
 
 module.exports = {
@@ -96,4 +107,5 @@ module.exports = {
   getClimbingPosts,
   getHikingPosts,
   updatePost
+
 };
