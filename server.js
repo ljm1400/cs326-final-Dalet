@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
-const db = require('db.js');
+const db = require('./db.js');
 app.use(express.json({limit: '50mb'}));
 app.use('/', express.static('./client'));
 require('dotenv').config();
