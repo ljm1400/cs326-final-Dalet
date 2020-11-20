@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-window.addEventListener('load', fetchAndRenderPosts)
+window.addEventListener('load', fetchAndRenderPosts);
 const body = document.getElementsByTagName('body')[0];
 async function fetchAndRenderPosts(){
     
@@ -17,12 +17,12 @@ async function fetchAndRenderPosts(){
     if(body.id === 'myposts'){
         url = `/posts/myPosts`;
     }
-    let res = await fetch(url);
-    let posts = await res.json();
-    let fetchUsers = await fetch('/users');
-    let users = await fetchUsers.json();
+    const res = await fetch(url);
+    const posts = await res.json();
+    const fetchUsers = await fetch('/users');
+    const users = await fetchUsers.json();
     
-    for(let post of posts){
+    for(const post of posts){
         renderPost(post.title, post.ID, post.description, post.images, post.comments, post.ratings, post.author, users);        
     }
     console.log(posts);
@@ -31,30 +31,30 @@ async function fetchAndRenderPosts(){
 
 function renderPost(title, postId, description, files, comments, ratings, author, users){
     //get page Body (center section)
-    let pageBody = document.getElementById('postSection');
+    const pageBody = document.getElementById('postSection');
 
     //the main body of the post
-    let postBody = document.createElement('div');
+    const postBody = document.createElement('div');
     postBody.className = 'border rounded p-4 mb-3 postBackGroundColor';
     postBody.id = `post${postId}`;
     //the main carousel where images, indicators, and controls are held
-    let imageCarousel = document.createElement('div');
+    const imageCarousel = document.createElement('div');
     imageCarousel.className = 'carousel slide carousel-fade';
     imageCarousel.id = `post${postId}Images`;
 
     //the list of indicators to show what picture is currently showing
-    let indicators = document.createElement('ol');
+    const indicators = document.createElement('ol');
     indicators.className = "carousel-indicators";
     
     //inner image holding for the carousel
-    let innerCarousel = document.createElement('div');
+    const innerCarousel = document.createElement('div');
     innerCarousel.className = 'carousel-inner';
 
     //creates a new indicator and image element for each image of the post
     for(let file = 0; file< files.length; ++file){
 
         //indicator section
-        let indicator = document.createElement('li');
+        const indicator = document.createElement('li');
         indicator.dataset.target = `#post${postId}Indicators`;
         indicator.setAttribute('data-slide-to', file);
         //if its the first file, set it to active
@@ -62,10 +62,10 @@ function renderPost(title, postId, description, files, comments, ratings, author
         indicators.appendChild(indicator);
         
         //image holder section
-        let item = document.createElement('div');
-        item.className = file === 0 ? 'carousel-item active' : 'carousel-item'
+        const item = document.createElement('div');
+        item.className = file === 0 ? 'carousel-item active' : 'carousel-item';
         //img inside of the holder div
-        let img = document.createElement('img');
+        const img = document.createElement('img');
         img.src = files[file].url;
         img.className = 'img-thumbnail imageSize';
         img.alt = files[file].name;
@@ -76,30 +76,30 @@ function renderPost(title, postId, description, files, comments, ratings, author
     imageCarousel.appendChild(innerCarousel);
 
     //create the carousel controls
-    let leftControl = document.createElement('a');
+    const leftControl = document.createElement('a');
     leftControl.className= 'carousel-control-prev imageSideButtons';
     leftControl.href = `#post${postId}Images`;
     leftControl.setAttribute('role', 'button');
     leftControl.setAttribute('data-slide', 'prev');
-    let leftIcon = document.createElement('span');
+    const leftIcon = document.createElement('span');
     leftIcon.className = 'carousel-control-prev-icon';
     leftIcon.setAttribute('aria-hidden', true);
-    let leftText = document.createElement('span');
+    const leftText = document.createElement('span');
     leftText.className = 'sr-only';
     leftText.innerHTML = 'Previous';
     leftControl.appendChild(leftIcon);
     leftControl.appendChild(leftText);
     imageCarousel.appendChild(leftControl);
 
-    let rightControl = document.createElement('a');
+    const rightControl = document.createElement('a');
     rightControl.className= 'carousel-control-next imageSideButtons';
     rightControl.href = `#post${postId}Images`;
     rightControl.setAttribute('role', 'button');
     rightControl.setAttribute('data-slide', 'next');
-    let rightIcon = document.createElement('span');
+    const rightIcon = document.createElement('span');
     rightIcon.className = 'carousel-control-next-icon';
     rightIcon.setAttribute('aria-hidden', true);
-    let rightText = document.createElement('span');
+    const rightText = document.createElement('span');
     rightText.className = 'sr-only';
     rightText.innerHTML = 'Previous';
     rightControl.appendChild(rightIcon);
@@ -113,22 +113,22 @@ function renderPost(title, postId, description, files, comments, ratings, author
     
     //start creating post info area
 
-    let postInfoArea = document.createElement('div');
+    const postInfoArea = document.createElement('div');
     postInfoArea.className = 'border rounded p-2 mt-2 postBodyColor';
 
     //row1 of post info body area
-    let row1 = document.createElement('div');
+    const row1 = document.createElement('div');
     row1.className = 'row mt-3';
     //area for user profile picture and userName
-    let profileArea = document.createElement('div');
+    const profileArea = document.createElement('div');
     profileArea.className = 'text-left col-4 ml-1 row ';
     
-    let pfp = document.createElement('img');
+    const pfp = document.createElement('img');
     pfp.src = users[author].pfpLink;
     pfp.className = 'img-thumbnail mr-lg-2 profilePicSize';
     pfp.alt = 'Profile Picture';
-    let user = document.createElement('h5');
-    user.className = 'mt-auto mb-auto'
+    const user = document.createElement('h5');
+    user.className = 'mt-auto mb-auto';
     user.innerHTML = users[author].name;
     
     profileArea.appendChild(pfp);
@@ -136,15 +136,15 @@ function renderPost(title, postId, description, files, comments, ratings, author
     row1.appendChild(profileArea);
     
     //title area
-    let titleArea = document.createElement('h3');
+    const titleArea = document.createElement('h3');
     titleArea.className = 'col-4';
     titleArea.textContent = title;
     row1.appendChild(titleArea);
     //ratingArea
-    let ratingArea = document.createElement('div');
+    const ratingArea = document.createElement('div');
     ratingArea.className = 'col-2 ml-lg-auto';
-    let ratingVal = document.createElement('p');
-    let averageRating =  getAverageRating(ratings);
+    const ratingVal = document.createElement('p');
+    const averageRating =  getAverageRating(ratings);
     ratingVal.innerHTML = 'Rating: '+`${averageRating}` + '&#x2605';
     ratingArea.appendChild(ratingVal);
     row1.appendChild(ratingArea);
@@ -152,43 +152,43 @@ function renderPost(title, postId, description, files, comments, ratings, author
     //row1 is complete so append to post body
     postInfoArea.appendChild(row1);
     //post description
-    let postDesc = document.createElement('p');
+    const postDesc = document.createElement('p');
     postDesc.textContent = description;
     postInfoArea.appendChild(postDesc);
 
     //postButtons
-    let buttonRow = document.createElement('div');
+    const buttonRow = document.createElement('div');
     buttonRow.className = 'row';
-    let buttons = document.createElement('div');
+    const buttons = document.createElement('div');
     buttons.className = 'float-left ml-lg-4 mb-2';
     //comment Button
-    let commentButton = document.createElement('button');
+    const commentButton = document.createElement('button');
     commentButton.className = 'btn btn-sm btn-dark';
     commentButton.dataset.toggle = 'collapse';
     commentButton.dataset.target = `#comment${postId}`;
     commentButton.textContent = "Comment";
-    let commentIcon = document.createElement('i');
+    const commentIcon = document.createElement('i');
     commentIcon.className = 'fas fa-comment ml-1';
     commentButton.appendChild(commentIcon);
     buttons.appendChild(commentButton);
 
     //viewCommentsButton
-    let viewCommentsButton = document.createElement('button');
+    const viewCommentsButton = document.createElement('button');
     viewCommentsButton.className = 'btn btn-sm btn-dark ml-2';
     viewCommentsButton.dataset.toggle = 'collapse';
     viewCommentsButton.dataset.target = `#viewComments${postId}`;
     viewCommentsButton.textContent = "Comments";
-    let viewCommentsIcon = document.createElement('i');
+    const viewCommentsIcon = document.createElement('i');
     viewCommentsIcon.className = 'fas fa-comments ml-1';
     viewCommentsButton.appendChild(viewCommentsIcon);
     buttons.appendChild(viewCommentsButton);
 
     //rateButton
-    let rateButton = document.createElement('button');
+    const rateButton = document.createElement('button');
     rateButton.className = 'btn btn-sm btn-dark ml-2';
     rateButton.dataset.toggle = 'collapse';
     rateButton.dataset.target = `#rate${postId}`;
-    let rateIcon = document.createElement('i');
+    const rateIcon = document.createElement('i');
     
     rateButton.textContent = "Rate";
     rateIcon.className = 'fas fa-star-half-alt ml-1';
@@ -201,39 +201,39 @@ function renderPost(title, postId, description, files, comments, ratings, author
     postInfoArea.appendChild(buttonRow);
     
     //expandable rating
-    let rate = document.createElement('div');
+    const rate = document.createElement('div');
     rate.id = `rate${postId}`;
     rate.className = 'collapse m-auto w-90 py-4';
     //rating title
-    let ratingTitle = document.createElement('h3');
+    const ratingTitle = document.createElement('h3');
     ratingTitle.textContent = "Rate This Post";
     rate.appendChild(ratingTitle);
     //rating row for input options
-    let rateRow = document.createElement('div');
+    const rateRow = document.createElement('div');
     rateRow.className = 'row mt-2';
-    let spacer = document.createElement('div');
+    const spacer = document.createElement('div');
     spacer.className = 'col-4';
     rateRow.appendChild(spacer);
     //rating selector
-    let selector = document.createElement('select');
+    const selector = document.createElement('select');
     selector.className = 'form-control ratingSelect col-4';
     selector.id = `ratingSelector${postId}`;
     for(let i = 10; i>=0; --i){
-        let option = document.createElement('option');
+        const option = document.createElement('option');
         option.innerHTML = `${i/2}` + '&#x2605';
         selector.appendChild(option);
     }
     rateRow.appendChild(selector);
     //rating submit button
-    let submitRate = document.createElement('button');
+    const submitRate = document.createElement('button');
     submitRate.className = 'btn btn btn-dark float-right ml-2';
     submitRate.dataset.toggle = 'collapse';
     submitRate.dataset.target = `#rate${postId}`;
     submitRate.textContent = "Submit";
 
     //when submit is pressed, update post in dataStore
-    submitRate.addEventListener("click", async function(event) {
-        let updateRes = await fetch(`/posts/${postId}/rating`, {
+    submitRate.addEventListener("click", async function() {
+        const updateRes = await fetch(`/posts/${postId}/rating`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json'
@@ -244,7 +244,7 @@ function renderPost(title, postId, description, files, comments, ratings, author
             }) 
         });
         if (!updateRes.ok) {
-            console.log(updateRes.error)
+            console.log(updateRes.error);
             return;
         }
         else{
@@ -261,7 +261,7 @@ function renderPost(title, postId, description, files, comments, ratings, author
             if(body.id === 'myposts'){
                 page = 'myposts';
             }
-            const url = `/${page}#post${postId}`
+            const url = `/${page}#post${postId}`;
             console.log(updateRes);
             window.location.href = url;
             location.reload();
@@ -275,31 +275,31 @@ function renderPost(title, postId, description, files, comments, ratings, author
 
 
     //comment collapse section
-    let comment = document.createElement('div');
+    const comment = document.createElement('div');
     comment.id = `comment${postId}`;
     comment.className = 'collapse';
-    let commentArea = document.createElement('div');
+    const commentArea = document.createElement('div');
     commentArea.className = 'form-group py-4';
 
-    let commentLabel = document.createElement('label');
+    const commentLabel = document.createElement('label');
     commentLabel.className = 'float-left';
     commentLabel.htmlFor = `commentBox${postId}`;
-    commentLabel.textContent = "Comment:"
+    commentLabel.textContent = "Comment:";
     commentArea.appendChild(commentLabel);
-    let textArea = document.createElement('textarea');
+    const textArea = document.createElement('textarea');
     textArea.className = 'form-control';
     textArea.rows = 5;
     textArea.id = `commentBox${postId}`;
     commentArea.appendChild(textArea);
-    let submitComment = document.createElement('button');
+    const submitComment = document.createElement('button');
     submitComment.className = 'btn btn-sm btn-dark mt-2 float-right';
     submitComment.dataset.toggle = 'collapse';
     submitComment.dataset.target = `comment${postId}`;
     submitComment.textContent = 'Send';
 
     //When submit is pressed, get postID and make POST req to update dataStore
-    submitComment.addEventListener("click", async function(event) {
-        let updateRes = await fetch(`/posts/${postId}/comment`, {
+    submitComment.addEventListener("click", async function() {
+        const updateRes = await fetch(`/posts/${postId}/comment`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json'
@@ -309,7 +309,7 @@ function renderPost(title, postId, description, files, comments, ratings, author
             })
         });
         if (!updateRes.ok) {
-            console.log(updateRes.error)
+            console.log(updateRes.error);
             return;
         }
         else{
@@ -326,7 +326,7 @@ function renderPost(title, postId, description, files, comments, ratings, author
             if(body.id === 'myposts'){
                 page = 'myposts';
             }
-            const url = `/${page}#post${postId}`
+            const url = `/${page}#post${postId}`;
             console.log(updateRes);
             window.location.href = url;
             location.reload();
@@ -338,33 +338,33 @@ function renderPost(title, postId, description, files, comments, ratings, author
     postInfoArea.appendChild(comment);
 
     //comments collapse section
-    let commentsDiv = document.createElement('div');
+    const commentsDiv = document.createElement('div');
     commentsDiv.id = `viewComments${postId}`;
-    commentsDiv.className = 'collapse mt-5'
-    let heading = document.createElement('h1');
+    commentsDiv.className = 'collapse mt-5';
+    const heading = document.createElement('h1');
     heading.textContent = "Comments";
     commentsDiv.appendChild(heading);
-    let commentList = document.createElement('ul');
+    const commentList = document.createElement('ul');
     commentList.className = 'list-unstyled';
-    let i = 0;
-    for(let c of comments){
-        let commentItem = document.createElement('li');
+    
+    for(const c of comments){
+        const commentItem = document.createElement('li');
         commentItem.className = 'media my-4 border p-2';
-        let profilePic = document.createElement('img');
+        const profilePic = document.createElement('img');
         profilePic.src = users[c.author].pfpLink; 
         profilePic.className = 'mr-3 profilePicSize';
         profilePic.alt = 'profile picture';
-        let profileName = document.createElement('h5');
+        const profileName = document.createElement('h5');
         profileName.textContent =  users[c.author].name;
         profileName.className = 'mt-3';
         commentItem.appendChild(profilePic);
-        let commentText = document.createElement('p');
+        const commentText = document.createElement('p');
         commentText.className = 'ml-4';
         commentText.textContent = c.commentBody;
         commentItem.appendChild(profileName);
         commentItem.appendChild(commentText);
         commentList.appendChild(commentItem);
-        ++i;
+        
     }
     commentsDiv.appendChild(commentList);
     postInfoArea.appendChild(commentsDiv);
@@ -376,7 +376,7 @@ function renderPost(title, postId, description, files, comments, ratings, author
 function getAverageRating(ratings){
     if(ratings.length>0){
         let sum = 0;
-        for(let rating of ratings){
+        for(const rating of ratings){
             sum += rating.rating;
         }
         return (sum/ratings.length);
@@ -419,19 +419,19 @@ function convertRating (stringVal){
             return 0;
                    
     }
-
+    return -1;
 }
 
 
 
-let form = document.getElementById("createPostForm");
-let fileInput = document.getElementById('files');
+const form = document.getElementById("createPostForm");
+const fileInput = document.getElementById('files');
 let fileList = [];
-let fileURLS = [];
+const fileURLS = [];
 
 fileInput.addEventListener('change', function(){
     fileList = [];
-    for(let file of fileInput.files){
+    for(const file of fileInput.files){
         fileList.push(file);
         const reader = new FileReader();
   
@@ -445,37 +445,37 @@ fileInput.addEventListener('change', function(){
         reader.readAsDataURL(file);
         
     }
-})
+});
 
 
 document.getElementById("submitButton").addEventListener("click", async function(event){
-    let title = form.elements.title.value;
-    let files = fileList;
-    let newFiles = [];
+    const title = form.elements.title.value;
+    const files = fileList;
+    const newFiles = [];
     
     let i = 0;
-    for(let file of files){
-      let tempFile = {
+    for(const file of files){
+      const tempFile = {
           'lastModified'    : file.lastModified,
           'lastModifiedDate': file.lastModifiedDate,
           'name'       : file.name,
           'size'       : file.size,
           'type'       : file.type,
           'url' : fileURLS[i]
-      } 
+      }; 
       newFiles.push(tempFile);
       ++i;
     }
     console.log(newFiles);
-    let type = form.elements.typeOfPost.value;
-    let description = form.elements.description.value;
-    let tags = form.elements.tags.value;
+    const type = form.elements.typeOfPost.value;
+    const description = form.elements.description.value;
+    const tags = form.elements.tags.value;
     if(files.length === 0){
         alert("You must upload an image for your post!");
         event.preventDefault();
     }
     else{
-        let res = await fetch('/posts/create', 
+        const res = await fetch('/posts/create', 
         {
             method: 'POST',
             headers: {
@@ -490,7 +490,7 @@ document.getElementById("submitButton").addEventListener("click", async function
                 
             }) 
         });
-        let data = await res.json();
+        const data = await res.json();
         alert("post created: " + JSON.stringify(data));
     }
 });

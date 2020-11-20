@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 let user;
 window.addEventListener('load', async () =>{
-    let data = await fetch ('/user');
+    const data = await fetch ('/user');
     user = await data.json();
     
     if(user){
@@ -13,7 +13,7 @@ window.addEventListener('load', async () =>{
         }
         if(document.getElementById('userInfoButton')){
             document.getElementById('userInfoButton').style.visibility = 'visible';
-        };
+        }
         if(document.getElementById('postCreateButton')){
             document.getElementById('postCreateButton').style.visibility = 'visible';
         }
@@ -27,39 +27,39 @@ window.addEventListener('load', async () =>{
         }
         if(document.getElementById('userInfoButton')){
             document.getElementById('userInfoButton').style.visibility = 'hidden';
-        };
+        }
         if(document.getElementById('postCreateButton')){
             document.getElementById('postCreateButton').style.visibility = 'hidden';
         }
     }
-})
+});
 if(document.getElementById('logoutButton')){
     document.getElementById('logoutButton').addEventListener('click', ()=>{
         window.localStorage.removeItem('User');
         window.location.href = 'login.html';
     });
-};
+}
 
 if(document.getElementsByTagName('body')[0].id === 'myposts'){
     
-    let pfpInput = document.getElementById('pfpFile');
-    let pfpFiles = [];
-    let pfpURLS = [];
+    const pfpInput = document.getElementById('pfpFile');
+    const pfpFiles = [];
+    const pfpURLS = [];
     
-    document.getElementById('profileSubmitButton').addEventListener('click', async function(event){
+    document.getElementById('profileSubmitButton').addEventListener('click', async function(){
         
-        let form = document.getElementById('updateUserInfoForm');
-        let name =  form.elements.name.value;
-        let email = form.elements.email.value;
-        let pfpLink = pfpURLS.length !== 0 ? pfpURLS[0]: null;
-        let person = {
+        const form = document.getElementById('updateUserInfoForm');
+        const name =  form.elements.name.value;
+        const email = form.elements.email.value;
+        const pfpLink = pfpURLS.length !== 0 ? pfpURLS[0]: null;
+        const person = {
 
-        }   
+        };   
         name ? person.name = name : person.name = null;
         email ? person.email = email : person.email = null;
         pfpLink ? person.pfpLink = pfpLink : person.pfpLink = null;
     
-        let res = await fetch(`/user/update`, 
+        const res = await fetch(`/user/update`, 
             {
                 method: 'POST',
                 headers: {
@@ -67,8 +67,8 @@ if(document.getElementsByTagName('body')[0].id === 'myposts'){
                 },
                 body: JSON.stringify(person) 
             });
-        let data = await res.json();
-        alert(`User: ${data.name} has been updated!` )
+        const data = await res.json();
+        alert(`User: ${data.name} has been updated!` );
         
         
         
@@ -76,8 +76,8 @@ if(document.getElementsByTagName('body')[0].id === 'myposts'){
 
 
     pfpInput.addEventListener('change', function(){
-        fileList = [];
-        for(let file of pfpInput.files){
+        
+        for(const file of pfpInput.files){
             pfpFiles.push(file);
             const reader = new FileReader();
     
@@ -90,6 +90,6 @@ if(document.getElementsByTagName('body')[0].id === 'myposts'){
             reader.readAsDataURL(file);
             
         }
-    })
+    });
 
 }
