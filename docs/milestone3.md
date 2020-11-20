@@ -17,15 +17,15 @@ Functions of DB 1:
 **DB 2: Posts**
 
 posts {
-- postID: number        //Incremented every time a new post is made
-- author: string        //Who made the post
-- title: string         //Name of Hiking Place
-- type: string          //Hiking or Climbing
-- description: string    
-- images: Array []      //Contains All images added to post
-- tags: string          //Whatever tags are interesting. Hiking, climbing, easy, difficult, etc.
-- ratings: Array []
-- comments: Array []
+  postID: number        //Incremented every time a new post is made
+  author: string        //Who made the post
+  title: string         //Name of Hiking Place
+  type: string          //Hiking or Climbing
+  description: string    
+  images: Array []      //Contains All images added to post
+  tags: string          //Whatever tags are interesting. Hiking, climbing, easy, difficult, etc.
+  ratings: Array []
+  comments: Array []
 }
 
 Within the DB for posts, there are two arrays, containing all of the different rating and comments that may be left on a post. Each post has a unique ID to help find the post later. Besides the rating and comment boxes, the rest of the information that gets stored in this DB comes directly from the "Create New Post" button on our site. When a new post is uploaded to the DB, the ratings and comment boxes are initialized as empty arrays.
