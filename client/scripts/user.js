@@ -1,8 +1,16 @@
 'use strict';
 let user;
 window.addEventListener('load', async () =>{
-    const data = await fetch ('/user');
-    user = await data.json();
+    const data = await fetch ('/user')
+    if(data.ok){
+        user = await data.json();
+        if (user._id === -1){
+            user = null;
+        }
+    }
+    else{
+        user = null;
+    }
     
     if(user){
         document.getElementById('loginButton').style.visibility = 'hidden';

@@ -47,7 +47,7 @@ async function getUser(username){
 }
 
 //updates a given user's information from newUserInfo
-function updateUser(username, newUserInfo){
+async function updateUser(username, newUserInfo){
 	let userObj = {username: username}
 	await client.db('mydb').collection('Users').updateOne(userObj, newUserInfo, function(err, res) {
 		if (err) throw err;
@@ -77,7 +77,7 @@ async function getPosts(){
 
 //gets all of the posts from the database of type climbing
 async function getClimbingPosts(){
-	let allClimbing = await client.db("mydb").collection("Posts").find({type:"Climbing").toArray();
+	let allClimbing = await client.db("mydb").collection("Posts").find({type:"Climbing"}).toArray();
 	return allClimbing;
 }
 

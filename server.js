@@ -109,8 +109,6 @@ function addUser(username, pwd, name, email) {
     return true;
 }
 
-// Routes
-
 function checkLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
 	// If we are authenticated, run the next route.
@@ -120,6 +118,18 @@ function checkLoggedIn(req, res, next) {
 	res.redirect('/login');
     }
 }
+
+function checkUser(req, res, next) {
+    if (req.isAuthenticated()) {
+	// If we are authenticated, run the next route.
+	next();
+    } else {
+	// Otherwise, redirect to the login page.
+	res.send({_id: -1});
+    }
+}
+
+
 
 
 app.get('/',
@@ -171,8 +181,14 @@ app.post('/register',
         }
     });
 
-app.get('/user', checkLoggedIn,function(req, res){
-    res.send(req.user);
+app.get('/user', checkUser,function(req, res){
+
+    if(req.user){
+        res.send(JSON.stringify(req.user));
+    } else{
+        console.log("here");
+        res.send({});
+    }
     });
 
 app.get('/users', checkLoggedIn, function(req, res){
