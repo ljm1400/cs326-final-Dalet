@@ -96,6 +96,13 @@ async function updatePost(postID, newPostInfo){
   	});	
 }
 
+async function deletePost(postID) {
+	await client.db('mydb').collection('Posts').deleteOne(myquery, function(err, obj) {
+    		if (err) throw err;
+    		console.log("Post deleted");
+  	});
+}
+	
 module.exports = {
   addUser,
   getUser,
@@ -106,6 +113,6 @@ module.exports = {
   getPosts,
   getClimbingPosts,
   getHikingPosts,
-  updatePost
-
+  updatePost,
+  deletePost
 };
