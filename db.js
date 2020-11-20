@@ -89,7 +89,7 @@ async function getHikingPosts(){
 //update a given 
 async function updatePost(postID, newPostInfo){
 	let postObj = {postID: postID}
-	await client.db('mydb').collection('Users').updateOne(postObj, newPostInfo, function(err, res) {
+	await client.db('mydb').collection('Posts').updateOne(postObj, newPostInfo, function(err, res) {
 		if (err) throw err;
     		console.log("Post " + postID + " updated");
   	});	
