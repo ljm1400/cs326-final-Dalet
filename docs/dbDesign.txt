@@ -1,10 +1,13 @@
-DB 1: User
+Collection 1: Users
 
 users {
-  ID: number                 //2
-  username: string           //JSmith2454
-  name: string               //John Smith
-  pfpLink: IMG Link (string) //Public Profile Pic
+  _id: ObjectId(),            //A unique object id assigned by mongo
+  username: string,           //JSmith2454
+  name: string,               //John Smith
+  salt: string,               //the salt used to hash the user's password
+  hash: string,               //the hash of the user's password concatenated with the salt
+  pfpLink: IMG Link (string), //Public Profile Pic
+  posts: array post ObjectId  //Holds the id's of the posts that this user created
   email: string              //JSmith@notreal.com
 }
 
@@ -14,18 +17,19 @@ Functions of DB 1:
 -Used to authenticate login information
 -Going to "My Posts" shows all posts in our DB 2 where posts.author === users.username
 
-DB 2: Posts
+Collection 2: Posts
 
 posts {
-  postID: number        //Incremented every time a new post is made
-  author: string        //Who made the post
-  title: string         //Name of Hiking Place
-  type: string          //Hiking or Climbing
-  description: string    
-  images: Array []      //Contains All images added to post
-  tags: string          //Whatever tags are interesting. Hiking, climbing, easy, difficult, etc.
-  ratings: Array []
-  comments: Array []
+  _id ObjectId(),       //Unique object id assigned by mongo
+  ID: number        //Incremented every time a new post is made, used for postID's for html objects
+  author: string        //username of the user that created the post
+  title: string         //Title of the post given by the user
+  type: string          //Selected value of Hiking or Climbing
+  description: string   //User given description of the post
+  images: Array []      //Contains created links (strings) of all the images submitted for the post
+  tags: string          //Comma separated list of tags for the post, ex: Hiking, climbing, easy, difficult, etc.
+  ratings: Array []     //Rating objects are in the form {author (username of the author), rating (number of the rating)}
+  comments: Array []    //comment objects are in the form author (username of the author), commentBody (The string body of the comment)}
 }
 
 Within the DB for posts, there are two arrays, containing all of the different rating and comments that may be left on a post. Each post has a unique ID to help find the post later. Besides the rating and comment boxes, the rest of the information that gets stored in this DB comes directly from the "Create New Post" button on our site. When a new post is uploaded to the DB, the ratings and comment boxes are initialized as empty arrays.
