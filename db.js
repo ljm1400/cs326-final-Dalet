@@ -97,6 +97,20 @@ async function updatePost(postID, newPostInfo){
   	});	
 }
 
+async function addComment(postID, comment) {
+	await client.db('mydb').collection('Posts').updateOne({postID: postID}, {$push: {"Comments": comment}}, function(err, res) {
+		if (err) { throw err };
+    		console.log("Comment for Post " + postID + " added");
+  	});
+}
+
+async function addRating(postID, rating) {
+	await client.db('mydb').collection('Posts').updateOne({postID: postID}, {$push: {"Ratings": rating}}, function(err, res) {
+		if (err) { throw err };
+    		console.log("Rating to Post " + postID + " added");
+  	});
+}
+
 //Removes post[postID] from database
 async function deletePost(postID) {
 	await client.db('mydb').collection('Posts').deleteOne({postID: postID}, function(err, obj) {
