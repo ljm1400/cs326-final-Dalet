@@ -47,7 +47,11 @@ async function getUser(username){
 
 //updates a given user's information from newUserInfo
 async function updateUser(username, newUserInfo){
-	await client.db('mydb').collection('Users').updateOne({username: username}, {$set: {newUserInfo}}, function(err, res) {
+	const updateInfo = {};
+	newUserInfo.name ? updateInfo['name'] = newUserInfo.name : null;
+	newUserInfo.email ? updateInfo['email'] = newUserInfo.email: null;
+	newUserInfo.pfpLink ? updateInfo['pfpLink'] = newUserInfo.pfpLink: null;
+	await client.db('mydb').collection('Users').updateOne({username: username}, {$set: updateInfo}, function(err, res) {
 		if (err) { throw err };
     		console.log("User " + username + " updated");
   	});
