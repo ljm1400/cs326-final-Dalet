@@ -91,21 +91,21 @@ async function getHikingPosts(){
 
 //update a given 
 async function updatePost(postID, newPostInfo){	
-	await client.db('mydb').collection('Posts').updateOne({postID: postID}, {$set: {newPostInfo}}, function(err, res) {
+	await client.db('mydb').collection('Posts').updateOne({ID: postID}, {$set: {newPostInfo}}, function(err, res) {
 		if (err) { throw err };
     		console.log("Post " + postID + " updated");
   	});	
 }
 
 async function addComment(postID, comment) {
-	await client.db('mydb').collection('Posts').updateOne({postID: postID}, {$push: {"Comments": comment}}, function(err, res) {
+	await client.db('mydb').collection('Posts').updateOne({ID: postID}, {$push: {"Comments": comment}}, function(err, res) {
 		if (err) { throw err };
     		console.log("Comment for Post " + postID + " added");
   	});
 }
 
 async function addRating(postID, rating) {
-	await client.db('mydb').collection('Posts').updateOne({postID: postID}, {$push: {"Ratings": rating}}, function(err, res) {
+	await client.db('mydb').collection('Posts').updateOne({ID: postID}, {$push: {"Ratings": rating}}, function(err, res) {
 		if (err) { throw err };
     		console.log("Rating to Post " + postID + " added");
   	});
@@ -113,7 +113,7 @@ async function addRating(postID, rating) {
 
 //Removes post[postID] from database
 async function deletePost(postID) {
-	await client.db('mydb').collection('Posts').deleteOne({postID: postID}, function(err, obj) {
+	await client.db('mydb').collection('Posts').deleteOne({ID: postID}, function(err, obj) {
     		if (err) { throw err };
     		console.log("Post deleted");
   	});
