@@ -34,23 +34,21 @@ client.connect(err => {
 //Adds a new user to the database
 async function addUser(user){
 	await client.db("mydb").collection("Users").insertOne(user, function(err) {
-		if (err) {throw err;}
-      console.log("User " + user.name + " inserted");
-    });
+		if (err) { throw err };
+      	console.log("User " + user.name + " inserted");
+	});
 }
 
 //gets a user with a given username from the database
 async function getUser(username){
-  const user = await client.db('mydb').collection('Users').findOne({username : username});
-  return user;
-
+	const user = await client.db('mydb').collection('Users').findOne({username : username});
+	return user;
 }
 
 //updates a given user's information from newUserInfo
 async function updateUser(username, newUserInfo){
-	let userObj = {username: username}
-	await client.db('mydb').collection('Users').updateOne(userObj, newUserInfo, function(err, res) {
-		if (err) throw err;
+	await client.db('mydb').collection('Users').updateOne({username: username}, {$set: {newUserInfo}}, function(err, res) {
+		if (err) { throw err };
     		console.log("User " + username + " updated");
   	});
 }
@@ -64,7 +62,7 @@ async function getUsers(){
 //adds a newly created post to the database
 async function createPost(post){
 	await client.db("mydb").collection("Posts").insertOne(post, function(err, res) {
-		if (err) {throw err;}
+		if (err) { throw err }
     		console.log("Post " + post.postID + " inserted");
   	});
 }
@@ -88,19 +86,17 @@ async function getHikingPosts(){
 }
 
 //update a given 
-async function updatePost(postID, newPostInfo){
-	let postObj = {postID: postID}
-	await client.db('mydb').collection('Posts').updateOne(postObj, newPostInfo, function(err, res) {
-		if (err) throw err;
+async function updatePost(postID, newPostInfo){	
+	await client.db('mydb').collection('Posts').updateOne({postID: postID}, {$set: {newPostInfo}}, function(err, res) {
+		if (err) { throw err };
     		console.log("Post " + postID + " updated");
   	});	
 }
 
 //Removes post[postID] from database
 async function deletePost(postID) {
-	let postObj = {postID: postID};
-	await client.db('mydb').collection('Posts').deleteOne(postObj, function(err, obj) {
-    		if (err) throw err;
+	await client.db('mydb').collection('Posts').deleteOne({postID: postID}, function(err, obj) {
+    		if (err) { throw err };
     		console.log("Post deleted");
   	});
 }
