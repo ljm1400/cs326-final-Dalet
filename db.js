@@ -89,7 +89,7 @@ async function getHikingPosts(){
 	return allHiking;
 }
 
-//update a given 
+//update a given post with new info
 async function updatePost(postID, newPostInfo){	
 	await client.db('mydb').collection('Posts').updateOne({ID: postID}, {$set: {newPostInfo}}, function(err, res) {
 		if (err) { throw err };
@@ -97,6 +97,7 @@ async function updatePost(postID, newPostInfo){
   	});	
 }
 
+//Add comment to posts[postID]
 async function addComment(postID, comment) {
 	await client.db('mydb').collection('Posts').updateOne({ID: postID}, {$push: {"Comments": comment}}, function(err, res) {
 		if (err) { throw err };
@@ -104,6 +105,7 @@ async function addComment(postID, comment) {
   	});
 }
 
+//Adds ratings to posts[postID]
 async function addRating(postID, rating) {
 	await client.db('mydb').collection('Posts').updateOne({ID: postID}, {$push: {"Ratings": rating}}, function(err, res) {
 		if (err) { throw err };
