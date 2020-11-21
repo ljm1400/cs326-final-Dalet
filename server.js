@@ -222,11 +222,16 @@ app.post('/user/update', checkLoggedIn, (req, res) => {
     const name = req.body['name'];
     const email = req.body['email'];
     const pfpLink = req.body['pfpLink'];
-
-    const user = users[req.user.username];
-    name ? user.name = name : null;
-    email ? user.email = email : null;
-    pfpLink ? user.pfpLink = pfpLink : user.pfpLink = pfpLink;
+    const user = {
+        name: null,
+        email: null,
+        pfpLink: null
+    }
+    
+    user.name = name ? name : null;
+    user.email = email ? email : null;
+    user.pfpLink  = pfpLink ? pfpLink : null;
+    db.updateUser(req.user.username, user);
     res.send({
         name,
         email,
