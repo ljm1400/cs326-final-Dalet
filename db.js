@@ -41,9 +41,8 @@ async function addUser(user){
 
 //gets a user with a given username from the database
 async function getUser(username){
-  const user = await client.db('mydb').collection('Users').findOne({username : username});
-  return user;
-
+	const user = await client.db('mydb').collection('Users').findOne({username : username});
+	return user;
 }
 
 //updates a given user's information from newUserInfo
