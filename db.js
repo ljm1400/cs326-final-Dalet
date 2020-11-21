@@ -67,7 +67,7 @@ async function getUsers(){
 async function createPost(post){
 	await client.db("mydb").collection("Posts").insertOne(post, function(err, res) {
 		if (err) { throw err }
-    		console.log("Post " + post.postID + " inserted");
+    		console.log("Post " + post.ID + " inserted");
   	});
 }
 
