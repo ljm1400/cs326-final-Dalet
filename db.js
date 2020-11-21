@@ -130,5 +130,7 @@ module.exports = {
   getClimbingPosts,
   getHikingPosts,
   updatePost,
+  addComment,
+  addRating,
   deletePost
 };
