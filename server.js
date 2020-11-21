@@ -11,17 +11,6 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 client.connect();
 
-// var myobj = { name: "will", address: "37 philips" };
-// const db = client.db("db");
-// const coll = db.collection("test");
-
-// coll.insertOne(myobj, function (err, res) { This is an example of an insert to the database
-//   if (err)
-//     throw err;
-//   console.log("1 document inserted");
-// });
-
-
 const cleanup = (event) => { // SIGINT is sent for example when you Ctrl+C a running process from the command line.
   client.close(); // Close MongodDB Connection when Process ends
   process.exit(); // Exit with default success-code '0'.
@@ -359,6 +348,24 @@ app.post('/posts/:postId/comment', checkLoggedIn, (req, res) => {
     res.send("Rating Posted");
     
   });
+
+    //Endpoint for a user to delete a post
+    app.delete('/posts/:postId/delete/', checkLoggedIn, (req, res) => {
+    let newPostId = req.params["postId"];
+    console.log(newPostId);
+        for(let i = 0; i < posts.length; i++){
+            let postID = posts[i].ID;
+
+            if(JSON.stringify(postID) === newPostId){
+                posts.splice(i, 1);
+            } 
+        }
+
+    res.send("Deleted Post");
+        
+    });
+
+
 
 app.get('*', (req, res) => {
   res.send('Error');
