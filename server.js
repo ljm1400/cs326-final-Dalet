@@ -257,8 +257,7 @@ app.post('/posts/create', checkLoggedIn,(req, res) => {
         ratings: [],
         comments:[]
     };
-    users[author.username].posts.push(post.ID);
-    posts.push(post);
+    db.createPost(post);
     
     res.send(JSON.stringify(post));
 });
