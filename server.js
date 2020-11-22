@@ -1,7 +1,8 @@
-'use strict'
+'use strict';
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
+<<<<<<< HEAD
 
 const MongoClient = require('mongodb').MongoClient;
 
@@ -19,15 +20,17 @@ const cleanup = (event) => { // SIGINT is sent for example when you Ctrl+C a run
 process.on('SIGINT', cleanup);
 process.on('SIGTERM', cleanup);
 
+=======
+const db = require('./db.js');
+>>>>>>> 6f87c9017f7e2118e54e38bd9d8f92d102567013
 app.use(express.json({limit: '50mb'}));
 app.use('/', express.static('./client'));
 require('dotenv').config();
 const expressSession = require('express-session');  // for managing session state
 const passport = require('passport');               // handles authentication
 const LocalStrategy = require('passport-local').Strategy; // username/password strategy
-
-
-
+const minicrypt = require('./miniCrypt.js');
+const mc = new minicrypt();
 const session = {
     secret : process.env.SECRET || 'SECRET', // set this encryption key in Heroku config (never in GitHub)!
     resave : false,
@@ -39,25 +42,26 @@ const session = {
 const strategy = new LocalStrategy(
     async (username, password, done) => {
 	if (!findUser(username)) {
-	    // no such user
-	    return done(null, false, { 'message' : 'Wrong username' });
+        // no such user
+        return done(null, false, { 'message' : 'Wrong username' });
 	}
 	if (!validatePassword(username, password)) {
-	    // invalid password
-	    // should disable logins after N messages
-	    // delay return to rate-limit brute-force attacks
-	    await new Promise((r) => setTimeout(r, 2000)); // two second delay
-	    return done(null, false, { 'message' : 'Wrong password' });
+        // invalid password
+        // should disable logins after N messages
+        // delay return to rate-limit brute-force attacks
+        await new Promise((r) => setTimeout(r, 2000)); // two second delay
+        return done(null, false, { 'message' : 'Wrong password' });
 	}
 	// success!
     // should create a user object here, associated with a unique identifier
-    let user = {
-        ID: users[username].ID,
+    const getUser = await db.getUser(username);
+    const user = {
+        _id: getUser._id,
         username: username,
-        name: users[username].name,
-        pfpLink: users[username].pfpLink,
-        email: users[username].email
-    }
+        name: getUser.name,
+        pfpLink: getUser.pfpLink,
+        email: getUser.email
+    };
 	return done(null, user);
     });
 
@@ -80,12 +84,11 @@ passport.deserializeUser((uid, done) => {
 
 app.use(express.urlencoded({'extended' : true})); // allow URLencoded data
 let postId = 0;
-let userId = 0;
-let users = {};
-let posts = [];
+const users = {};
+const posts = [];
 // Returns true iff the user exists.
-function findUser(username) {
-    if (!users[username]) {
+async function findUser(username) {
+    if (!await db.getUser(username)) {
 	return false;
     } else {
 	return true;
@@ -94,15 +97,13 @@ function findUser(username) {
 
 // TODO
 // Returns true iff the password is the one we have stored (in plaintext = bad but easy).
-function validatePassword(name, pwd) {
+async function validatePassword(name, pwd) {
     if (!findUser(name)) {
 	return false;
     }
-	// TODO CHECK PASSWORD
-    //const equal = mc.check(pwd, users[name][0], users[name][1]);
-    console.log(name);
-    console.log(pwd);
-    let equal = users[name].password === pwd;
+    const user = await db.getUser(name);
+    console.log(user);
+    const equal = mc.check(pwd, user.salt, user.hash);
     return equal;
 }
 
@@ -112,22 +113,21 @@ function addUser(username, pwd, name, email) {
     if (findUser(username)) {
 	return false;
     }
-	// TODO SAVE THE SALT AND HASH
-    //const [salt, hash] = mc.hash(pwd);
+	
+    const [salt, hash] = mc.hash(pwd);
 
-    users[username] = {
-        ID: userId++,
+    const user  = {
         username,
-        password: pwd, 
+        salt: salt,
+        hash: hash, 
         name: name,
-        pfpLink: '.public/profile.png',
+        pfpLink: './public/profile.png',
         posts: [],
         email
     };
+    db.addUser(user);
     return true;
 }
-
-// Routes
 
 function checkLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
@@ -138,6 +138,18 @@ function checkLoggedIn(req, res, next) {
 	res.redirect('/login');
     }
 }
+
+function checkUser(req, res, next) {
+    if (req.isAuthenticated()) {
+	// If we are authenticated, run the next route.
+	next();
+    } else {
+	// Otherwise, redirect to the login page.
+	res.send({_id: -1});
+    }
+}
+
+
 
 
 app.get('/',
@@ -164,8 +176,8 @@ app.get('/signup',
 
 
 app.post('/login', passport.authenticate('local' , {     // use username/password authentication
-	     'successRedirect' : '/myPosts',   // when we login, go to /private 
-	     'failureRedirect' : '/login'      // otherwise, back to login
+        'successRedirect' : '/myPosts',   // when we login, go to /private 
+        'failureRedirect' : '/login'      // otherwise, back to login
      }));
 
 app.get('/login',
@@ -173,30 +185,29 @@ app.get('/login',
            { 'root' : __dirname }));
      
 app.post('/register',
-	 (req, res) => {
-	     const username = req.body['username'];
-         const password = req.body['password'];
-         const confirmPassword = req.body['confirmPassword'];
-         const email = req.body['email'];
-         const name = req.body['name'];
-         if(password !== confirmPassword){
+    (req, res) => {
+        const username = req.body['username'];
+        const password = req.body['password'];
+        const confirmPassword = req.body['confirmPassword'];
+        const email = req.body['email'];
+        const name = req.body['name'];
+        if(password !== confirmPassword){
              res.send(alert("Passwords do not match!"));
-             res.redirect('/register');
-         }
-	     if (addUser(username, password, name, email)) {
-		 res.redirect('/login');
-	     } else {
-             res.send("Passwords do not match");
-		    res.redirect('/register');
-	     }
-     });
+        }
+        if (addUser(username, password, name, email)) {
+            res.redirect('/login');
+        } else {
+            res.redirect('/register');
+        }
+    });
 
-app.get('/user', checkLoggedIn,function(req, res){
-    res.send(req.user);
+app.get('/user', checkUser,function(req, res){
+
+    res.send(JSON.stringify(req.user));
     });
 
 app.get('/users', checkLoggedIn, function(req, res){
-    let sendUsers = {};
+    const sendUsers = {};
     for(const [key, value] of Object.entries(users)){
         sendUsers[key] = {
             username: value.username,
@@ -204,20 +215,20 @@ app.get('/users', checkLoggedIn, function(req, res){
             posts: value.posts,
             pfpLink: value.pfpLink,
             name: value.name
-        }
+        };
     }
     
     res.send(sendUsers);
-})
+});
 app.get('/user/:username', checkLoggedIn,function(req, res){
-    const username = req.params['username']
-    let user = {
+    const username = req.params['username'];
+    const user = {
         username,
         name: users[username].name,
         pfpLink: users[username].pfpLink,
         posts: users[username].posts,
         ID: users[username].ID
-    }
+    };
     res.send(user);
     });
 
@@ -228,14 +239,19 @@ app.get('/logout', (req, res) => {
 
 
 app.post('/user/update', checkLoggedIn, (req, res) => {
-    let name = req.body['name'];
-    let email = req.body['email'];
-    let pfpLink = req.body['pfpLink'];
-
-    let user = users[req.user.username];
-    name ? user.name = name : user.name = user.name;
-    email ? user.email = email : user.email = user.email;
-    pfpLink ? user.pfpLink = pfpLink : user.pfpLink = pfpLink;
+    const name = req.body['name'];
+    const email = req.body['email'];
+    const pfpLink = req.body['pfpLink'];
+    const user = {
+        name: null,
+        email: null,
+        pfpLink: null
+    }
+    
+    user.name = name ? name : null;
+    user.email = email ? email : null;
+    user.pfpLink  = pfpLink ? pfpLink : null;
+    db.updateUser(req.user.username, user);
     res.send({
         name,
         email,
@@ -250,7 +266,7 @@ app.post('/posts/create', checkLoggedIn,(req, res) => {
     const description = req.body["description"];
     const tags = req.body["tags"];
     const author = req.user;
-    let post = {
+    const post = {
         ID: postId++,
         author: author.username,
         title: title,
@@ -260,9 +276,8 @@ app.post('/posts/create', checkLoggedIn,(req, res) => {
         tags: tags,
         ratings: [],
         comments:[]
-    }
-    users[author.username].posts.push(post.ID);
-    posts.push(post);
+    };
+    db.createPost(post);
     
     res.send(JSON.stringify(post));
 });
@@ -298,9 +313,9 @@ app.get('/posts', (req, res)=>{
   //Endpoint to get all the posts created by the provided user
 app.get('/posts/myPosts', checkLoggedIn,(req, res)=>{
     const arr = [];
-    let user = users[req.user.username];
+    const user = users[req.user.username];
     for(let j = 0; j < user.posts.length ; j++){
-        let postNum = user.posts[j];
+        const postNum = user.posts[j];
         arr.push(posts[postNum]);
     }
     res.send(JSON.stringify(arr));
@@ -308,18 +323,18 @@ app.get('/posts/myPosts', checkLoggedIn,(req, res)=>{
 
 //Endpoint for a user to submit a comment on a post
 app.post('/posts/:postId/comment', checkLoggedIn, (req, res) => {
-    let newPostId = req.params["postId"];
-    let newComment = req.body["comment"];
-    let author = req.user.username;
+    const newPostId = req.params["postId"];
+    const newComment = req.body["comment"];
+    const author = req.user.username;
 
-    for (let post of posts) {
-      let postID = post.ID;
+    for (const post of posts) {
+      const postID = post.ID;
 
         if (JSON.stringify(postID) === newPostId) {
-            let retObj = {
+            const retObj = {
                 'author': author,
                 'commentBody': newComment
-            }
+            };
             post.comments.push(retObj);
         }
     }
@@ -329,19 +344,18 @@ app.post('/posts/:postId/comment', checkLoggedIn, (req, res) => {
   //Endpoint for a user to submit a comment on a post
   app.post('/posts/:postId/rating', checkLoggedIn, (req, res) => {
     
-    let newPostId = req.params["postId"];
-    let newRating = req.body["rating"];
-    let author = req.user.username;
+    const newPostId = req.params["postId"];
+    const newRating = req.body["rating"];
+    const author = req.user.username;
     
-    for (let post of posts) {
-      let postID = post.ID;
+    for (const post of posts) {
+      const postID = post.ID;
 
         if (JSON.stringify(postID) === newPostId) {
-            let retObj = {
+            const retObj = {
               'author': author,
-              'post': newPostId,
               'rating': newRating
-            }
+            };
             post.ratings.push(retObj);
         }
     }

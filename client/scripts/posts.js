@@ -1,9 +1,9 @@
 'use strict'
 
 window.addEventListener('load', fetchAndRenderPosts)
-    
+const body = document.getElementsByTagName('body')[0];
 async function fetchAndRenderPosts(){
-    let body = document.getElementsByTagName('body')[0];
+    
     let url;
     if(body.id === 'home'){
         url = '/posts';
@@ -37,7 +37,7 @@ function renderPost(title, postId, description, files, comments, ratings, author
     let postBody = document.createElement('div');
     postBody.id = `post#${postId}`;
     postBody.className = 'border rounded p-4 mb-3 postBackGroundColor';
-
+    postBody.id = `post${postId}`;
     //the main carousel where images, indicators, and controls are held
     let imageCarousel = document.createElement('div');
     imageCarousel.className = 'carousel slide carousel-fade';
@@ -297,6 +297,25 @@ function renderPost(title, postId, description, files, comments, ratings, author
             console.log(updateRes.error)
             return;
         }
+        else{
+            let page;
+            if(body.id === 'home'){
+                page = '';
+            }
+            if(body.id === 'climbing'){
+                page = 'climbing';
+            }
+            if(body.id === 'hiking'){
+                page = 'hiking';
+            }
+            if(body.id === 'myposts'){
+                page = 'myposts';
+            }
+            const url = `/${page}#post${postId}`
+            console.log(updateRes);
+            window.location.href = url;
+            location.reload();
+        }
     
 });
 
@@ -342,7 +361,25 @@ function renderPost(title, postId, description, files, comments, ratings, author
             console.log(updateRes.error)
             return;
         }
-        console.log(updateRes);
+        else{
+            let page;
+            if(body.id === 'home'){
+                page = '';
+            }
+            if(body.id === 'climbing'){
+                page = 'climbing';
+            }
+            if(body.id === 'hiking'){
+                page = 'hiking';
+            }
+            if(body.id === 'myposts'){
+                page = 'myposts';
+            }
+            const url = `/${page}#post${postId}`
+            console.log(updateRes);
+            window.location.href = url;
+            location.reload();
+        }
 });
     commentArea.appendChild(submitComment);
     
