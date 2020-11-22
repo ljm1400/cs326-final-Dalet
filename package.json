@@ -10,17 +10,12 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-<<<<<<< HEAD
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
-=======
     "mongodb": "^3.6.3",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "eslint": "^7.13.0"
->>>>>>> 6f87c9017f7e2118e54e38bd9d8f92d102567013
   },
   "engines": {
     "node": "13.x"

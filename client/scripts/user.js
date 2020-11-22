@@ -7,6 +7,7 @@ window.addEventListener('load', async () =>{
         if (user._id === -1){
             user = null;
         }
+        window.user = user;
     }
     else{
         user = null;
