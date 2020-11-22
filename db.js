@@ -89,6 +89,12 @@ async function getHikingPosts(){
 	return allHiking;
 }
 
+//gets all of the posts from the database
+async function getMyPosts(username){
+	const myPosts = await client.db("mydb").collection("Posts").find({author: username}).toArray();
+	return myPosts;
+}
+
 //update a given post with new info
 async function updatePost(postID, newPostInfo){	
 	await client.db('mydb').collection('Posts').updateOne({ID: postID}, {$set: {newPostInfo}}, function(err, res) {
@@ -115,7 +121,7 @@ async function addRating(postID, rating) {
 
 //Removes post[postID] from database
 async function deletePost(postID) {
-	await client.db('mydb').collection('Posts').deleteOne({ID: postID}, function(err, obj) {
+	await client.db('mydb').collection('Posts').deleteOne({ID: JSON.parse(postID)}, function(err, obj) {
     		if (err) { throw err };
     		console.log("Post deleted");
   	});
@@ -134,5 +140,6 @@ module.exports = {
   updatePost,
   addComment,
   addRating,
-  deletePost
+  deletePost,
+  getMyPosts
 };

@@ -2,27 +2,7 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
-<<<<<<< HEAD
-
-const MongoClient = require('mongodb').MongoClient;
-
-const uri = "mongodb+srv://walvarez:cs326dalet@cluster0.oig9w.mongodb.net/Cluster0?retryWrites=true&w=majority";
-
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
-
-client.connect();
-
-const cleanup = (event) => { // SIGINT is sent for example when you Ctrl+C a running process from the command line.
-  client.close(); // Close MongodDB Connection when Process ends
-  process.exit(); // Exit with default success-code '0'.
-}
-
-process.on('SIGINT', cleanup);
-process.on('SIGTERM', cleanup);
-
-=======
 const db = require('./db.js');
->>>>>>> 6f87c9017f7e2118e54e38bd9d8f92d102567013
 app.use(express.json({limit: '50mb'}));
 app.use('/', express.static('./client'));
 require('dotenv').config();
@@ -102,7 +82,6 @@ async function validatePassword(name, pwd) {
 	return false;
     }
     const user = await db.getUser(name);
-    console.log(user);
     const equal = mc.check(pwd, user.salt, user.hash);
     return equal;
 }
@@ -206,19 +185,20 @@ app.get('/user', checkUser,function(req, res){
     res.send(JSON.stringify(req.user));
     });
 
-app.get('/users', checkLoggedIn, function(req, res){
+app.get('/users', checkLoggedIn, async function(req, res){
     const sendUsers = {};
-    for(const [key, value] of Object.entries(users)){
-        sendUsers[key] = {
-            username: value.username,
-            ID: value.ID,
-            posts: value.posts,
-            pfpLink: value.pfpLink,
-            name: value.name
+    const users = await db.getUsers();
+    for(const user of users){
+        sendUsers[user.username] = {
+            username: user.username,
+            ID: user.ID,
+            posts: user.posts,
+            pfpLink: user.pfpLink,
+            name: user.name
         };
     }
     
-    res.send(sendUsers);
+    res.send(JSON.stringify(sendUsers));
 });
 app.get('/user/:username', checkLoggedIn,function(req, res){
     const username = req.params['username'];
@@ -311,14 +291,9 @@ app.get('/posts', (req, res)=>{
   });
 
   //Endpoint to get all the posts created by the provided user
-app.get('/posts/myPosts', checkLoggedIn,(req, res)=>{
-    const arr = [];
-    const user = users[req.user.username];
-    for(let j = 0; j < user.posts.length ; j++){
-        const postNum = user.posts[j];
-        arr.push(posts[postNum]);
-    }
-    res.send(JSON.stringify(arr));
+app.get('/posts/myPosts', checkLoggedIn, async (req, res)=>{
+    const myPosts = await db.getMyPosts(req.user.username);
+    res.send(JSON.stringify(myPosts));
   });
 
 //Endpoint for a user to submit a comment on a post
@@ -365,18 +340,9 @@ app.post('/posts/:postId/comment', checkLoggedIn, (req, res) => {
 
     //Endpoint for a user to delete a post
     app.delete('/posts/:postId/delete/', checkLoggedIn, (req, res) => {
-    let newPostId = req.params["postId"];
-    console.log(newPostId);
-        for(let i = 0; i < posts.length; i++){
-            let postID = posts[i].ID;
-
-            if(JSON.stringify(postID) === newPostId){
-                posts.splice(i, 1);
-            } 
-        }
-
+    const postId = req.params["postId"];
+    db.deletePost(postId);
     res.send("Deleted Post");
-        
     });
 
 

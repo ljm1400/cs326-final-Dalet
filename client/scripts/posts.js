@@ -196,58 +196,60 @@ function renderPost(title, postId, description, files, comments, ratings, author
     rateButton.appendChild(rateIcon);
     
     buttons.appendChild(rateButton);
+    if(window.user.username === author){
+        //deleteButtom
+        let deleteButton = document.createElement('button')
+        deleteButton.className = 'btn btn-sm btn-dark ml-2';
+        deleteButton.dataset.toggle = 'collapse';
+        deleteButton.dataset.target = `#delete${postId}`;
+        let deleteIcon = document.createElement('i');
+        deleteButton.textContent = "Delete ";
+        deleteIcon.className = 'fas fa-trash';
+        deleteButton.appendChild(deleteIcon);
 
-    //deleteButtom
-    let deleteButton = document.createElement('button')
-    deleteButton.className = 'btn btn-sm btn-dark ml-2';
-    deleteButton.dataset.toggle = 'collapse';
-    deleteButton.dataset.target = `#delete${postId}`;
-    let deleteIcon = document.createElement('i');
-    deleteButton.textContent = "Delete ";
-    deleteIcon.className = 'fas fa-trash';
-    deleteButton.appendChild(deleteIcon);
-    
-    buttons.appendChild(deleteButton);
+        buttons.appendChild(deleteButton);
 
-    //add buttons
-    buttonRow.appendChild(buttons);
-    postInfoArea.appendChild(buttonRow);
+        //add buttons
+        buttonRow.appendChild(buttons);
+        postInfoArea.appendChild(buttonRow);
 
-    
-    //delete confirm dropdown
-    let delete1 = document.createElement('div');
-    delete1.id = `delete${postId}`;
-    delete1.className = 'collapse m-auto w-90 py-4';
-    //delete row
-    let deleteRow = document.createElement('div');
-    deleteRow.className = 'row mt-2';
-    let spacer1 = document.createElement('div');
-    spacer1.className = 'col-4';
-    deleteRow.appendChild(spacer1);
-    //confirm delete
-    let confirmDelete = document.createElement('button');
-    confirmDelete.className = 'btn btn btn-dark float-right ml-2 deleteButton';
-    confirmDelete.dataset.toggle = 'collapse';
-    confirmDelete.dataset.target = `#delete${postId}`;
-    confirmDelete.textContent = "Are you sure you want to delete this post?";
-    //when confirm is pressed, delete post from dataStore
-    confirmDelete.addEventListener("click", async function(event) {
-        let updateRes = await fetch(`/posts/${postId}/delete`, {
-            method: 'DELETE' 
+
+        //delete confirm dropdown
+        let delete1 = document.createElement('div');
+        delete1.id = `delete${postId}`;
+        delete1.className = 'collapse m-auto w-90 py-4';
+        //delete row
+        let deleteRow = document.createElement('div');
+        deleteRow.className = 'row mt-2';
+        let spacer1 = document.createElement('div');
+        spacer1.className = 'col-4';
+        deleteRow.appendChild(spacer1);
+        //confirm delete
+        let confirmDelete = document.createElement('button');
+        confirmDelete.className = 'btn btn btn-dark float-right ml-2 deleteButton';
+        confirmDelete.dataset.toggle = 'collapse';
+        confirmDelete.dataset.target = `#delete${postId}`;
+        confirmDelete.textContent = "Are you sure you want to delete this post?";
+        //when confirm is pressed, delete post from dataStore
+        confirmDelete.addEventListener("click", async function(event) {
+            let updateRes = await fetch(`/posts/${postId}/delete`, {
+                method: 'DELETE' 
+            });
+            if (!updateRes.ok) {
+                console.log(updateRes.error)
+                return;
+            }else if (updateRes.ok){
+                document.getElementById(postBody.id).remove()
+            }
+
+
         });
-        if (!updateRes.ok) {
-            console.log(updateRes.error)
-            return;
-        }else if (updateRes.ok){
-            document.getElementById(postBody.id).remove()
-        }
 
+        deleteRow.appendChild(confirmDelete);
+        delete1.appendChild(deleteRow);
+        postInfoArea.appendChild(delete1);
+    }
     
-});
-
-    deleteRow.appendChild(confirmDelete);
-    delete1.appendChild(deleteRow);
-    postInfoArea.appendChild(delete1);
 
 
     //expandable rating
