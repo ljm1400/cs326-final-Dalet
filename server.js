@@ -63,9 +63,8 @@ passport.deserializeUser((uid, done) => {
 });
 
 app.use(express.urlencoded({'extended' : true})); // allow URLencoded data
-let postId = 0;
-const users = {};
-const posts = [];
+
+
 // Returns true iff the user exists.
 async function findUser(username) {
     if (!await db.getUser(username)) {
@@ -75,7 +74,7 @@ async function findUser(username) {
     }
 }
 
-// TODO
+
 // Returns true iff the password is the one we have stored (in plaintext = bad but easy).
 async function validatePassword(name, pwd) {
     if (!findUser(name)) {
@@ -87,7 +86,6 @@ async function validatePassword(name, pwd) {
 }
 
 // Add a user to the "database".
-// TODO
 function addUser(username, pwd, name, email) {
     if (findUser(username)) {
 	return false;
@@ -247,7 +245,6 @@ app.post('/posts/create', checkLoggedIn,(req, res) => {
     const tags = req.body["tags"];
     const author = req.user;
     const post = {
-        ID: postId++,
         author: author.username,
         title: title,
         type: type,

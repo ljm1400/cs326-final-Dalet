@@ -19,8 +19,7 @@ Functions of DB 1:
 __Collection 2: Posts__
 
 **Posts** {  
-  _id: ObjectID()       //unique id assigned by Mongo  
-  ID: number            //number assigned by the server when a new post is made. Used for referencing the posts in HTML elements  
+  _id: ObjectID()       //unique id assigned by Mongo   
   author: string        //The username of the user that made the post   
   title: string         //The title that a user assigns to this post   
   type: string          //Hiking or Climbing, the type of post selected by the user  

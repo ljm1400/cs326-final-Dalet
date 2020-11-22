@@ -23,7 +23,7 @@ async function fetchAndRenderPosts(){
     let users = await fetchUsers.json();
     
     for(let post of posts){
-        renderPost(post.title, post.ID, post.description, post.images, post.comments, post.ratings, post.author, users);        
+        renderPost(post.title, post._id, post.description, post.images, post.comments, post.ratings, post.author, users);        
     }
     console.log(posts);
     console.log("Posts rendered Successfully");
