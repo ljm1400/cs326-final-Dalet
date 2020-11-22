@@ -112,7 +112,7 @@ function checkLoggedIn(req, res, next) {
 	// If we are authenticated, run the next route.
 	next();
     } else {
-	// Otherwise, redirect to the login page.
+    // Otherwise, redirect to the login page.
 	res.redirect('/login');
     }
 }
@@ -179,7 +179,7 @@ app.get('/user', checkUser,function(req, res){
     res.send(JSON.stringify(req.user));
     });
 
-app.get('/users', checkLoggedIn, async function(req, res){
+app.get('/users', async function(req, res){
     const sendUsers = {};
     const users = await db.getUsers();
     for(const user of users){
@@ -191,7 +191,6 @@ app.get('/users', checkLoggedIn, async function(req, res){
             name: user.name
         };
     }
-    
     res.send(JSON.stringify(sendUsers));
 });
 app.get('/user/:username', checkLoggedIn, async function(req, res){
@@ -259,7 +258,7 @@ app.post('/posts/create', checkLoggedIn,(req, res) => {
 //Endpoint to get all posts
 app.get('/posts', async (req, res)=>{
     const allPosts = await db.getPosts();
-    res.send(JSON.stringify(allPosts));
+    res.send(allPosts);
   });
   
   //Endpoint to get all posts of type 'climbing'
