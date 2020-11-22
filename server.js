@@ -127,8 +127,6 @@ function checkUser(req, res, next) {
 }
 
 
-
-
 app.get('/',
 	(req, res) => res.sendFile('client/login.html',
            { 'root' : __dirname }));
@@ -148,9 +146,6 @@ app.get('/myPosts', checkLoggedIn,
 app.get('/signup',
 	(req, res) => res.sendFile('client/signup.html',
            { 'root' : __dirname }));
- 
-
-
 
 app.post('/login', passport.authenticate('local' , {     // use username/password authentication
         'successRedirect' : '/myPosts',   // when we login, go to /private 
@@ -189,7 +184,7 @@ app.get('/users', checkLoggedIn, async function(req, res){
     for(const user of users){
         sendUsers[user.username] = {
             username: user.username,
-            ID: user.ID,
+            ID: user._id,
             posts: user.posts,
             pfpLink: user.pfpLink,
             name: user.name
@@ -198,15 +193,16 @@ app.get('/users', checkLoggedIn, async function(req, res){
     
     res.send(JSON.stringify(sendUsers));
 });
-app.get('/user/:username', checkLoggedIn,function(req, res){
+app.get('/user/:username', checkLoggedIn, async function(req, res){
     const username = req.params['username'];
-    const user = {
-        username,
-        name: users[username].name,
-        pfpLink: users[username].pfpLink,
-        posts: users[username].posts,
-        ID: users[username].ID
-    };
+    const user = db.getUser(username);
+    const sendUser = {
+        username: user.username,
+            ID: user._id,
+            posts: user.posts,
+            pfpLink: user.pfpLink,
+            name: user.name
+    }
     res.send(user);
     });
 
@@ -214,7 +210,6 @@ app.get('/logout', (req, res) => {
     req.logout(); // Logs us out!
     res.redirect('/login'); // back to login
 });
-
 
 app.post('/user/update', checkLoggedIn, (req, res) => {
     const name = req.body['name'];
@@ -298,18 +293,11 @@ app.post('/posts/:postId/comment', checkLoggedIn, (req, res) => {
     const newPostId = req.params["postId"];
     const newComment = req.body["comment"];
     const author = req.user.username;
-
-    for (const post of posts) {
-      const postID = post.ID;
-
-        if (JSON.stringify(postID) === newPostId) {
-            const retObj = {
-                'author': author,
-                'commentBody': newComment
-            };
-            post.comments.push(retObj);
-        }
-    }
+    const retObj = {
+        'author': author,
+        'commentBody': newComment
+    };
+    db.addComment(newPostId, retObj);
     res.send("Comment Posted");
   });
   
@@ -319,18 +307,11 @@ app.post('/posts/:postId/comment', checkLoggedIn, (req, res) => {
     const newPostId = req.params["postId"];
     const newRating = req.body["rating"];
     const author = req.user.username;
-    
-    for (const post of posts) {
-      const postID = post.ID;
-
-        if (JSON.stringify(postID) === newPostId) {
-            const retObj = {
-              'author': author,
-              'rating': newRating
-            };
-            post.ratings.push(retObj);
-        }
-    }
+    const retObj = {
+        'author': author,
+        'rating': newRating
+      };
+    db.addRating(newPostId, retObj);
     res.send("Rating Posted");
     
   });

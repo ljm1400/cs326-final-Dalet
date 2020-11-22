@@ -105,7 +105,7 @@ async function updatePost(postID, newPostInfo){
 
 //Add comment to posts[postID]
 async function addComment(postID, comment) {
-	await client.db('mydb').collection('Posts').updateOne({_id: ObjectId(postID)}, {$push: {"Comments": comment}}, function(err, res) {
+	await client.db('mydb').collection('Posts').updateOne({_id: ObjectId(postID)}, {$push: {"comments": comment}}, function(err, res) {
 		if (err) { throw err };
     		console.log("Comment for Post " + postID + " added");
   	});
@@ -113,7 +113,7 @@ async function addComment(postID, comment) {
 
 //Adds ratings to posts[postID]
 async function addRating(postID, rating) {
-	await client.db('mydb').collection('Posts').updateOne({_id: ObjectId(postID)}, {$push: {"Ratings": rating}}, function(err, res) {
+	await client.db('mydb').collection('Posts').updateOne({_id: ObjectId(postID)}, {$push: {"ratings": rating}}, function(err, res) {
 		if (err) { throw err };
     		console.log("Rating to Post " + postID + " added");
   	});
