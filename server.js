@@ -82,7 +82,14 @@ async function validatePassword(name, pwd) {
 	return false;
     }
     const user = await db.getUser(name);
-    const equal = mc.check(pwd, user.salt, user.hash);
+    const equal = false;
+    if(!user){
+        equal = false;
+    }
+    else{
+       equal = mc.check(pwd, user.salt, user.hash);
+    }
+    
     return equal;
 }
 

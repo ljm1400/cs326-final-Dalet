@@ -192,7 +192,9 @@ function renderPost(title, postId, description, files, comments, ratings, author
     rateButton.textContent = "Rate";
     rateIcon.className = 'fas fa-star-half-alt ml-1';
     rateButton.appendChild(rateIcon);
-    
+    //add buttons
+    buttonRow.appendChild(buttons);
+    postInfoArea.appendChild(buttonRow);
     buttons.appendChild(rateButton);
     if(window.user && window.user.username === author){
         //deleteButtom
@@ -246,9 +248,7 @@ function renderPost(title, postId, description, files, comments, ratings, author
         postInfoArea.appendChild(delete1);
     }
     
-//add buttons
-buttonRow.appendChild(buttons);
-postInfoArea.appendChild(buttonRow);
+
 
     //expandable rating
     let rate = document.createElement('div');
@@ -300,6 +300,9 @@ postInfoArea.appendChild(buttonRow);
         if(updateRes.redirected){
             window.location.href = updateRes.url;
         }
+        else{
+            location.reload();
+        }
     
 });
 
@@ -347,6 +350,9 @@ postInfoArea.appendChild(buttonRow);
         }
         if(updateRes.redirected){
             window.location.href = updateRes.url;
+        }
+        else{
+            location.reload();
         }
     });
     commentArea.appendChild(submitComment);
