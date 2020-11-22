@@ -67,7 +67,8 @@ app.use(express.urlencoded({'extended' : true})); // allow URLencoded data
 
 // Returns true iff the user exists.
 async function findUser(username) {
-    if (!await db.getUser(username)) {
+    const user = await db.getUser(username);
+    if (!user) {
 	return false;
     } else {
 	return true;
@@ -86,8 +87,8 @@ async function validatePassword(name, pwd) {
 }
 
 // Add a user to the "database".
-function addUser(username, pwd, name, email) {
-    if (findUser(username)) {
+async function addUser(username, pwd, name, email) {
+    if (await findUser(username)) {
 	return false;
     }
 	
@@ -164,12 +165,12 @@ app.post('/register',
         const email = req.body['email'];
         const name = req.body['name'];
         if(password !== confirmPassword){
-             res.send(alert("Passwords do not match!"));
+            res.redirect('/signup');
         }
         if (addUser(username, password, name, email)) {
             res.redirect('/login');
         } else {
-            res.redirect('/register');
+            res.redirect('/signup');
         }
     });
 
