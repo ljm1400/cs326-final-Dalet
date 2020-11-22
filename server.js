@@ -2,7 +2,27 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
+<<<<<<< HEAD
+
+const MongoClient = require('mongodb').MongoClient;
+
+const uri = "mongodb+srv://walvarez:cs326dalet@cluster0.oig9w.mongodb.net/Cluster0?retryWrites=true&w=majority";
+
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
+
+client.connect();
+
+const cleanup = (event) => { // SIGINT is sent for example when you Ctrl+C a running process from the command line.
+  client.close(); // Close MongodDB Connection when Process ends
+  process.exit(); // Exit with default success-code '0'.
+}
+
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);
+
+=======
 const db = require('./db.js');
+>>>>>>> 6f87c9017f7e2118e54e38bd9d8f92d102567013
 app.use(express.json({limit: '50mb'}));
 app.use('/', express.static('./client'));
 require('dotenv').config();
@@ -342,6 +362,24 @@ app.post('/posts/:postId/comment', checkLoggedIn, (req, res) => {
     res.send("Rating Posted");
     
   });
+
+    //Endpoint for a user to delete a post
+    app.delete('/posts/:postId/delete/', checkLoggedIn, (req, res) => {
+    let newPostId = req.params["postId"];
+    console.log(newPostId);
+        for(let i = 0; i < posts.length; i++){
+            let postID = posts[i].ID;
+
+            if(JSON.stringify(postID) === newPostId){
+                posts.splice(i, 1);
+            } 
+        }
+
+    res.send("Deleted Post");
+        
+    });
+
+
 
 app.get('*', (req, res) => {
   res.send('Error');
