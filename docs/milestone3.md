@@ -44,7 +44,9 @@ DIVISION OF LABOR:
   - Wrote documentation for our database
 
 - **William**
-
+  - Created Atlas database
+  - Updated the main, climbing, and hiking endpoints in server.js with the database functions
+  - Added the delete functionality to users posts.
 
 - **Louis**
   - Incorporated passport.js into server for user authentication

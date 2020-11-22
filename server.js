@@ -257,30 +257,21 @@ app.post('/posts/create', checkLoggedIn,(req, res) => {
 
 
 //Endpoint to get all posts
-app.get('/posts', (req, res)=>{
-    res.send(JSON.stringify(posts));
+app.get('/posts', async (req, res)=>{
+    const allPosts = await db.getPosts();
+    res.send(JSON.stringify(allPosts));
   });
   
   //Endpoint to get all posts of type 'climbing'
-  app.get('/posts/climbing', (req, res)=>{
-    const arr = [];
-    for(let i = 0; i < posts.length; i++){
-      if(posts[i].type.toLowerCase() === "climbing"){
-        arr.push(posts[i]);
-      }
-    }
-    res.send(JSON.stringify(arr));
+  app.get('/posts/climbing', async (req, res)=>{
+    const climbingPosts = await db.getClimbingPosts();
+    res.send(JSON.stringify(climbingPosts));
   });
   
   //Endpoint to get all posts of type 'hiking'
-  app.get('/posts/hiking', (req, res)=>{
-    const arr = [];
-    for(let i = 0; i < posts.length; i++){
-      if(posts[i].type.toLowerCase() === "hiking"){
-        arr.push(posts[i]);
-      }
-    }
-    res.send(JSON.stringify(arr));
+  app.get('/posts/hiking', async (req, res)=>{
+    const hikingPosts = await db.getHikingPosts();
+    res.send(JSON.stringify(hikingPosts));
   });
 
   //Endpoint to get all the posts created by the provided user
