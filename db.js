@@ -15,7 +15,7 @@ const uri = `mongodb+srv://${username}:${password}@cluster0.oig9w.mongodb.net/Cl
 
 const MongoClient = require('mongodb').MongoClient;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
-
+const ObjectId = require('mongodb').ObjectId;
 const cleanup = () => { // SIGINT is sent for example when you Ctrl+C a running process from the command line.
     client.close(); // Close MongodDB Connection when Process ends
     process.exit(); // Exit with default success-code '0'.
@@ -67,7 +67,7 @@ async function getUsers(){
 async function createPost(post){
 	await client.db("mydb").collection("Posts").insertOne(post, function(err, res) {
 		if (err) { throw err }
-    		console.log("Post " + post.ID + " inserted");
+    		console.log("Post " + post._id + " inserted");
   	});
 }
 
@@ -97,7 +97,7 @@ async function getMyPosts(username){
 
 //update a given post with new info
 async function updatePost(postID, newPostInfo){	
-	await client.db('mydb').collection('Posts').updateOne({ID: postID}, {$set: {newPostInfo}}, function(err, res) {
+	await client.db('mydb').collection('Posts').updateOne({_id: ObjectId(postID)}, {$set: {newPostInfo}}, function(err, res) {
 		if (err) { throw err };
     		console.log("Post " + postID + " updated");
   	});	
@@ -105,7 +105,7 @@ async function updatePost(postID, newPostInfo){
 
 //Add comment to posts[postID]
 async function addComment(postID, comment) {
-	await client.db('mydb').collection('Posts').updateOne({ID: postID}, {$push: {"Comments": comment}}, function(err, res) {
+	await client.db('mydb').collection('Posts').updateOne({_id: ObjectId(postID)}, {$push: {"Comments": comment}}, function(err, res) {
 		if (err) { throw err };
     		console.log("Comment for Post " + postID + " added");
   	});
@@ -113,7 +113,7 @@ async function addComment(postID, comment) {
 
 //Adds ratings to posts[postID]
 async function addRating(postID, rating) {
-	await client.db('mydb').collection('Posts').updateOne({ID: postID}, {$push: {"Ratings": rating}}, function(err, res) {
+	await client.db('mydb').collection('Posts').updateOne({_id: ObjectId(postID)}, {$push: {"Ratings": rating}}, function(err, res) {
 		if (err) { throw err };
     		console.log("Rating to Post " + postID + " added");
   	});
@@ -121,7 +121,7 @@ async function addRating(postID, rating) {
 
 //Removes post[postID] from database
 async function deletePost(postID) {
-	await client.db('mydb').collection('Posts').deleteOne({ID: JSON.parse(postID)}, function(err, obj) {
+	await client.db('mydb').collection('Posts').deleteOne({_id: ObjectId(postID)}, function(err, obj) {
     		if (err) { throw err };
     		console.log("Post deleted");
   	});
