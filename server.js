@@ -198,12 +198,12 @@ app.get('/user/:username', checkLoggedIn, async function(req, res){
     const user = db.getUser(username);
     const sendUser = {
         username: user.username,
-            ID: user._id,
-            posts: user.posts,
-            pfpLink: user.pfpLink,
-            name: user.name
+        ID: user._id,
+        posts: user.posts,
+        pfpLink: user.pfpLink,
+        name: user.name
     }
-    res.send(user);
+    res.send(sendUser);
     });
 
 app.get('/logout', (req, res) => {
@@ -318,9 +318,9 @@ app.post('/posts/:postId/comment', checkLoggedIn, (req, res) => {
 
     //Endpoint for a user to delete a post
     app.delete('/posts/:postId/delete/', checkLoggedIn, (req, res) => {
-    const postId = req.params["postId"];
-    db.deletePost(postId);
-    res.send("Deleted Post");
+        const postId = req.params["postId"];
+        db.deletePost(postId);
+        res.send("Deleted Post");
     });
 
 
