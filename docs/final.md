@@ -1,5 +1,5 @@
-# Heading Dalet
-## Heading Klimbs
+# Dalet
+## Klimbs
 
 Semester: Fall 2020
 Overview: A brief overview of your application. This will be based on what you are submitting as your final web application artifact. You should also mention why your application is innovative.
