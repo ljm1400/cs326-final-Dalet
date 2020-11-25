@@ -20,12 +20,10 @@ async function fetchAndRenderPosts(){
     let res = await fetch(url);
     let posts = await res.json();
     let fetchUsers = await fetch('/users');
-    let users = await fetchUsers.json();
-    
+    let allUsers = await fetchUsers.json();
     for(let post of posts){
-        renderPost(post.title, post._id, post.description, post.images, post.comments, post.ratings, post.author, users);        
+        renderPost(post.title, post._id, post.description, post.images, post.comments, post.ratings, post.author, allUsers);        
     }
-    console.log(posts);
     console.log("Posts rendered Successfully");
 }
 
@@ -194,9 +192,11 @@ function renderPost(title, postId, description, files, comments, ratings, author
     rateButton.textContent = "Rate";
     rateIcon.className = 'fas fa-star-half-alt ml-1';
     rateButton.appendChild(rateIcon);
-    
+    //add buttons
+    buttonRow.appendChild(buttons);
+    postInfoArea.appendChild(buttonRow);
     buttons.appendChild(rateButton);
-    if(window.user.username === author){
+    if(window.user && window.user.username === author){
         //deleteButtom
         let deleteButton = document.createElement('button')
         deleteButton.className = 'btn btn-sm btn-dark ml-2';
@@ -209,9 +209,7 @@ function renderPost(title, postId, description, files, comments, ratings, author
 
         buttons.appendChild(deleteButton);
 
-        //add buttons
-        buttonRow.appendChild(buttons);
-        postInfoArea.appendChild(buttonRow);
+        
 
 
         //delete confirm dropdown
@@ -299,23 +297,10 @@ function renderPost(title, postId, description, files, comments, ratings, author
             console.log(updateRes.error)
             return;
         }
+        if(updateRes.redirected){
+            window.location.href = updateRes.url;
+        }
         else{
-            let page;
-            if(body.id === 'home'){
-                page = '';
-            }
-            if(body.id === 'climbing'){
-                page = 'climbing';
-            }
-            if(body.id === 'hiking'){
-                page = 'hiking';
-            }
-            if(body.id === 'myposts'){
-                page = 'myposts';
-            }
-            const url = `/${page}#post${postId}`
-            console.log(updateRes);
-            window.location.href = url;
             location.reload();
         }
     
@@ -363,26 +348,13 @@ function renderPost(title, postId, description, files, comments, ratings, author
             console.log(updateRes.error)
             return;
         }
+        if(updateRes.redirected){
+            window.location.href = updateRes.url;
+        }
         else{
-            let page;
-            if(body.id === 'home'){
-                page = '';
-            }
-            if(body.id === 'climbing'){
-                page = 'climbing';
-            }
-            if(body.id === 'hiking'){
-                page = 'hiking';
-            }
-            if(body.id === 'myposts'){
-                page = 'myposts';
-            }
-            const url = `/${page}#post${postId}`
-            console.log(updateRes);
-            window.location.href = url;
             location.reload();
         }
-});
+    });
     commentArea.appendChild(submitComment);
     
     comment.appendChild(commentArea);
@@ -439,7 +411,6 @@ function getAverageRating(ratings){
 }
 
 function convertRating (stringVal){
-    console.log(stringVal);
     switch(stringVal){
         case '5★':
             return 5;
@@ -489,7 +460,6 @@ fileInput.addEventListener('change', function(){
         reader.addEventListener("load", function () {
         // convert image file to base64 string
         fileURLS.push(reader.result.toString());
-        console.log(reader.result);
         }, false);
     
         
@@ -517,7 +487,6 @@ document.getElementById("submitButton").addEventListener("click", async function
       newFiles.push(tempFile);
       ++i;
     }
-    console.log(newFiles);
     let type = form.elements.typeOfPost.value;
     let description = form.elements.description.value;
     let tags = form.elements.tags.value;
