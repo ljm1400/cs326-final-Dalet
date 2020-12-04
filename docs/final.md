@@ -18,22 +18,10 @@ A brief overview of your application. This will be based on what you are submitt
 A final up-to-date list/table describing your application’s user interface. This should include the name of the UI view and its purpose. You should include a screenshot of each of your UI views.
 
 #### APIs: 
-A final up-to-date list/table describing your application’s API
 
-#### Database: 
-A final up-to-date representation of your database including a brief description of each of the entities in your data model and their relationships if any.
-
-#### URL Routes/Mappings: 
-A final up-to-date table of all the URL routes that your application supports and a short description of what those routes are used for. You should also indicate any authentication and permissions on those routes.
-|          Route         |                                     Description                                     |       Permissions      |
+|      API Endpoint      |                                     Description                                     |       Permissions      |
 |:----------------------:|:-----------------------------------------------------------------------------------:|:----------------------:|
-| /                      | The route to get the home page of the application                                   | none                   |
-| /climbing              | The route to get the climbing page of the application                               | none                   |
-| /hiking                | The route to get the hiking page of the application                                 | none                   |
-| /myPosts               | The route to get the myPosts page of the application                                | login required to view |
-| /signup                | The route to get the signup page of the application                                 | none                   |
-| /login                 | (get request) The route to get the login page of the application                    | none                   |
-| /login                 | (post request) The route to login and authenticate a user                           | none                   |
+| /login                 | The route to login and authenticate a user                                          | none                   |
 | /register              | The route to register a new user including username, password, email and name       | none                   |
 | /user                  | Route to get the currently logged in user                                           | login required         |
 | /users                 | Route to get all of the users from the database                                     | none                   |
@@ -50,6 +38,21 @@ A final up-to-date table of all the URL routes that your application supports an
 | /posts/:postId/delete/ | Route to delete a post of a given id                                                | login required         |
 | /*                     | Route to catch all bad requests, gives the user an error that the page is not found | none                   |
 
+#### Database: 
+A final up-to-date representation of your database including a brief description of each of the entities in your data model and their relationships if any.
+
+#### URL Routes/Mappings: 
+
+|          Route         |                                     Description                                     |       Permissions      |
+|:----------------------:|:-----------------------------------------------------------------------------------:|:----------------------:|
+| /                      | The route to get the home page of the application that displays all posts           | none                   |
+| /climbing              | The route to get the climbing page of the application that displays climbing posts  | none                   |
+| /hiking                | The route to get the hiking page of the application that displays hiking posts      | none                   |
+| /myPosts               | The route to get the myPosts page of the application for this user's posts          | login required to view |
+| /signup                | The route to get the signup page of the application                                 | none                   |
+| /login                 | The route to get the login page of the application                                  | none                   |
+
+
 #### Authentication/Authorization: 
 A final up-to-date description of how users are authenticated and any permissions for specific users (if any) that you used in your application. You should mention how they relate to which UI views are accessible.
 
@@ -63,7 +66,8 @@ A final up-to-date description of how users are authenticated and any permission
 - Front end creation of a post.
 - Incorporated passport.js into server for user authentication.
 - Incorporated minicrypt for hashing passwords.
-- Implemented user login and registration, myPost rendering, adding comments and ratings and post deletion routes between backend and database
+- Implemented user login and registration, myPost rendering, adding comments and ratings and post deletion routes between backend and database.
+- Added updated routes and API endpoints to final.md.
 
 ##### William:
 
@@ -76,4 +80,4 @@ A conclusion describing your team’s experience in working on this project. Thi
 ##### Difficulties:
 
 ##### What would have helped to know earlier:
-
+- Knowing that we could use passport.js would have helped to know earlier, as we could have built our user authentication around that from the start instead of having to go back and get what we already had working using passport.
