@@ -324,7 +324,7 @@ app.post('/posts/:postId/comment', checkLoggedIn, (req, res) => {
 
 
 app.get('*', (req, res) => {
-  res.send('Error');
+  res.send('Error: Sorry, page not found!');
 });
 
 app.listen(port, () => {
