@@ -186,6 +186,7 @@ app.get('/user', checkUser,function(req, res){
     res.send(JSON.stringify(req.user));
     });
 
+//Endpoint to get all users
 app.get('/users', async function(req, res){
     const sendUsers = {};
     const users = await db.getUsers();
@@ -200,6 +201,8 @@ app.get('/users', async function(req, res){
     }
     res.send(JSON.stringify(sendUsers));
 });
+
+//Endpoint to get specific user
 app.get('/user/:username', checkLoggedIn, async function(req, res){
     const username = req.params['username'];
     const user = db.getUser(username);
@@ -213,11 +216,13 @@ app.get('/user/:username', checkLoggedIn, async function(req, res){
     res.send(sendUser);
     });
 
+//Endpoint for logout page
 app.get('/logout', (req, res) => {
     req.logout(); // Logs us out!
     res.redirect('/login'); // back to login
 });
 
+//Endpoint to update user info
 app.post('/user/update', checkLoggedIn, (req, res) => {
     const name = req.body['name'];
     const email = req.body['email'];
@@ -239,6 +244,7 @@ app.post('/user/update', checkLoggedIn, (req, res) => {
     });
   });
 
+//Endpoint to create post
 app.post('/posts/create', checkLoggedIn,(req, res) => {
     const title = req.body["title"];
     const files = req.body["files"];
@@ -266,21 +272,21 @@ app.post('/posts/create', checkLoggedIn,(req, res) => {
 app.get('/posts', async (req, res)=>{
     const allPosts = await db.getPosts();
     res.send(allPosts);
-  });
+});
   
-  //Endpoint to get all posts of type 'climbing'
-  app.get('/posts/climbing', async (req, res)=>{
+//Endpoint to get all posts of type 'climbing'
+app.get('/posts/climbing', async (req, res)=>{
     const climbingPosts = await db.getClimbingPosts();
     res.send(JSON.stringify(climbingPosts));
-  });
+});
   
-  //Endpoint to get all posts of type 'hiking'
-  app.get('/posts/hiking', async (req, res)=>{
+//Endpoint to get all posts of type 'hiking'
+app.get('/posts/hiking', async (req, res)=>{
     const hikingPosts = await db.getHikingPosts();
     res.send(JSON.stringify(hikingPosts));
-  });
+});
 
-  //Endpoint to get all the posts created by the provided user
+//Endpoint to get all the posts created by the provided user
 app.get('/posts/myPosts', checkLoggedIn, async (req, res)=>{
     const myPosts = await db.getMyPosts(req.user.username);
     res.send(JSON.stringify(myPosts));
@@ -296,12 +302,12 @@ app.post('/posts/:postId/comment', checkLoggedIn, (req, res) => {
         'commentBody': newComment
     };
     db.addComment(newPostId, retObj);
+	
     res.send("Comment Posted");
-  });
+});
   
-  //Endpoint for a user to submit a comment on a post
-  app.post('/posts/:postId/rating', checkLoggedIn, (req, res) => {
-    
+//Endpoint for a user to submit a comment on a post
+app.post('/posts/:postId/rating', checkLoggedIn, (req, res) => {
     const newPostId = req.params["postId"];
     const newRating = req.body["rating"];
     const author = req.user.username;
@@ -310,19 +316,19 @@ app.post('/posts/:postId/comment', checkLoggedIn, (req, res) => {
         'rating': newRating
       };
     db.addRating(newPostId, retObj);
-    res.send("Rating Posted");
-    
-  });
+	
+    res.send("Rating Posted");    
+});
 
-    //Endpoint for a user to delete a post
-    app.delete('/posts/:postId/delete/', checkLoggedIn, (req, res) => {
-        const postId = req.params["postId"];
-        db.deletePost(postId);
-        res.send("Deleted Post");
-    });
+//Endpoint for a user to delete a post
+app.delete('/posts/:postId/delete/', checkLoggedIn, (req, res) => {
+    const postId = req.params["postId"];
+    db.deletePost(postId);
+    res.send("Deleted Post");
+});
 
 
-
+//Endpoint for other. Brings up error page
 app.get('*', (req, res) => {
   res.send('Error: Sorry, page not found!');
 });
