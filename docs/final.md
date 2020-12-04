@@ -3,9 +3,12 @@
 
 #### Semester: 
 Fall 2020
-#### Overview: 
-A brief overview of your application. This will be based on what you are submitting as your final web application artifact. You should also mention why your application is innovative.
 
+#### Overview: 
+
+Our Klimbs application provides a platform for outdoor enthusiasts to share photos and experiences of rock climbing and hiking locations with others. Once users create an account and login, they can then view and create posts that include a title, an image or images, a description, a type (climbing or hiking), and a list of tags. Users can view the main feed of all posts on the home page, or can navigate to the climbing or hiking specific pages to view posts of only that type. They can also view a page with all of the posts that they have created, which provides an easy way for the user to delete their own posts if they wish to do so. On their "My Posts" page, the user can also change some of their profile information, including their email, name, and profile picture. 
+
+Our application is innovative in the sense that there are no other applications to our knowledge that are focused exclusively on sharing posts for outdoor activities such as climbing and hiking. We would hope that this platform could provide an opportunity for poeple to build a community in which they can share experiences and locations that other users may also be able to visit and experience. 
 #### Team Members:  
 
 | Team Member       | Github Alias |
