@@ -21,22 +21,22 @@ A final up-to-date list/table describing your application’s user interface. Th
 
 |      API Endpoint      |                                     Description                                     |       Permissions      |
 |:----------------------:|:-----------------------------------------------------------------------------------:|:----------------------:|
-| /login                 | The route to login and authenticate a user                                          | none                   |
-| /register              | The route to register a new user including username, password, email and name       | none                   |
-| /user                  | Route to get the currently logged in user                                           | login required         |
-| /users                 | Route to get all of the users from the database                                     | none                   |
-| /user/:username        | Route to get a specific user from the database                                      | login required         |
-| /logout                | Route to logout the user                                                            | none                   |
-| /user/update           | Route to update information for the currently logged in user                        | login required         |
-| /posts/create          | Route to create a new post                                                          | login required         |
-| /posts                 | Route to get all of the posts                                                       | none                   |
-| /posts/climbing        | Route to get all posts of type climbing                                             | none                   |
-| /posts/hiking          | Route to get all posts of type hiking                                               | none                   |
-| /posts/myPosts         | Route to get all posts for the currently logged in user                             | login required         |
-| /posts/:postId/comment | Route to add a comment to a post with the given id                                  | login required         |
-| /posts/:postId/rating  | Route to add a rating to a post with the given id                                   | login required         |
-| /posts/:postId/delete/ | Route to delete a post of a given id                                                | login required         |
-| /*                     | Route to catch all bad requests, gives the user an error that the page is not found | none                   |
+| /login                 | User login credentials are sent in JSON format to authenticate the user             | none                   |
+| /register              | New user credentials are sent as JSON including username, password, email and name  | none                   |
+| /user                  | Returns the currently logged in user in JSON format                                 | login required         |
+| /users                 | Returns all of the users (minus password info) in JSON format                       | none                   |
+| /user/:username        | Returns a specific user of a certain username (minus password info) in JSON format  | login required         |
+| /logout                | Logs out the currently logged in user                                               | none                   |
+| /user/update           | Updates information for the currently logged in user, received in JSON format       | login required         |
+| /posts/create          | Receives new post information to create a new post object in the database           | login required         |
+| /posts                 | Returns an array of post objects in JSON format                                     | none                   |
+| /posts/climbing        | Returns an array of post objects of type climbing in JSON format                    | none                   |
+| /posts/hiking          | Returns an array of post objects of type hiking in JSON format                      | none                   |
+| /posts/myPosts         | Returns an array of post objects created by the currently logged in user as JSON    | login required         |
+| /posts/:postId/comment | Receives a comment object in JSON format to add to the post with given postId       | login required         |
+| /posts/:postId/rating  | Receives a rating value in JSON format to add to the post with given postId         | login required         |
+| /posts/:postId/delete/ | Deletes a post of a given postId from the database                                  | login required         |
+| /*                     | Catches all bad requests, gives the user an error that the page is not found        | none                   |
 
 #### Database: 
 A final up-to-date representation of your database including a brief description of each of the entities in your data model and their relationships if any.
