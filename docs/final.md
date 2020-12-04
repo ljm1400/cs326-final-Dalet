@@ -75,12 +75,19 @@ A final up-to-date description of how users are authenticated and any permission
 ##### William:
 
 ##### Benjamin: 
+- Wireframes for milestone1.md
+- Formatting of milestone3.md
+- Backend code to connect to our database and extract/upload info
+- Wrote API endpoints for user login, rating/commenting on posts, and deleting posts/comments
+- Wrote documentation for any pictures uploaded in milestone docs
+- Documentation of our database in milestone3.md
 
 #### Conclusion: 
 A conclusion describing your team’s experience in working on this project. This should include what you learned through the design and implementation process, the difficulties you encountered, what your team would have liked to know before starting the project that would have helped you later, and any other technical hurdles that your team encountered.
 ##### What we learned: 
 
 ##### Difficulties:
-
+- __Technical Hurdle__: Communication. Eventually, we started pinging each other on slack to make sure we were all on the same page, but it took a while to get used to checking Slack everyday to see what work had been done/if work had been done that day
+- __App Difficulty__: Rendering user uploaded images. The initial way we did this kept crashing our backend server because the file sizes for the images was too large. 
 ##### What would have helped to know earlier:
 - Knowing that we could use passport.js would have helped to know earlier, as we could have built our user authentication around that from the start instead of having to go back and get what we already had working using passport.
