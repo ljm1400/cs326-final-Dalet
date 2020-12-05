@@ -83,6 +83,8 @@ __USERS__
 #### Authentication/Authorization: 
 A final up-to-date description of how users are authenticated and any permissions for specific users (if any) that you used in your application. You should mention how they relate to which UI views are accessible.
 
+__Authentication__: We used passport.js to verify which user is which. Some API endpoints are only accessible once a user has logged in, and the "My Posts" page can also only be accessed once someone has logged in. Users also must be logged in if they want to create a post. We do not let guests viewing the page create a post.
+
 #### Division of Labor: 
 
 ##### Louis:
