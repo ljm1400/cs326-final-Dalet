@@ -34,8 +34,8 @@ client.connect(err => {
 //Adds a new user to the database
 async function addUser(user){
 	await client.db("mydb").collection("Users").insertOne(user, function(err) {
-		if (err) { throw err };
-      	console.log("User " + user.name + " inserted");
+		if (err) { throw err; }
+		console.log("User " + user.name + " inserted");
 	});
 }
 
@@ -51,10 +51,10 @@ async function updateUser(username, newUserInfo){
 	newUserInfo.name ? updateInfo['name'] = newUserInfo.name : null;
 	newUserInfo.email ? updateInfo['email'] = newUserInfo.email: null;
 	newUserInfo.pfpLink ? updateInfo['pfpLink'] = newUserInfo.pfpLink: null;
-	await client.db('mydb').collection('Users').updateOne({username: username}, {$set: updateInfo}, function(err, res) {
-		if (err) { throw err };
-    		console.log("User " + username + " updated");
-  	});
+	await client.db('mydb').collection('Users').updateOne({username: username}, {$set: updateInfo}, function(err) {
+		if (err) { throw err; }
+		console.log("User " + username + " updated");
+	});
 }
 
 //gets all of the users from the database, modified to not include sensitive information
@@ -65,10 +65,10 @@ async function getUsers(){
 
 //adds a newly created post to the database
 async function createPost(post){
-	await client.db("mydb").collection("Posts").insertOne(post, function(err, res) {
-		if (err) { throw err }
-    		console.log("Post " + post._id + " inserted");
-  	});
+	await client.db("mydb").collection("Posts").insertOne(post, function(err) {
+		if (err) { throw err; }
+		console.log("Post " + post._id + " inserted");
+	});
 }
 
 //gets all of the posts from the database
@@ -79,13 +79,13 @@ async function getPosts(){
 
 //gets all of the posts from the database of type climbing
 async function getClimbingPosts(){
-	let allClimbing = await client.db("mydb").collection("Posts").find({type:"Climbing"}).toArray();
+	const allClimbing = await client.db("mydb").collection("Posts").find({type:"Climbing"}).toArray();
 	return allClimbing;
 }
 
 //gets all of the posts from the database of type hiking
 async function getHikingPosts(){
-	let allHiking = await client.db("mydb").collection("Posts").find({type:"Hiking"}).toArray();
+	const allHiking = await client.db("mydb").collection("Posts").find({type:"Hiking"}).toArray();
 	return allHiking;
 }
 
@@ -97,41 +97,40 @@ async function getMyPosts(username){
 
 //update a given post with new info
 async function updatePost(postID, newPostInfo){	
-	await client.db('mydb').collection('Posts').updateOne({_id: ObjectId(postID)}, {$set: {newPostInfo}}, function(err, res) {
-		if (err) { throw err };
-    		console.log("Post " + postID + " updated");
-  	});	
+	await client.db('mydb').collection('Posts').updateOne({_id: ObjectId(postID)}, {$set: {newPostInfo}}, function(err) {
+		if (err) { throw err; }
+		console.log("Post " + postID + " updated");
+	});	
 }
 
 //Add comment to posts[postID]
 async function addComment(postID, comment) {
-	await client.db('mydb').collection('Posts').updateOne({_id: ObjectId(postID)}, {$push: {"comments": comment}}, function(err, res) {
-		if (err) { throw err };
-    		console.log("Comment for Post " + postID + " added");
-  	});
+	await client.db('mydb').collection('Posts').updateOne({_id: ObjectId(postID)}, {$push: {"comments": comment}}, function(err) {
+		if (err) { throw err; }
+		console.log("Comment for Post " + postID + " added");
+	});
 }
 
 //Adds ratings to posts[postID]
 async function addRating(postID, rating) {
-	await client.db('mydb').collection('Posts').updateOne({_id: ObjectId(postID)}, {$push: {"ratings": rating}}, function(err, res) {
-		if (err) { throw err };
-    		console.log("Rating to Post " + postID + " added");
-  	});
+	await client.db('mydb').collection('Posts').updateOne({_id: ObjectId(postID)}, {$push: {"ratings": rating}}, function(err) {
+		if (err) { throw err; }
+		console.log("Rating to Post " + postID + " added");
+	});
 }
 
 //Removes post[postID] from database
 async function deletePost(postID) {
-	await client.db('mydb').collection('Posts').deleteOne({_id: ObjectId(postID)}, function(err, obj) {
-    		if (err) { throw err };
-    		console.log("Post deleted");
-  	});
+	await client.db('mydb').collection('Posts').deleteOne({_id: ObjectId(postID)}, function(err) {
+			if (err) { throw err; }
+			console.log("Post deleted");
+	});
 }
 	
 module.exports = {
   addUser,
   getUser,
   updateUser,
-  getUser,
   getUsers,
   createPost,
   getPosts,

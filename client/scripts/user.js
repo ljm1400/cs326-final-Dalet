@@ -1,7 +1,7 @@
 'use strict';
 let user;
 window.addEventListener('load', async () =>{
-    const data = await fetch ('/user')
+    const data = await fetch ('/user');
     if(data.ok){
         user = await data.json();
         if (user._id === -1){
@@ -24,19 +24,18 @@ function renderButtons(page, user){
         document.getElementById('postCreateButton').style.visibility = 'visible';
 
         if(page.id === 'myposts'){
-            myPosts.className = 'nav-item active';
 
             const userInfoButton = document.createElement('button');
             userInfoButton.id = "userInfoButton";
             userInfoButton.className="btn btn-dark btn-sm mx-2 ";
             userInfoButton.dataset.toggle = 'modal';
-            userInfoButton.dataset.target = '#UserInfo'
+            userInfoButton.dataset.target = '#UserInfo';
             const userInfoLink = document.createElement('a');
             userInfoLink.className = "nav-link";
             const userInfoIcon = document.createElement('i');
             userInfoIcon.className = "fas fa-users buttonIcon mr-1";
             const userInfoText = document.createElement('span');
-            userInfoText.textContent = 'Edit User Info'
+            userInfoText.textContent = 'Edit User Info';
             userInfoButton.appendChild(userInfoLink);
             userInfoLink.appendChild(userInfoIcon);
             userInfoLink.appendChild(userInfoText);
@@ -52,7 +51,7 @@ function renderButtons(page, user){
         const logoutIcon = document.createElement('i');
         logoutIcon.className = "fas fa-sign-out-alt buttonIcon mr-1";
         const logoutText = document.createElement('span');
-        logoutText.textContent = 'Logout'
+        logoutText.textContent = 'Logout';
         logoutButton.appendChild(logoutLink);
         logoutLink.appendChild(logoutIcon);
         logoutLink.appendChild(logoutText);
@@ -74,7 +73,7 @@ function renderButtons(page, user){
         const registerIcon = document.createElement('i');
         registerIcon.className = "fas fa-user-plus buttonIcon mr-1";
         const registerText = document.createElement('span');
-        registerText.textContent = 'Register'
+        registerText.textContent = 'Register';
         registerButton.appendChild(registerLink);
         registerLink.appendChild(registerIcon);
         registerLink.appendChild(registerText);
@@ -89,7 +88,7 @@ function renderButtons(page, user){
         const loginIcon = document.createElement('i');
         loginIcon.className = "fas fa-sign-in-alt buttonIcon mr-1";
         const loginText = document.createElement('span');
-        loginText.textContent = 'Login'
+        loginText.textContent = 'Login';
         loginButton.appendChild(loginLink);
         loginLink.appendChild(loginIcon);
         loginLink.appendChild(loginText);

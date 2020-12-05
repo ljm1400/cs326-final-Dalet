@@ -22,8 +22,8 @@ const session = {
 const strategy = new LocalStrategy(
     async (username, password, done) => {
 	if (!findUser(username)) {
-        	// no such user
-        	return done(null, false, { 'message' : 'Wrong username' });
+            // no such user
+            return done(null, false, { 'message' : 'Wrong username' });
 	}
 	if (!validatePassword(username, password)) {
 		// invalid password
@@ -82,7 +82,7 @@ async function validatePassword(name, pwd) {
 	return false;
     }
     const user = await db.getUser(name);
-    const equal = false;
+    let equal;
     if(!user){
         equal = false;
     }
@@ -212,7 +212,7 @@ app.get('/user/:username', checkLoggedIn, async function(req, res){
         posts: user.posts,
         pfpLink: user.pfpLink,
         name: user.name
-    }
+    };
     res.send(sendUser);
     });
 
@@ -231,7 +231,7 @@ app.post('/user/update', checkLoggedIn, (req, res) => {
         name: null,
         email: null,
         pfpLink: null
-    }
+    };
     
     user.name = name ? name : null;
     user.email = email ? email : null;
