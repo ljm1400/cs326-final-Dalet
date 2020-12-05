@@ -18,7 +18,16 @@ Our application is innovative in the sense that there are no other applications 
 | William Alvarez   | Willaby292   |
 
 #### User Interface: 
-A final up-to-date list/table describing your application’s user interface. This should include the name of the UI view and its purpose. You should include a screenshot of each of your UI views.
+
+| UI              | DESCRIPTION                                                                                              |  IMAGE
+|-----------------|----------------------------------------------------------------------------------------------------------|-------------------------------|
+| Signup          | Where the user creates an account                                                                        | ![SignUp](\UIScreenShots\Register.PNG)
+| Login           | Where existing users can log in                                                                          | ![Login](\UIScreenShots\Login.PNG)
+| Home Page       | Where users can scroll through posts                                                                     | ![Home Page](\UIScreenShots\HomePage.PNG)
+| Edit Info       | Where users can edit their account information                                                           | ![Edit Info](\UIScreenShots\EditInfo.PNG)
+| Create Post     | Where users create new posts if they are logged in                                                       | ![Create Post](\UIScreenShots\CreatePost.PNG)
+| Comment Section | Where users can interact with posts. Includes rating, viewing comments, and creating commenting          | ![Comment Section](\UIScreenShots\CommentSection.PNG)
+
 
 #### APIs: 
 
@@ -96,6 +105,12 @@ __Authentication__: We used passport.js to verify which user is which. The email
 - Added updated routes and API endpoints to final.md.
 
 ##### William:
+- Completed on the HTML and CSS for the Login, Signup, and My Posts section of the site.
+- Filtering and rendering of climbing and hiking specific pages
+- Rendering posts of a given user on their own page. 
+- Created Atlas database
+- Updated the main, climbing, and hiking endpoints in server.js with the database functions
+- Added the delete functionality to users posts.
 
 ##### Benjamin: 
 - Wireframes for milestone1.md
@@ -109,6 +124,7 @@ __Authentication__: We used passport.js to verify which user is which. The email
 #### Conclusion: 
 A conclusion describing your team’s experience in working on this project. This should include what you learned through the design and implementation process, the difficulties you encountered, what your team would have liked to know before starting the project that would have helped you later, and any other technical hurdles that your team encountered.
 ##### What we learned: 
+- We all learned a lot from this project. We learned how to create web pages using bootstrap, we learned about passport.js, we learned how to set up data bases with atlas and connect our application. We also learned how to work together as a team on the project. Communicating and splitting up work was something that at first we struggled with especially scince we couldnt meet in person, but as the semster progressed we became better and better at working in tandem with eachother in a productive way.
 
 ##### Difficulties:
 - __Technical Hurdle__: Communication. Eventually, we started pinging each other on slack to make sure we were all on the same page, but it took a while to get used to checking Slack everyday to see what work had been done/if work had been done that day
