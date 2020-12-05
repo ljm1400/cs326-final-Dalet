@@ -80,10 +80,7 @@ __USERS__
 | /login                 | The route to get the login page of the application                                  | none                   |
 
 
-#### Authentication/Authorization: 
-A final up-to-date description of how users are authenticated and any permissions for specific users (if any) that you used in your application. You should mention how they relate to which UI views are accessible.
-
-__Authentication__: We used passport.js to verify which user is which. Some API endpoints are only accessible once a user has logged in, and the "My Posts" page can also only be accessed once someone has logged in. Users also must be logged in if they want to create a post. We do not let guests viewing the page create a post.
+__Authentication__: We used passport.js to verify which user is which. The email and username provided in the login page must match a user in our database for a login to be successful. Some API endpoints are only accessible once a user has logged in, and the "My Posts" page can also only be accessed once someone has logged in. Users also must be logged in if they want to create a post. We do not let guests viewing the page create a post.
 
 #### Division of Labor: 
 
