@@ -41,7 +41,7 @@ A final up-to-date list/table describing your application’s user interface. Th
 | /posts/:postId/delete/ | Deletes a post of a given postId from the database                                  | login required         |
 | /*                     | Catches all bad requests, gives the user an error that the page is not found        | none                   |
 
-#### Database: 
+#### Database: We used mongoDB for our database. We have two collections in the database, those being POSTS and USERS
 
 __POSTS__
 | NAME        | TYPE       | DESCRIPTION                          |
