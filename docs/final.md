@@ -100,7 +100,7 @@ __Authentication__: We used passport.js to verify which user is which. The email
 ##### Benjamin: 
 - Wireframes for milestone1.md
 - Formatting of milestone3.md
-- Backend code to connect to our database and extract/upload info
+- Backend code to connect to our database and extract/upload/update info
 - Wrote API endpoints for user login, rating/commenting on posts, and deleting posts/comments
 - Wrote documentation for any pictures uploaded in milestone docs
 - Documentation of our database in milestone3.md
