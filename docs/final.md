@@ -42,7 +42,31 @@ A final up-to-date list/table describing your application’s user interface. Th
 | /*                     | Catches all bad requests, gives the user an error that the page is not found        | none                   |
 
 #### Database: 
-A final up-to-date representation of your database including a brief description of each of the entities in your data model and their relationships if any.
+
+__POSTS__
+| NAME        | TYPE       | DESCRIPTION                          |
+|-------------|------------|--------------------------------------|
+| _id         | ObjectID() |                                      |
+| author      | string     | username of poster                   |
+| title       | string     | title of post                        |
+| type        | string     | Climbing or Hiking                   |
+| description | string     | Description of post                  |
+| images      | []         | Array of all images of post          |
+| tags        | string     | "Hiking, Climbing, easy, etc"        |
+| ratings     | []         | Array of all ratings by other users  |
+| comments    | []         | Array of all comments by other users |
+
+__USERS__
+| NAME     | TYPE       | DESCRIPTION               |
+|----------|------------|---------------------------|
+| _id      | ObjectId() |                           |
+| username | string     | username for the user     |
+| salt     | string     | generated using minicrypt |
+| hash     | string     | generated using minicrypt |
+| name     | string     | name of user              |
+| pfpLink  | string     | Link to profile picture   |
+| posts    | []         | List of posts by user     |
+| email    | string     | email address of user     |
 
 #### URL Routes/Mappings: 
 
@@ -81,6 +105,7 @@ A final up-to-date description of how users are authenticated and any permission
 - Wrote API endpoints for user login, rating/commenting on posts, and deleting posts/comments
 - Wrote documentation for any pictures uploaded in milestone docs
 - Documentation of our database in milestone3.md
+- Added database design to final.md
 
 #### Conclusion: 
 A conclusion describing your team’s experience in working on this project. This should include what you learned through the design and implementation process, the difficulties you encountered, what your team would have liked to know before starting the project that would have helped you later, and any other technical hurdles that your team encountered.
