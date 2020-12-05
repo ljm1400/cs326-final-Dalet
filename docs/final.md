@@ -21,12 +21,12 @@ Our application is innovative in the sense that there are no other applications 
 
 | UI              | DESCRIPTION                                                                                              |  IMAGE
 |-----------------|----------------------------------------------------------------------------------------------------------|-------------------------------|
-| Signup          | Where the user creates an account                                                                        | ![SignUp](\UIScreenShots\Register.PNG)
-| Login           | Where existing users can log in                                                                          | ![Login](\UIScreenShots\Login.PNG)
-| Home Page       | Where users can scroll through posts                                                                     | ![Home Page](\UIScreenShots\HomePage.PNG)
-| Edit Info       | Where users can edit their account information                                                           | ![Edit Info](\UIScreenShots\EditInfo.PNG)
-| Create Post     | Where users create new posts if they are logged in                                                       | ![Create Post](\UIScreenShots\CreatePost.PNG)
-| Comment Section | Where users can interact with posts. Includes rating, viewing comments, and creating commenting          | ![Comment Section](\UIScreenShots\CommentSection.PNG)
+| Signup          | Where the user creates an account                                                                        | ![SignUp](UIScreenShots/Register.PNG)
+| Login           | Where existing users can log in                                                                          | ![Login](UIScreenShots/Login.PNG)
+| Home Page       | Where users can scroll through posts                                                                     | ![Home Page](UIScreenShots/HomePage.PNG)
+| Edit Info       | Where users can edit their account information                                                           | ![Edit Info](UIScreenShots/EditInfo.PNG)
+| Create Post     | Where users create new posts if they are logged in                                                       | ![Create Post](UIScreenShots/CreatePost.PNG)
+| Comment Section | Where users can interact with posts. Includes rating, viewing comments, and creating commenting          | ![Comment Section](UIScreenShots/CommentSection.PNG)
 
 
 #### APIs: 
